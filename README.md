@@ -1,36 +1,81 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# koru-projeto-10-NextBooks - Projeto 08 do Curso da Boticário + Koru
 
-## Getting Started
+Aplicação web moderna para gerenciamento de biblioteca. A aplicação permitirá aos usuários catalogar, organizar e 
+acompanhar o progresso de leitura de seus livros. 
 
-First, run the development server:
+# Tecnologias utilizadas
+- Next.js 15 com App Router
+- React 19
+- TypeScript
+- Tailwind CSS
+- shadcn/ui (biblioteca de componentes) 
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Observações importantes
+# 📌 Guia de Contribuição
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Este projeto segue um **padrão de branches e commits** para manter a organização e facilitar o trabalho em equipe.  
+Antes de contribuir, leia atentamente as instruções abaixo.  
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🌿 Padrão de Branches
 
-## Learn More
+Sempre crie uma branch nova a partir da `main`.  
+O formato deve ser:
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Tipos de Branch
+- **Nova funcionalidade** → `feat/nome-da-funcionalidade`  
+  Exemplo: `feat/adicionar-tarefas`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Correção de bug** → `fix/nome-do-bug`  
+  Exemplo: `fix/contador-incorreto`
 
-## Deploy on Vercel
+- **Refatoração (melhoria sem mudar regra de negócio)** → `refactor/nome-da-refatoracao`  
+  Exemplo: `refactor/estrutura-componentes`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Estilo/ajuste visual (CSS, Tailwind, layout)** → `style/nome-do-ajuste`  
+  Exemplo: `style/responsividade-lista`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Configuração (dependências, vite, eslint, etc.)** → `chore/nome-da-config`  
+  Exemplo: `chore/configurar-tailwind`
+
+- **Documentação** → `docs/nome-do-doc`  
+  Exemplo: `docs/atualizar-readme`
+
+---
+
+## 📝 Padrão de Commits (Conventional Commits)
+
+Os commits devem seguir o padrão:
+
+
+### Tipos de Commits
+- `feat:` → nova funcionalidade  
+  Ex: `feat: adicionar input de nova tarefa`
+
+- `fix:` → correção de bug  
+  Ex: `fix: corrigir erro ao remover tarefa`
+
+- `refactor:` → refatoração de código (sem mudar regra de negócio)  
+  Ex: `refactor: melhorar performance da lista`
+
+- `style:` → mudanças visuais/estilo (não altera lógica)  
+  Ex: `style: ajustar espaçamento no header`
+
+- `chore:` → alterações de configuração, build, dependências  
+  Ex: `chore: instalar react-icons`
+
+- `docs:` → alterações na documentação  
+  Ex: `docs: adicionar instruções de instalação no readme`
+
+---
+
+## ✅ Boas práticas
+
+- **Nunca commitar diretamente na `main`.**  
+- Use nomes de branch **curtos, descritivos e em inglês**.  
+- Faça commits **pequenos e frequentes** (não deixe tudo em um único commit).  
+- Ao abrir um Pull Request, escreva um **título claro** e uma **descrição objetiva**.  
+
+---

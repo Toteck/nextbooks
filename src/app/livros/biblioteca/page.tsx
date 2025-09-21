@@ -44,18 +44,18 @@ export default function BibliotecaPage() {
   }, [termoBusca, generoFiltro]);
 
   return (
-    <div className="container mx-auto p-4 md:p-6 font-inter">
-           {" "}
+    <div className="container mx-auto">
+      {" "}
       <header className="mb-6">
-                <h1 className="text-3xl font-bold">Minha Biblioteca</h1>       {" "}
+        <h1 className="text-3xl font-bold">Minha Biblioteca</h1>       {" "}
         <p className="text-muted-foreground">
           Catalogue, organize e acompanhe seus livros.
         </p>
-             {" "}
+        {" "}
       </header>
-            {/* Controles de Busca e Filtro */}     {" "}
+      {/* Controles de Busca e Filtro */}     {" "}
       <div className="flex flex-col md:flex-row gap-4 mb-6">
-               {" "}
+        {" "}
         <Input
           type="text"
           placeholder="Buscar por título ou autor..."
@@ -63,33 +63,38 @@ export default function BibliotecaPage() {
           value={termoBusca}
           onChange={(e) => setTermoBusca(e.target.value)}
         />
-               {" "}
+        {" "}
         <Select value={generoFiltro} onValueChange={setGeneroFiltro}>
-                   {" "}
+          {" "}
           <SelectTrigger className="w-full md:w-[200px]">
-                        <SelectValue placeholder="Filtrar por gênero" />       
-             {" "}
+            <SelectValue placeholder="Filtrar por gênero" />
+            {" "}
           </SelectTrigger>
-                   {" "}
+          {" "}
           <SelectContent>
-                        <SelectItem value="todos">Todos os Gêneros</SelectItem> 
-                     {" "}
+            <SelectItem value="todos">Todos os Gêneros</SelectItem>
+            {" "}
             {GENEROS_DISPONIVEIS.map((genero) => (
               <SelectItem key={genero} value={genero}>
-                                {genero}             {" "}
+                {genero}             {" "}
               </SelectItem>
             ))}
-                     {" "}
+            {" "}
           </SelectContent>
-                 {" "}
+          {" "}
         </Select>
-             {" "}
-      </div>
-            {/* Grid Responsivo para a Listagem de Livros */}     {" "}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
         {" "}
+      </div>
+      {/* Grid Responsivo para a Listagem de Livros */}     {" "}
+      <div>
+
+        <LivroCard key={livrosIniciais[0].id} livro={livrosIniciais[0]} />
+        <LivroCard key={livrosIniciais[1].id} livro={livrosIniciais[1]} />
+        <LivroCard key={livrosIniciais[2].id} livro={livrosIniciais[2]} />
+        <LivroCard key={livrosIniciais[3].id} livro={livrosIniciais[3]} />
+        <LivroCard key={livrosIniciais[4].id} livro={livrosIniciais[4]} />
         {/* Grid adaptativo  */}       {" "}
-        {livrosFiltrados.length > 0 ? (
+        {/* {livrosFiltrados.length > 0 ? (
           livrosFiltrados.map((livro) => (
             <LivroCard key={livro.id} livro={livro} />
           ))
@@ -98,10 +103,10 @@ export default function BibliotecaPage() {
                         Nenhum livro encontrado. Tente ajustar sua busca ou
             filtros.          {" "}
           </p>
-        )}
-             {" "}
+        )} */}
+        {" "}
       </div>
-         {" "}
+      {" "}
     </div>
   );
 }

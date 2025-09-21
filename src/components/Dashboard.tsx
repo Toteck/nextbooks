@@ -10,7 +10,7 @@ export default function Dashboard() {
         <p>Acompanhe sua jornada de leitura!</p>
       </div>
       {/* grid dos cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-4">
         <Card>
           <CardHeader>
             <CardTitle className="flex flex-row text-sm font-medium gap-2">

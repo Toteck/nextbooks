@@ -36,13 +36,13 @@ export function LivroCard({ livro }: LivroCardProps) {
   return (
     <Card className="bg-gray-50 mb-4 flex flex-row transition-transform duration-200 hover:scale-105 hover:shadow-lg">
       {/* Capa do livro */}
-      <div className="w-28 flex-shrink-0">
-        <AspectRatio ratio={3 / 4}>
+      <div className="w-46 flex-shrink-0">
+        <AspectRatio ratio={3 / 4} className="h-full">
           <Image
             src={livro.cover || "/covers/placeholder.png"}
             alt={`Capa do livro ${livro.title}`}
             fill
-            className="rounded-l-md object-cover"
+            className="object-contain"
           />
         </AspectRatio>
       </div>

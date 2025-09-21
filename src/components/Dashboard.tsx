@@ -6,7 +6,6 @@ export default function Dashboard() {
   return (
     <div className="space-y-6">
       <div>
-        <h1>Dashboard</h1>
         <p>Acompanhe sua jornada de leitura!</p>
       </div>
       {/* grid dos cards */}
@@ -56,6 +55,14 @@ export default function Dashboard() {
             </p>
           </CardContent>
         </Card>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-2">
+        <div>
+          <Card></Card>
+        </div>
+        <div>
+          <Card></Card>
+        </div>
       </div>
     </div>
   );

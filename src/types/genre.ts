@@ -14,6 +14,10 @@ export enum Genre {
     PSICOLOGIA = "Psicologia",
     FILOSOFIA = "Filosofia",
     POESIA = "Poesia",
+    AVENTURA = "Aventura",
+    TERROR = "Terror",
+    MISTERIO = "Mistério",
+    CRIME = "Crime",
 }
 
 

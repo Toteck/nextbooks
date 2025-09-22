@@ -16,6 +16,7 @@ export interface Livro {
   genre?: Genre[];
   year?: number;
   pages?: number;
+  qtdPagesRead?: number;
   rating?: number;
   synopsis?: string;
   cover?: string;

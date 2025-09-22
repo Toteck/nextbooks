@@ -6,16 +6,6 @@ import "./globals.css";
 // Normalmente mexe pouco nesse arquivo, só se precisar de layout global.
 // Paleta base: usar Tailwind purple(ex: bg - purple - 600 no header).
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
 export const metadata: Metadata = {
   title: "NextBooks",
   description: "A book reading progress tracking app",
@@ -31,9 +21,12 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`antialiased bg-gray-50`}
       >
-        {children}
+        {/* {Container Global} */}
+        <main className="container mx-auto px-6 py-8">
+          {children}
+        </main>
       </body>
     </html>
   );

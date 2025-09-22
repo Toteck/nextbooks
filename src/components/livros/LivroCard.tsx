@@ -11,7 +11,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
-
+import { Progress } from "@/components/ui/progress";
 import Image from "next/image";
 
 import { Star, Trash2 } from "lucide-react";
@@ -50,13 +50,16 @@ const RatingStars = ({ rating }: { rating: number }) => (
     {[...Array(5)].map((_, i) => (
       <Star
         key={i}
-        className={`h-4 w-4 ${i < rating ? "text-yellow-500 fill-yellow-500" : "text-gray-300"}`}
+        className={`h-4 w-4 ${i < rating ? "text-yellow-500 fill-yellow-500" : "text-gray-300"
+          }`}
       />
     ))}
   </div>
 );
 
 export function LivroCard({ livro }: LivroCardProps) {
+  const progress = ((livro.qtdPagesRead || 0) / (livro.pages || 1)) * 100
+
   return (
     <Card className="bg-gray-50 mb-4 flex flex-row transition-transform duration-200 hover:scale-105 hover:shadow-lg">
       {/* Capa do livro */}
@@ -77,7 +80,9 @@ export function LivroCard({ livro }: LivroCardProps) {
         <CardHeader className="p-0 flex flex-row justify-between items-start">
           <div>
             <CardTitle className="text-lg font-bold">{livro.title}</CardTitle>
-            <CardDescription className="text-sm">{livro.author}</CardDescription>
+            <CardDescription className="text-sm">
+              {livro.author}
+            </CardDescription>
           </div>
           {livro.status && (
             <Badge className={statusConfig[livro.status]?.className}>
@@ -95,30 +100,45 @@ export function LivroCard({ livro }: LivroCardProps) {
         {/* Barra de progresso */}
         <div className="mt-3 w-full">
           <div className="w-full justify-between flex">
-            <span className="text-sm text-right text-gray-600 mt-1">Página {livro.qtdPagesRead} de {livro.pages}</span>
+            <span className="text-sm text-right text-gray-600 mt-1">
+              Página {livro.qtdPagesRead} de {livro.pages}
+            </span>
             <span className="text-sm text-left text-gray-600 mt-1">
-              {(((livro.qtdPagesRead || 0) / (livro.pages || 1)) * 100).toFixed(0)}%</span>
+              {(((livro.qtdPagesRead || 0) / (livro.pages || 1)) * 100).toFixed(
+                0
+              )}
+              %
+            </span>
           </div>
 
           <div className="h-2 bg-purple-200 rounded-full">
-            <div
-              className="h-2 bg-purple-600 rounded-full"
-              style={{ width: `${((livro.qtdPagesRead || 0) / (livro.pages || 1)) * 100}%` }}
-            />
-          </div>
+            <Progress value={progress} className="[&>div]:bg-purple-600" />
 
+          </div>
         </div>
 
         {/* Rodapé */}
         <CardFooter className="p-0 mt-4 flex flex-col items-start gap-4">
           <div className="flex gap-2">
-
-            {livro.genre?.map((g) => (<Badge key={g} variant={"outline"}>{g}</Badge>))}
-
+            {livro.genre?.map((g) => (
+              <Badge key={g} variant={"outline"}>
+                {g}
+              </Badge>
+            ))}
           </div>
           <div className="w-full justify-between flex">
-            <Button variant="secondary" size="sm" className="cursor-pointer bg-gray-50 border border-gray-200 hover:bg-gray-200">Ver Detalhes</Button>
-            <Button variant="outline" size="sm" className="hover:bg-red-500 hover:text-white cursor-pointer">
+            <Button
+              variant="secondary"
+              size="sm"
+              className="cursor-pointer bg-gray-50 border border-gray-200 hover:bg-gray-200"
+            >
+              Ver Detalhes
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              className="hover:bg-red-500 hover:text-white cursor-pointer"
+            >
               <Trash2 className="h-6 w-6" />
             </Button>
           </div>

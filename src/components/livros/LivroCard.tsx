@@ -1,4 +1,4 @@
-import { Livro } from "@/types/livro";
+import { Livro, StatusLeitura } from "@/types/livro";
 
 import {
   Card,
@@ -19,6 +19,30 @@ import { Star, Trash2 } from "lucide-react";
 interface LivroCardProps {
   livro: Livro;
 }
+
+// configuração para os status do livro
+const statusConfig = {
+  [StatusLeitura.LIDO]: {
+    label: "Concluído",
+    className: "bg-purple-600 text-white border-purple-600", // #a855f7
+  },
+  [StatusLeitura.LENDO]: {
+    label: "Lendo",
+    className: "bg-purple-400 text-zinc-900 border-purple-400", // #c084fc
+  },
+  [StatusLeitura.PAUSADO]: {
+    label: "Pausado",
+    className: "bg-zinc-500 text-white border-zinc-500", // #71717a
+  },
+  [StatusLeitura.QUERO_LER]: {
+    label: "Quero Ler",
+    className: "bg-zinc-700 text-white border-zinc-700", // #3f3f46
+  },
+  [StatusLeitura.ABANDONADO]: {
+    label: "Abandonado",
+    className: "bg-zinc-900 text-zinc-400 border-zinc-900", // #18181b
+  },
+};
 
 // estrelas de avaliação
 const RatingStars = ({ rating }: { rating: number }) => (
@@ -56,7 +80,9 @@ export function LivroCard({ livro }: LivroCardProps) {
             <CardDescription className="text-sm">{livro.author}</CardDescription>
           </div>
           {livro.status && (
-            <Badge className="bg-purple-600 text-white">{livro.status}</Badge>
+            <Badge className={statusConfig[livro.status]?.className}>
+              {statusConfig[livro.status]?.label}
+            </Badge>
           )}
         </CardHeader>
 

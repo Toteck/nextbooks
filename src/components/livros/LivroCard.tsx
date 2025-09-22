@@ -58,15 +58,15 @@ const RatingStars = ({ rating }: { rating: number }) => (
 
 export function LivroCard({ livro }: LivroCardProps) {
   return (
-    <Card className="bg-gray-50 mb-4 flex flex-row transition-transform duration-200 hover:scale-105 hover:shadow-lg">
+    <Card className="bg-gray-50 mb-4 flex flex-col md:flex-row transition-transform duration-200 hover:scale-105 hover:shadow-lg">
       {/* Capa do livro */}
-      <div className="w-46 flex-shrink-0">
-        <AspectRatio ratio={3 / 4} className="h-full">
+      <div className="w-full md:w-48 flex-shrink-0">
+        <AspectRatio ratio={3 / 4} className="relative">
           <Image
             src={livro.cover || "/covers/placeholder.png"}
             alt={`Capa do livro ${livro.title}`}
             fill
-            className="object-contain"
+            className="object-contain rounded-t-md md:rounded-l-md"
           />
         </AspectRatio>
       </div>
@@ -74,7 +74,7 @@ export function LivroCard({ livro }: LivroCardProps) {
       {/* Conteúdo */}
       <div className="flex flex-col flex-1 p-4">
         {/* Cabeçalho */}
-        <CardHeader className="p-0 flex flex-row justify-between items-start">
+        <CardHeader className="p-0 flex flex-col md:flex-row md:justify-between md:items-start">
           <div>
             <CardTitle className="text-lg font-bold">{livro.title}</CardTitle>
             <CardDescription className="text-sm">{livro.author}</CardDescription>
@@ -87,7 +87,7 @@ export function LivroCard({ livro }: LivroCardProps) {
         </CardHeader>
 
         {/* Avaliação */}
-        <CardContent className="p-0 mt-2 flex items-center gap-2">
+        <CardContent className="p-0 mt-2 flex flex-wrap items-center gap-2">
           {livro.rating && <RatingStars rating={livro.rating} />}
           <span className="text-sm text-gray-500">(127.543 avaliações)</span>
         </CardContent>

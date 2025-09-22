@@ -85,28 +85,22 @@ export default function BibliotecaPage() {
         </Select>
         {" "}
       </div>
-      {/* Grid Responsivo para a Listagem de Livros */}     {" "}
+
       <div>
 
-        <LivroCard key={livrosIniciais[0].id} livro={livrosIniciais[0]} />
-        <LivroCard key={livrosIniciais[1].id} livro={livrosIniciais[1]} />
-        <LivroCard key={livrosIniciais[2].id} livro={livrosIniciais[2]} />
-        <LivroCard key={livrosIniciais[3].id} livro={livrosIniciais[3]} />
-        <LivroCard key={livrosIniciais[4].id} livro={livrosIniciais[4]} />
-        {/* Grid adaptativo  */}       {" "}
-        {/* {livrosFiltrados.length > 0 ? (
+        {livrosFiltrados.length > 0 ? (
           livrosFiltrados.map((livro) => (
             <LivroCard key={livro.id} livro={livro} />
           ))
         ) : (
           <p className="col-span-full text-center text-muted-foreground">
-                        Nenhum livro encontrado. Tente ajustar sua busca ou
-            filtros.          {" "}
+            Nenhum livro encontrado. Tente ajustar sua busca ou
+            filtros.
           </p>
-        )} */}
-        {" "}
+        )}
+
       </div>
-      {" "}
+
     </div>
   );
 }

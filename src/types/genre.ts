@@ -1,5 +1,3 @@
-// src/types/genre.ts
-
 export enum Genre {
     LITERATURA_BRASILEIRA = "Literatura Brasileira",
     FICCAO_CIENTIFICA = "Ficção Científica",
@@ -16,5 +14,11 @@ export enum Genre {
     PSICOLOGIA = "Psicologia",
     FILOSOFIA = "Filosofia",
     POESIA = "Poesia",
+    AVENTURA = "Aventura",
+    TERROR = "Terror",
+    MISTERIO = "Mistério",
+    CRIME = "Crime",
 }
-// npx shadcn@latest add aspect-ratio button card input breadcrumb separator textarea alert avatar dialog form navigation-menu progress sonner tooltip alert-dialog badge command popover pagination select tabs
+
+
+export const GENEROS_DISPONIVEIS = Object.values(Genre);

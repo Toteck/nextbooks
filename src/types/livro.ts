@@ -31,6 +31,19 @@ export type Stats = {
   queroLer: number; 
   paginasLidas: number;
 };
+    id: string;
+    title: string;
+    author: string;
+    genre?: Genre[];
+    year?: number;
+    pages?: number;
+    qtdPagesRead?: number;
+    rating?: number;
+    synopsis?: string;
+    cover?: string;
+    status?: StatusLeitura;
+}
+
 // Exemplo de uso
 
 // import { StatusLeitura } from "@/types/livro";

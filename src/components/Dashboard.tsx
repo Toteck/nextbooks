@@ -1,6 +1,9 @@
 'use client'
+import { LivroCard } from "./livros/LivroCard";
 import { Card, CardHeader, CardTitle, CardContent } from "./ui/card"
 import { CheckCircle, BookOpen, Clock, FileText } from "lucide-react";
+import { Livro } from "@/types/livro";
+
 
 export interface DashboardProps {
   stats: {
@@ -9,10 +12,12 @@ export interface DashboardProps {
     queroLer: number;
     paginasLidas: number;
   };
+  livrosLendo: Livro[];
+    livrosCompletos: Livro[];
 }
 
 
-export default function Dashboard({ stats }: DashboardProps) {
+export default function Dashboard({ stats, livrosLendo, livrosCompletos }: DashboardProps) {
   return (
     <div className="space-y-6">
       <div>
@@ -75,12 +80,35 @@ export default function Dashboard({ stats }: DashboardProps) {
           </CardContent>
         </Card>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-2">
-        <div>
-          <Card></Card>
-        </div>
-        <div>
-          <Card></Card>
+      <div className="">
+        {/* Seção de livros */}
+        <div className="">
+          {/* Livros Lendo Atualmente */}
+          <div className="">
+            <h2 className="text-lg font-semibold">Lendo Atualmente</h2>
+            {livrosLendo.length > 0 ? (
+              livrosLendo.map((livro) => (
+                <LivroCard key={livro.id} livro={livro} />
+              ))
+            ) : (
+              <p className="text-sm text-muted-foreground">
+                Nenhum livro sendo lido.
+              </p>
+            )}
+          </div>
+          {/* Livros Concluídos */}
+          <div className="">
+            <h2 className="text-lg font-semibold">Concluídos Recentemente</h2>
+            {livrosCompletos.length > 0 ? (
+              livrosCompletos.map((livro) => (
+                <LivroCard key={livro.id} livro={livro} />
+              ))
+            ) : (
+              <p className="text-sm text-muted-foreground">
+                Nenhum livro concluído.
+              </p>
+            )}
+          </div>
         </div>
       </div>
     </div>

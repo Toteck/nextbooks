@@ -45,7 +45,11 @@ export default function TabsComponent() {
         </TabsTrigger>
       </TabsList>
       <TabsContent value="dashboard">
-        <Dashboard stats={stats} />
+        <Dashboard 
+        stats={stats}
+        livrosLendo={livrosSendoLidos}
+        livrosCompletos={livrosLidos}
+       />
       </TabsContent>
       <TabsContent value="lendo">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">

@@ -12,9 +12,12 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Progress } from "@/components/ui/progress";
+import { Dialog, DialogHeader, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+
 import Image from "next/image";
 
-import { Star, Trash2 } from "lucide-react";
+import { Star, StarIcon, Trash2, X } from "lucide-react";
+import { useState } from "react";
 
 interface LivroCardProps {
   livro: Livro;
@@ -59,6 +62,7 @@ const RatingStars = ({ rating }: { rating: number }) => (
 
 export function LivroCard({ livro }: LivroCardProps) {
   const progress = ((livro.qtdPagesRead || 0) / (livro.pages || 1)) * 100
+  const [open, setOpen] = useState(false);
 
   return (
     <Card className="bg-gray-50 mb-4 flex flex-col md:flex-row transition-transform duration-200 hover:scale-105 hover:shadow-lg">
@@ -127,13 +131,74 @@ export function LivroCard({ livro }: LivroCardProps) {
             ))}
           </div>
           <div className="w-full justify-between flex">
-            <Button
-              variant="secondary"
-              size="sm"
-              className="cursor-pointer bg-gray-50 border border-gray-200 hover:bg-gray-200"
-            >
-              Ver Detalhes
-            </Button>
+
+            <Dialog open={open} onOpenChange={setOpen}>
+              <DialogTrigger asChild>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  className="cursor-pointer bg-gray-50 border border-gray-200 hover:bg-gray-200"
+                >
+                  Ver Detalhes
+                </Button>
+              </DialogTrigger>
+
+              <DialogContent className="w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl p-6">
+                <DialogHeader className="flex flex-row items-start justify-between">
+
+                  <div className="w-full md:w-48 flex-shrink-0 rounded-md">
+                    <AspectRatio ratio={3 / 4} className="relative">
+                      <Image
+                        src={livro.cover || "/covers/placeholder.png"}
+                        alt={`Capa do livro ${livro.title}`}
+                        fill
+                        className="object-cover rounded-md"
+                      />
+                    </AspectRatio>
+                  </div>
+
+                  <div className="flex-1">
+                    <DialogTitle className="text-xl mb-1">
+                      {livro.title}
+                    </DialogTitle>
+                    <p className="text-lg text-muted-foreground mb-2">{livro.author}</p>
+                    {livro.status && (
+                      <Badge className={statusConfig[livro.status]?.className}>
+                        {statusConfig[livro.status]?.label}
+                      </Badge>
+                    )}
+                  </div>
+
+                </DialogHeader>
+
+                <div className="flex flex-row items-center justify-between">
+                  <p className="text-muted-foreground">Páginas: {livro.pages}</p>
+                  <p className="text-muted-foreground">Publicado em: {livro.year !== undefined ? livro.year : "Não informado"}</p>
+                </div>
+
+                <div>
+                  <p className="text-muted-foreground">Gêneros:</p>
+                  <div className="flex gap-2">
+                    {livro.genre?.map((g) => (
+                      <Badge key={g} variant={"outline"}>
+                        {g}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-1">
+                  <Star width={18} height={18} fill="oklch(85.2% 0.199 91.936)" />
+                  <span className="font-bold">{livro.rating}</span>
+                  <span className="text-sm text-gray-500">(127.543 avaliações)</span>
+                </div>
+
+
+
+              </DialogContent>
+
+            </Dialog>
+
             <Button
               variant="outline"
               size="sm"

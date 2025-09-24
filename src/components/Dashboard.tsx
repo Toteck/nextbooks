@@ -32,8 +32,8 @@ export default function Dashboard({ stats, livrosLendo, livrosCompletos }: Dashb
               <CheckCircle className="h-4 w-4 text-muted-foreground" />
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <div>{stats.livrosLidos}</div>
+          <CardContent className="flex flex-col items-center justify-center">
+            <div className="text-xl font-bold mb-4">{stats.livrosLidos}</div>
             <p className="text-xs text-muted-foreground">
               +2 livros no último mês
             </p>
@@ -53,13 +53,13 @@ export default function Dashboard({ stats, livrosLendo, livrosCompletos }: Dashb
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle className="text-sm font-medium">
+            <CardTitle className="flex text-sm font-medium">
               Quero Ler!
               <Clock className="h-4 w-4 text-muted-foreground" />
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div>{stats.queroLer}</div>
+            <div className="flex text-xl font-bold items-center">{stats.queroLer}</div>
             <p className="text-xs text-muted-foreground">
               Sua lista de leitura
             </p>
@@ -67,7 +67,7 @@ export default function Dashboard({ stats, livrosLendo, livrosCompletos }: Dashb
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle className="text-sm font-medium">
+            <CardTitle className="flex text-sm font-medium">
               Páginas Lidas
               <FileText className="h-4 w-4 text-muted-foreground" />
             </CardTitle>

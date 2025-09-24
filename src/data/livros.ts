@@ -15,7 +15,8 @@ export const livrosIniciais: Livro[] = [
     status: StatusLeitura.QUERO_LER,
     rating: 4,
     cover: "/covers/dom-casmurro.jpeg",
-    synopsis: "Um clássico da literatura brasileira.",
+    synopsis:
+      "Dom Casmurro conta as memórias de Bento Santiago(Bentinho/ Dom Casmurro), um homem amargurado que, ao se sentir traído por sua esposa Capitu com seu melhor amigo Escobar, relembra e interpreta os eventos de sua vida para justificar a dor e a desconfiança que o consumiram.Através de um estilo subjetivo e irônico, a obra explora temas como ciúme, amor, traição e a ambiguidade da memória, deixando o leitor em dúvida sobre a culpa ou inocência de Capitu.",
   },
   {
     id: "2",
@@ -37,7 +38,7 @@ export const livrosIniciais: Livro[] = [
     year: 1937,
     genre: [Genre.FANTASIA],
     pages: 310,
-    qtdPagesRead: 300,
+    qtdPagesRead: 310,
     status: StatusLeitura.LIDO,
     rating: 4,
     cover: "/covers/o-hobbit.jpeg",
@@ -54,7 +55,7 @@ export const livrosIniciais: Livro[] = [
     status: StatusLeitura.LENDO,
     rating: 4,
     cover: "/covers/revolucao-dos-bichos.jpeg",
-    synopsis: "Metáfora política simples e poderosa.",
+    synopsis: "O livro narra uma história de corrupção e traição e recorre a figuras de animais para retratar as fraquezas humanas e demolir o paraíso comunista proposto pela União Soviética na época de Stalin. A revolta dos animais da quinta contra os humanos é liderada pelos porcos Bola-de-Neve (Snowball) e Napoleão (Napoleon).",
   },
   {
     id: "5",

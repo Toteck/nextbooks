@@ -25,14 +25,14 @@ export default function TabsComponent() {
     <Tabs
       value={activeTab}
       onValueChange={setActiveTab}
-      className="w-full max-w-3xl flex flex-col items-center"
+      className="grid gap-4 w-full max-w-7xl"
     >
       <TabsList className="bg-gray-200 rounded-full w-full grid-cols-5">
         <TabsTrigger value="dashboard" className="rounded-full">
           Dashboard
         </TabsTrigger>
         <TabsTrigger value="lendo" className="rounded-full">
-          Lendo Atualmente
+          Lendo Agora
         </TabsTrigger>
         <TabsTrigger value="concluido" className="rounded-full">
           Concluídos

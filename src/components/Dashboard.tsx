@@ -20,11 +20,11 @@ export interface DashboardProps {
 export default function Dashboard({ stats, livrosLendo, livrosCompletos }: DashboardProps) {
   return (
     <div className="space-y-6">
-      <div>
+      <div className="align-left mt-4 text-muted-foreground space-y-1">
         <p>Acompanhe sua jornada de leitura!</p>
       </div>
       {/* grid dos cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-4">
+      <div className="grid sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-4">
         <Card>
           <CardHeader>
             <CardTitle className="flex flex-row text-sm font-medium gap-2">
@@ -33,50 +33,52 @@ export default function Dashboard({ stats, livrosLendo, livrosCompletos }: Dashb
             </CardTitle>
           </CardHeader>
           <CardContent className="flex flex-col items-center justify-center">
-            <div className="text-xl font-bold mb-4">{stats.livrosLidos}</div>
-            <p className="text-xs text-muted-foreground">
+            <div className="text-3xl font-bold mb-4">{stats.livrosLidos}</div>
+            <div className="text-xs text-muted-foreground">
               +2 livros no último mês
-            </p>
+            </div>
           </CardContent>
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle className="flex text-sm font-medium">
-              Lendo Atualmente
+            <CardTitle className="flex flex-row text-sm font-medium gap-2">
+              Lendo Agora
               <BookOpen className="h-4 w-4 text-muted-foreground" />
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <div>{stats.lendoAtualmente}</div>
-            <p className="text-xs text-muted-foreground">Continue assim</p>
+          <CardContent className="flex flex-col items-center justify-center">
+            <div className="text-3xl font-bold mb-4">
+              {stats.lendoAtualmente}
+            </div>
+            <div className="text-xs text-muted-foreground">Continue assim</div>
           </CardContent>
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle className="flex text-sm font-medium">
+            <CardTitle className="flex text-sm font-medium gap-2">
               Quero Ler!
               <Clock className="h-4 w-4 text-muted-foreground" />
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="flex text-xl font-bold items-center">{stats.queroLer}</div>
-            <p className="text-xs text-muted-foreground">
+          <CardContent className="flex flex-col items-center justify-center">
+            <div className="text-3xl font-bold mb-4">{stats.queroLer}</div>
+            <div className="text-xs text-muted-foreground">
               Sua lista de leitura
-            </p>
+            </div>
           </CardContent>
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle className="flex text-sm font-medium">
+            <CardTitle className="flex text-sm font-medium gap-2">
               Páginas Lidas
               <FileText className="h-4 w-4 text-muted-foreground" />
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <div>{stats.paginasLidas}</div>
-            <p className="text-xs text-muted-foreground">
+          <CardContent className="flex flex-col items-center justify-center">
+            <div className="text-3xl font-bold mb-4">{stats.paginasLidas}</div>
+            <div className="text-xs text-muted-foreground">
               Total de páginas lidas
-            </p>
+            </div>
           </CardContent>
         </Card>
       </div>

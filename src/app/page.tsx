@@ -6,8 +6,8 @@ import TabsComponent from "@/components/Tabs";
 // Essa tela é simples, uma visão geral, não detalha livros.
 export default function Home() {
   return (
-    <div className="container mx-auto px-4 py-6">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
+    <div className="flex flex-col items-center sm:px-8 py-6 w-full">
+      <main className="flex w-full flex-1 flex-col items-center justify-center">
           <TabsComponent />
       </main>
     </div>

@@ -18,10 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-
-      <body
-        className={`antialiased bg-gray-100`}
-      >
+      <body className="antialiased bg-gray-100">
         <header className="border-b bg-gray-50">
           <div className="container mx-auto flex items-center justify-between px-6 py-4">
             {/* Logo + Nome */}
@@ -32,7 +29,11 @@ export default function RootLayout({
 
             {/* Ações do Header */}
             <div className="flex items-center gap-4">
-              <Button variant={"ghost"} size={"icon"} className="hover:bg-gray-200 hover:cursor-pointer">
+              <Button
+                variant={"ghost"}
+                size={"icon"}
+                className="hover:bg-gray-200 hover:cursor-pointer"
+              >
                 <Moon className="h-4 w-4" />
               </Button>
 
@@ -41,13 +42,10 @@ export default function RootLayout({
                 Adicionar Livros
               </Button>
             </div>
-
           </div>
         </header>
         {/* {Container Global} */}
-        <main className="container mx-auto px-6 py-8">
-          {children}
-        </main>
+        <main className="container mx-auto px-4 sm:px-6 py-6">{children}</main>
       </body>
     </html>
   );

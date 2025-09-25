@@ -22,7 +22,6 @@ export interface Livro {
     cover?: string;
     status?: StatusLeitura;
 }
-
 // Exemplo de uso
 
 // import { StatusLeitura } from "@/types/livro";

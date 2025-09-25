@@ -49,7 +49,7 @@ export const livrosIniciais: Livro[] = [
     title: "A Revolução dos Bichos",
     author: "George Orwell",
     year: 1945,
-    genre: [Genre.FICCAO],
+    genre: [Genre.FICCAO, Genre.POLITICA],
     pages: 112,
     qtdPagesRead: 10,
     status: StatusLeitura.LENDO,

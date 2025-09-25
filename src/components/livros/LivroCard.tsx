@@ -144,7 +144,7 @@ export function LivroCard({ livro }: LivroCardProps) {
 
         {/* Rodapé */}
         <CardFooter className="p-0 mb-2 flex flex-col items-start gap-4">
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             {livro.genre?.map((g) => (
               <Badge key={g} variant={"outline"}>
                 {g}
@@ -153,9 +153,9 @@ export function LivroCard({ livro }: LivroCardProps) {
           </div>
           <div className="w-full justify-between flex">
 
-            <Dialog open={open} onOpenChange={setOpen}>
+            <Dialog open={open} onOpenChange={setOpen} >
               <div className="flex gap-2">
-                <DialogTrigger asChild>
+                <DialogTrigger asChild >
                   <Button
                     variant="secondary"
                     size="sm"
@@ -174,10 +174,8 @@ export function LivroCard({ livro }: LivroCardProps) {
                   </Button>)}
               </div>
 
-
-
-              <DialogContent className="w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl p-6">
-                <DialogHeader className="flex flex-row items-start justify-between">
+              <DialogContent className="w-full max-h-[90vh] overflow-y-auto rounded-2xl px-6 py-8 md:px-8 md:py-10 mx-4 my-6 ">
+                <DialogHeader className="flex flex-col md:flex-row md:items-start md: justify-between gap-4">
 
                   <div className="w-full md:w-48 flex-shrink-0 rounded-md">
                     <AspectRatio ratio={3 / 4} className="relative">
@@ -204,14 +202,14 @@ export function LivroCard({ livro }: LivroCardProps) {
 
                 </DialogHeader>
 
-                <div className="flex flex-row items-center justify-between">
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
                   <p className="text-muted-foreground">Páginas: {livro.pages}</p>
                   <p className="text-muted-foreground">Publicado em: {livro.year !== undefined ? livro.year : "Não informado"}</p>
                 </div>
 
-                <div>
-                  <p className="text-muted-foreground">Gêneros:</p>
-                  <div className="flex gap-2">
+                <div className="container flex-wrap">
+                  <p className="text-muted-foreground mb-2">Gêneros:</p>
+                  <div className="flex flex-wrap gap-2">
                     {livro.genre?.map((g) => (
                       <Badge key={g} variant={"outline"}>
                         {g}

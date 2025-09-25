@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import { Livro, StatusLeitura } from "@/types/livro";
 
 import {
@@ -17,7 +19,6 @@ import { Dialog, DialogHeader, DialogContent, DialogTitle, DialogTrigger } from 
 import Image from "next/image";
 
 import { Star, Trash2, PenBoxIcon, BookOpen, Calendar } from "lucide-react";
-import { useState } from "react";
 
 interface LivroCardProps {
   livro: Livro;
@@ -63,9 +64,10 @@ const RatingStars = ({ rating }: { rating: number }) => (
 export function LivroCard({ livro }: LivroCardProps) {
   const progress = (((livro.qtdPagesRead || 0) / (livro.pages || 1)) * 100).toFixed(0);
   const [open, setOpen] = useState(false);
+  const showProgressBar = livro.status !== undefined && [StatusLeitura.LENDO, StatusLeitura.PAUSADO, StatusLeitura.ABANDONADO].includes(livro.status);
 
   return (
-    <Card className="bg-gray-50 mb-4 flex flex-col md:flex-row transition-transform duration-200 hover:scale-105 hover:shadow-lg">
+    <Card className="group bg-gray-50 mb-4 flex flex-col md:flex-row transition-transform duration-200 hover:scale-105 hover:shadow-lg">
       {/* Capa do livro */}
       <div className="w-full md:w-48 flex-shrink-0">
         <AspectRatio ratio={3 / 4} className="relative">
@@ -83,7 +85,7 @@ export function LivroCard({ livro }: LivroCardProps) {
         {/* Cabeçalho */}
         <CardHeader className="p-0 flex flex-col md:flex-row md:justify-between md:items-start">
           <div>
-            <CardTitle className="text-lg font-bold">{livro.title}</CardTitle>
+            <CardTitle className="text-lg text-gray-800 font-bold group-hover:text-purple-500 transition-colors duration-200">{livro.title}</CardTitle>
             <CardDescription className="text-sm">
               {livro.author}
             </CardDescription>
@@ -96,30 +98,52 @@ export function LivroCard({ livro }: LivroCardProps) {
         </CardHeader>
 
         {/* Avaliação */}
-        <CardContent className="p-0 mt-2 flex flex-wrap items-center gap-2">
-          {livro.rating && <RatingStars rating={livro.rating} />}
+        <CardContent className="p-0 mb-2 flex flex-wrap items-center gap-1">
+          {livro.rating && (
+            <>
+              <Star width={18} height={18} fill="oklch(79.5% 0.184 86.047)" stroke="none" />
+              <span>{livro.rating}</span>
+            </>
+          )}
           <span className="text-sm text-gray-500">(127.543 avaliações)</span>
         </CardContent>
 
+        {livro.status === StatusLeitura.LIDO && (
+          <div className="mb-2">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-sm text-muted-foreground">Sua avaliação: </span>
+              <RatingStars rating={4} />
+            </div>
+            <div className="flex items-center gap-1">
+              <Calendar className="w-4 h-4 text-muted-foreground" />
+              <span className="text-muted-foreground text-sm">Concluído em 27 de nov. de 2024</span>
+            </div>
+          </div>
+        )}
+
         {/* Barra de progresso */}
-        <div className="mt-3 w-full">
-          <div className="w-full justify-between flex">
-            <span className="text-sm text-right text-gray-600 mt-1">
-              Página {livro.qtdPagesRead} de {livro.pages}
-            </span>
-            <span className="text-sm text-left text-gray-600 mt-1">
-              {progress}%
-            </span>
-          </div>
+        {showProgressBar && (
+          <div className="mb-2 w-full">
+            <div className="w-full justify-between flex mb-2">
 
-          <div className="h-2 bg-purple-200 rounded-full">
-            <Progress value={parseInt(progress)} className="[&>div]:bg-purple-600" />
+              <span className="flex items-center text-muted-foreground text-sm gap-1">
+                <BookOpen className="w-4 h-4" />
+                Página {livro.qtdPagesRead} de {livro.pages}
+              </span>
+              <span className="text-muted-foreground text-sm">
+                {progress}%
+              </span>
+            </div>
 
+            <div className="h-2 bg-purple-200 rounded-full">
+              <Progress value={parseInt(progress)} className="[&>div]:bg-purple-600" />
+
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Rodapé */}
-        <CardFooter className="p-0 mt-4 flex flex-col items-start gap-4">
+        <CardFooter className="p-0 mb-2 flex flex-col items-start gap-4">
           <div className="flex gap-2">
             {livro.genre?.map((g) => (
               <Badge key={g} variant={"outline"}>
@@ -130,15 +154,27 @@ export function LivroCard({ livro }: LivroCardProps) {
           <div className="w-full justify-between flex">
 
             <Dialog open={open} onOpenChange={setOpen}>
-              <DialogTrigger asChild>
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  className="cursor-pointer bg-gray-50 border border-gray-200 hover:bg-gray-200"
-                >
-                  Ver Detalhes
-                </Button>
-              </DialogTrigger>
+              <div className="flex gap-2">
+                <DialogTrigger asChild>
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    className="cursor-pointer bg-gray-50 border border-gray-200 hover:bg-gray-200"
+                  >
+                    Ver Detalhes
+                  </Button>
+                </DialogTrigger>
+                {livro.status === StatusLeitura.QUERO_LER &&
+                  (<Button
+                    variant="secondary"
+                    size="sm"
+                    className="cursor-pointer text-white bg-purple-700 hover:bg-purple-600"
+                  >
+                    Começar a Ler
+                  </Button>)}
+              </div>
+
+
 
               <DialogContent className="w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl p-6">
                 <DialogHeader className="flex flex-row items-start justify-between">
@@ -208,7 +244,7 @@ export function LivroCard({ livro }: LivroCardProps) {
 
                 {/* Progresso de leitura */}
 
-                <div>
+                {showProgressBar && <div>
                   <div className="flex items-center justify-between text-sm mb-2">
 
                     <span className="flex items-center gap-1">
@@ -224,7 +260,7 @@ export function LivroCard({ livro }: LivroCardProps) {
 
                   <Progress value={parseInt(progress)} className="[&>div]:bg-purple-600" />
 
-                </div>
+                </div>}
 
                 {/* Avaliação e Resenha */}
                 <div className="space-y-2">
@@ -241,13 +277,10 @@ export function LivroCard({ livro }: LivroCardProps) {
                   <span className="">4 de dezembro de 2024</span>
                 </div>
 
-
-
-
-
               </DialogContent>
 
             </Dialog>
+
 
             <Button
               variant="outline"

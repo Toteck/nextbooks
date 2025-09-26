@@ -1,20 +1,22 @@
 // src/components/ui/Input.tsx
-import * as React from "react"
+import * as React from "react";
 
-import { cn } from "@/lib/utils"
-export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+import { cn } from "@/lib/utils";
+export interface InputProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, label, name, id, ...props }, ref) => {
-    // O componente agora é envolvido por uma div e um label, como no meu exemplo anterior
     return (
       <div className="flex flex-col">
-        <label htmlFor={id || name} className="mb-1 text-sm font-medium text-gray-400">
+        <label
+          htmlFor={id || name}
+          className="mb-1 text-sm font-medium text-gray-400"
+        >
           {label}
         </label>
-        {/* Aqui usamos o seu componente input original, com suas classes e lógica */}
         <input
           type={type}
           id={id || name}
@@ -29,9 +31,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           {...props}
         />
       </div>
-    )
+    );
   }
-)
-Input.displayName = "Input"
+);
+Input.displayName = "Input";
 
-export { Input }
+export { Input };

@@ -12,12 +12,16 @@ import {
 } from "@/components/ui/select";
 import { LivroCard } from "@/components/livros/LivroCard";
 
-import { Search } from "lucide-react"
+import { Plus, Search } from "lucide-react"
 
 import { livrosIniciais } from "@/data/livros";
 
 import { GENEROS_DISPONIVEIS } from "@/types/genre";
 import { StatusLeitura } from "@/types/livro";
+import { Button } from "@/components/ui/button";
+
+import Image from "next/image";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 
 export default function BibliotecaPage() {
@@ -70,7 +74,7 @@ export default function BibliotecaPage() {
         {" "}
       </header>
       {/* Controles de Busca e Filtro */}
-      <div className="relative w-full mb-4">
+      <div className="relative w-full mb-2">
 
         <Input
           type="text"
@@ -144,10 +148,23 @@ export default function BibliotecaPage() {
             <LivroCard key={livro.id} livro={livro} />
           ))
         ) : (
-          <p className="col-span-full text-center text-muted-foreground">
-            Nenhum livro encontrado. Tente ajustar sua busca ou
-            filtros.
-          </p>
+          <div className="col-span-full flex flex-col items-center justify-center text-center py-2">
+
+            <Image src={"/empity-books-no-bg.png"} width={300} height={300} className="object-contain mx-auto max-w-[250px] md:max-w-[350px] h-auto" alt="Ilustração em estilo flat de um menino sentado no chão, encostado em uma estante de livros vazia. Ele parece triste e solitásrio, transmitindo a sensação de que não há livros disponíveis. As cores predominantes são tons de roxo e cinza." />
+
+
+            <h3 className="text-lg font-semibold text-foreground mb-2">Nenhum livro encontrado 📚</h3>
+            <p className="text-muted-foreground mb-4">
+              Não encontramos nada com os filtros atuais.
+              Que tal adicionar um novo livro à sua biblioteca?
+            </p>
+            <Button className="bg-purple-700 hover:bg-purple-600 hover:cursor-pointer">
+              <Plus className="mr-2 h-4 w-4" />
+              Adicionar Livros
+            </Button>
+
+          </div>
+
         )}
 
       </div>

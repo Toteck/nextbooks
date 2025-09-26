@@ -1,7 +1,7 @@
 import { Genre } from "./genre";
 
 export enum StatusLeitura {
-    QUERO_LER = "QUERO_LER",
+    QUERO_LER = "QUERO LER",
     LENDO = "LENDO",
     LIDO = "LIDO",
     PAUSADO = "PAUSADO",

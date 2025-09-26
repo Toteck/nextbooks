@@ -2,14 +2,14 @@
 
 import React, { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
-
-// Importando seus tipos e os componentes de UI
 import { Livro, StatusLeitura } from "@/types/livro";
 import { Genre, GENEROS_DISPONIVEIS } from "@/types/genre";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Progress } from "../ui/progress";
+import placeholderImage from "../../../public/covers/placeholder.png";
 
+// Lógica principal do formulário
 interface LivroFormProps {
   initialData?: Livro;
   isEditing?: boolean;
@@ -33,6 +33,7 @@ export default function LivroForm({
   isEditing = false,
 }: LivroFormProps) {
   const router = useRouter();
+
   const [formData, setFormData] = useState<Omit<Livro, "id">>(
     initialData || {
       title: "",
@@ -50,6 +51,10 @@ export default function LivroForm({
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [message, setMessage] = useState<{
+    text: string;
+    type: "success" | "error";
+  } | null>(null);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -91,18 +96,25 @@ export default function LivroForm({
     e.preventDefault();
     if (!validateForm()) return;
     setIsSubmitting(true);
+    setMessage(null);
 
     console.log("Dados a serem enviados:", formData);
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     setIsSubmitting(false);
-    alert(
-      `Livro ${
+
+    // Simulação de mensagem de sucesso na interface
+    setMessage({
+      text: `Livro ${
         isEditing ? "atualizado" : "cadastrado"
-      } com sucesso! (Simulação)`
-    );
-    router.push("/livros/biblioteca");
-    router.refresh();
+      } com sucesso! (Simulação)`,
+      type: "success",
+    });
+
+    setTimeout(() => {
+      router.push("/livros/biblioteca");
+      router.refresh();
+    }, 1500);
   };
 
   const progress = useMemo(() => {
@@ -125,6 +137,16 @@ export default function LivroForm({
         <Progress value={progress} />
       </div>
 
+      {message && (
+        <div
+          className={`p-4 rounded-md mb-6 text-white text-center font-medium ${
+            message.type === "success" ? "bg-green-500" : "bg-red-500"
+          }`}
+        >
+          {message.text}
+        </div>
+      )}
+
       <form
         onSubmit={handleSubmit}
         className="grid grid-cols-1 md:grid-cols-3 gap-8"
@@ -140,15 +162,14 @@ export default function LivroForm({
                 src={formData.cover}
                 alt="Pré-visualização da capa"
                 className="w-full h-full object-cover"
-                onError={(e) =>
-                  (e.currentTarget.src =
-                    "https://placehold.co/300x450/cccccc/999999?text=Capa+Inválida")
-                }
+                onError={(e) => (e.currentTarget.src = placeholderImage.src)}
               />
             ) : (
-              <div className="text-center text-zinc-900 p-4 text-sm">
-                <span>Cole a URL da capa para visualizar</span>
-              </div>
+              <img
+                src={placeholderImage.src}
+                alt="Capa padrão"
+                className="w-full h-full object-cover"
+              />
             )}
           </div>
         </div>
@@ -167,7 +188,7 @@ export default function LivroForm({
             required
           />
           {errors.title && (
-            <p className="text-red-500 text-sm -mt-2">{errors.title}</p>
+            <p className="text-purple-950 text-sm -mt-2">{errors.title}</p>
           )}
 
           <Input
@@ -178,14 +199,14 @@ export default function LivroForm({
             required
           />
           {errors.author && (
-            <p className="text-purple-600 text-sm -mt-2">{errors.author}</p>
+            <p className="text-purple-950 text-sm -mt-2">{errors.author}</p>
           )}
 
           <Input
             label="URL da Capa"
             name="cover"
             type="text"
-            placeholder=".\public\covers\placeholder.png"
+            placeholder="Cole a URL de uma capa"
             value={formData.cover || ""}
             onChange={handleChange}
           />
@@ -239,7 +260,7 @@ export default function LivroForm({
               id="status"
               value={formData.status}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 transition text-black"
             >
               {Object.values(StatusLeitura).map((status) => (
                 <option key={status} value={status}>
@@ -262,7 +283,7 @@ export default function LivroForm({
               multiple
               value={formData.genre}
               onChange={handleGenreChange}
-              className="w-full px-3 py-2 border border-bg-zinc-500 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-600 transition h-32"
+              className="w-full px-3 py-2 border border-bg-zinc-500 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-600 transition h-32 text-black"
             >
               {GENEROS_DISPONIVEIS.map((genre) => (
                 <option key={genre} value={genre}>
@@ -288,7 +309,7 @@ export default function LivroForm({
               rows={4}
               value={formData.synopsis || ""}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-600 transition"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-600 transition text-black"
             ></textarea>
           </div>
 

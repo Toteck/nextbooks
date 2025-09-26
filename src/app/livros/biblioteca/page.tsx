@@ -1,6 +1,7 @@
 "use client"; // Necessário para usar hooks como useState
 
 import { useState, useMemo } from "react";
+
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -11,12 +12,17 @@ import {
 } from "@/components/ui/select";
 import { LivroCard } from "@/components/livros/LivroCard";
 
+import { Search } from "lucide-react"
+
 import { livrosIniciais } from "@/data/livros";
+
 import { GENEROS_DISPONIVEIS } from "@/types/genre";
+
 
 export default function BibliotecaPage() {
   const [termoBusca, setTermoBusca] = useState("");
-  const [generoFiltro, setGeneroFiltro] = useState("todos"); // Filtra os livros com base na busca e no gênero selecionado
+  const [generoFiltro, setGeneroFiltro] = useState("todos");
+  const [statusLivro, setStatusLivro] = useState("todos");
 
   const livrosFiltrados = useMemo(() => {
     return livrosIniciais
@@ -42,12 +48,13 @@ export default function BibliotecaPage() {
           livro.author.toLowerCase().includes(termo)
         );
       });
+
   }, [termoBusca, generoFiltro]);
 
   return (
     <div className="container mx-auto">
       {" "}
-      <header className="mb-6">
+      <header className="mb-2">
         <h1 className="text-3xl font-bold">Minha Biblioteca</h1>       {" "}
         <p className="text-muted-foreground">
           Catalogue, organize e acompanhe seus livros.
@@ -55,36 +62,66 @@ export default function BibliotecaPage() {
         {" "}
       </header>
       {/* Controles de Busca e Filtro */}     {" "}
-      <div className="flex flex-col md:flex-row gap-4 mb-6">
-        {" "}
+      <div className="relative w-full mb-4">
+
         <Input
           type="text"
           placeholder="Buscar por título ou autor..."
-          className="flex-grow"
+          className="bg-gray-50 flex-grow mb-4"
           value={termoBusca}
           onChange={(e) => setTermoBusca(e.target.value)}
         />
-        {" "}
-        <Select value={generoFiltro} onValueChange={setGeneroFiltro}>
+
+
+
+        <div className="flex flex-col md:flex-row gap-4 mb-6">
           {" "}
-          <SelectTrigger className="w-full md:w-[200px]">
-            <SelectValue placeholder="Filtrar por gênero" />
+          <Select value={generoFiltro} onValueChange={setGeneroFiltro}>
             {" "}
-          </SelectTrigger>
+            <SelectTrigger className="w-full md:w-[200px] bg-gray-50">
+              <SelectValue placeholder="Filtrar por gênero" />
+              {" "}
+            </SelectTrigger>
+            {" "}
+            <SelectContent>
+              <SelectItem value="todos">Todos os Gêneros</SelectItem>
+              {" "}
+              {GENEROS_DISPONIVEIS.map((genero) => (
+                <SelectItem key={genero} value={genero}>
+                  {genero}             {" "}
+                </SelectItem>
+              ))}
+              {" "}
+            </SelectContent>
+            {" "}
+          </Select>
           {" "}
-          <SelectContent>
-            <SelectItem value="todos">Todos os Gêneros</SelectItem>
-            {" "}
-            {GENEROS_DISPONIVEIS.map((genero) => (
-              <SelectItem key={genero} value={genero}>
-                {genero}             {" "}
-              </SelectItem>
-            ))}
-            {" "}
-          </SelectContent>
+        </div>
+
+        <div className="flex flex-col md:flex-row gap-4 mb-6">
           {" "}
-        </Select>
-        {" "}
+          <Select value={generoFiltro} onValueChange={setGeneroFiltro}>
+            {" "}
+            <SelectTrigger className="w-full md:w-[200px] bg-gray-50">
+              <SelectValue placeholder="Filtrar por gênero" />
+              {" "}
+            </SelectTrigger>
+            {" "}
+            <SelectContent>
+              <SelectItem value="todos">Todos os Gêneros</SelectItem>
+              {" "}
+              {GENEROS_DISPONIVEIS.map((genero) => (
+                <SelectItem key={genero} value={genero}>
+                  {genero}             {" "}
+                </SelectItem>
+              ))}
+              {" "}
+            </SelectContent>
+            {" "}
+          </Select>
+          {" "}
+        </div>
+
       </div>
 
       <div>

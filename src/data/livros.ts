@@ -69,6 +69,6 @@ export const livrosIniciais: Livro[] = [
     rating: 5,
     cover: "/covers/hp1.jpeg",
     synopsis: "Primeiro livro da saga mundialmente famosa.",
-  },
+  }
 
 ];

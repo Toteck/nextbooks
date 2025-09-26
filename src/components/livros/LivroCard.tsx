@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 
 import { Livro, StatusLeitura } from "@/types/livro";
@@ -174,7 +176,7 @@ export function LivroCard({ livro }: LivroCardProps) {
                   </Button>)}
               </div>
 
-              <DialogContent className="w-full max-h-[90vh] overflow-y-auto rounded-2xl px-6 py-8 md:px-8 md:py-10 mx-4 my-6 ">
+              <DialogContent className="w-full max-h-[90vh] overflow-y-auto rounded-2xl py-12 no-scrollbar">
                 <DialogHeader className="flex flex-col md:flex-row md:items-start md: justify-between gap-4">
 
                   <div className="w-full md:w-48 flex-shrink-0 rounded-md">

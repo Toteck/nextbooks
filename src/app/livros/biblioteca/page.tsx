@@ -22,6 +22,7 @@ import { Button } from "@/components/ui/button";
 
 import Image from "next/image";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { DefaultButton } from "@/components/livros/Button";
 
 
 export default function BibliotecaPage() {
@@ -158,10 +159,7 @@ export default function BibliotecaPage() {
               Não encontramos nada com os filtros atuais.
               Que tal adicionar um novo livro à sua biblioteca?
             </p>
-            <Button className="bg-purple-700 hover:bg-purple-600 hover:cursor-pointer">
-              <Plus className="mr-2 h-4 w-4" />
-              Adicionar Livros
-            </Button>
+            <DefaultButton label="Adicionar Livros" />
 
           </div>
 

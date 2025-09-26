@@ -50,8 +50,7 @@ export default function BibliotecaPage() {
         <h1 className="text-3xl font-bold">Minha Biblioteca</h1>       {" "}
         <p className="text-muted-foreground">
           Catalogue, organize e acompanhe seus livros.
-        </p>
-        {" "}
+        </p>{" "}
       </header>
       {/* Controles de Busca e Filtro */}     {" "}
       <div className="flex flex-col md:flex-row gap-4 mb-6">
@@ -62,45 +61,33 @@ export default function BibliotecaPage() {
           className="flex-grow"
           value={termoBusca}
           onChange={(e) => setTermoBusca(e.target.value)}
-        />
-        {" "}
+        />{" "}
         <Select value={generoFiltro} onValueChange={setGeneroFiltro}>
           {" "}
           <SelectTrigger className="w-full md:w-[200px]">
-            <SelectValue placeholder="Filtrar por gênero" />
-            {" "}
-          </SelectTrigger>
-          {" "}
+            <SelectValue placeholder="Filtrar por gênero" />{" "}
+          </SelectTrigger>{" "}
           <SelectContent>
-            <SelectItem value="todos">Todos os Gêneros</SelectItem>
-            {" "}
+            <SelectItem value="todos">Todos os Gêneros</SelectItem>{" "}
             {GENEROS_DISPONIVEIS.map((genero) => (
               <SelectItem key={genero} value={genero}>
                 {genero}             {" "}
               </SelectItem>
-            ))}
-            {" "}
-          </SelectContent>
-          {" "}
-        </Select>
-        {" "}
+            ))}{" "}
+          </SelectContent>{" "}
+        </Select>{" "}
       </div>
-
       <div>
-
         {livrosFiltrados.length > 0 ? (
           livrosFiltrados.map((livro) => (
             <LivroCard key={livro.id} livro={livro} />
           ))
         ) : (
           <p className="col-span-full text-center text-muted-foreground">
-            Nenhum livro encontrado. Tente ajustar sua busca ou
-            filtros.
+            Nenhum livro encontrado. Tente ajustar sua busca ou filtros.
           </p>
         )}
-
       </div>
-
     </div>
   );
 }

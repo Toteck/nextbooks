@@ -1,8 +1,13 @@
-// Formulário de adicionar novo livro
-// Usa LivroForm.
-// Campos obrigatórios: título, autor. O resto opcional.
-// Mostrar preview da capa se URL for preenchida.
+
+import LivroForm from "@/components/livros/LivroForm";
 
 export default function NovoLivroPage() {
-    return <div>Novo Livro Page</div>;
+  return (
+    <main>
+      <h1 className="text-4xl font-bold text-center text-zinc-950 mb-8">
+        Adicionar Novo Livro
+      </h1>
+      <LivroForm />
+    </main>
+  );
 }

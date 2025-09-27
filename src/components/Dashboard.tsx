@@ -1,9 +1,14 @@
-'use client'
+"use client";
 import { LivroCard } from "./livros/LivroCard";
-import { Card, CardHeader, CardTitle, CardContent } from "./ui/card"
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  CardFooter,
+} from "./ui/card";
 import { CheckCircle, BookOpen, Clock, FileText } from "lucide-react";
 import { Livro } from "@/types/livro";
-
 
 export interface DashboardProps {
   stats: {
@@ -13,106 +18,119 @@ export interface DashboardProps {
     paginasLidas: number;
   };
   livrosLendo: Livro[];
-    livrosCompletos: Livro[];
+  livrosCompletos: Livro[];
 }
 
-
-export default function Dashboard({ stats, livrosLendo, livrosCompletos }: DashboardProps) {
+export default function Dashboard({
+  stats,
+  livrosLendo,
+  livrosCompletos,
+}: DashboardProps) {
   return (
-    <div className="space-y-6">
-      <div className="align-left mt-4 text-muted-foreground space-y-1">
-        <p>Acompanhe sua jornada de leitura!</p>
+    <div className="space-y-10">
+      {/* Título e descrição */}
+      <div className="text-left space-y-1">
+        <h1 className="text-2xl font-semibold">Dashboard</h1>
+        <p className="text-muted-foreground">
+          Acompanhe sua jornada de leitura!
+        </p>
       </div>
-      {/* grid dos cards */}
-      <div className="grid sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-4">
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex flex-row text-sm font-medium gap-2">
-              Livros Lidos
-              <CheckCircle className="h-4 w-4 text-muted-foreground" />
-            </CardTitle>
+
+      {/* Grid dos Cards de Estatísticas */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+        {/* Card Livros Concluídos */}
+        <Card className="text-center">
+          <CardHeader className="flex flex-row items-center justify-between text-sm font-medium">
+            <CardTitle>Livros Concluídos</CardTitle>
+            <CheckCircle className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
-          <CardContent className="flex flex-col items-center justify-center">
-            <div className="text-3xl font-bold mb-4">{stats.livrosLidos}</div>
-            <div className="text-xs text-muted-foreground">
-              +2 livros no último mês
-            </div>
+          <CardContent className="flex flex-col items-center justify-center pt-2">
+            <div className="text-3xl font-bold">{stats.livrosLidos}</div>
           </CardContent>
+          <CardFooter className="flex flex-col items-center">
+            <p className="text-xs text-muted-foreground">
+              +{stats.livrosLidos} no último mês
+            </p>
+          </CardFooter>
         </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex flex-row text-sm font-medium gap-2">
-              Lendo Agora
-              <BookOpen className="h-4 w-4 text-muted-foreground" />
-            </CardTitle>
+
+        {/* Card Lendo Agora */}
+        <Card className="text-center">
+          <CardHeader className="flex flex-row items-center justify-between text-sm font-medium">
+            <CardTitle>Lendo Agora</CardTitle>
+            <BookOpen className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
-          <CardContent className="flex flex-col items-center justify-center">
-            <div className="text-3xl font-bold mb-4">
-              {stats.lendoAtualmente}
-            </div>
+          <CardContent className="flex flex-col items-center justify-center pt-2">
+            <div className="text-3xl font-bold">{stats.lendoAtualmente}</div>
+          </CardContent>
+          <CardFooter className="flex flex-col items-center">
             <div className="text-xs text-muted-foreground">Continue assim</div>
-          </CardContent>
+          </CardFooter>
         </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex text-sm font-medium gap-2">
-              Quero Ler!
-              <Clock className="h-4 w-4 text-muted-foreground" />
-            </CardTitle>
+
+        {/* Card Lista de Leitura */}
+        <Card className="text-center">
+          <CardHeader className="flex flex-row items-center justify-between text-sm font-medium">
+            <CardTitle>Lista de Leitura</CardTitle>
+            <Clock className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
-          <CardContent className="flex flex-col items-center justify-center">
-            <div className="text-3xl font-bold mb-4">{stats.queroLer}</div>
+          <CardContent className="flex flex-col items-center justify-center pt-2">
+            <div className="text-3xl font-bold">{stats.queroLer}</div>
+          </CardContent>
+          <CardFooter className="flex flex-col items-center">
             <div className="text-xs text-muted-foreground">
               Sua lista de leitura
             </div>
-          </CardContent>
+          </CardFooter>
         </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex text-sm font-medium gap-2">
-              Páginas Lidas
-              <FileText className="h-4 w-4 text-muted-foreground" />
-            </CardTitle>
+
+        {/* Card Páginas Lidas */}
+        <Card className="text-center">
+          <CardHeader className="flex flex-row items-center justify-between text-sm font-medium">
+            <CardTitle>Páginas Lidas</CardTitle>
+            <FileText className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
-          <CardContent className="flex flex-col items-center justify-center">
-            <div className="text-3xl font-bold mb-4">{stats.paginasLidas}</div>
+          <CardContent className="flex flex-col items-center justify-center pt-2">
+            <div className="text-3xl font-bold">{stats.paginasLidas}</div>
+          </CardContent>
+          <CardFooter className="flex flex-col items-center">
             <div className="text-xs text-muted-foreground">
               Total de páginas lidas
             </div>
-          </CardContent>
+          </CardFooter>
         </Card>
       </div>
-      <div className="">
-        {/* Seção de livros */}
-        <div className="">
-          {/* Livros Lendo Atualmente */}
-          <div className="">
-            <h2 className="text-lg font-semibold">Lendo Atualmente</h2>
-            {livrosLendo.length > 0 ? (
-              livrosLendo.map((livro) => (
-                <LivroCard key={livro.id} livro={livro} />
-              ))
-            ) : (
-              <p className="text-sm text-muted-foreground">
-                Nenhum livro sendo lido.
-              </p>
-            )}
-          </div>
-          {/* Livros Concluídos */}
-          <div className="">
-            <h2 className="text-lg font-semibold">Concluídos Recentemente</h2>
-            {livrosCompletos.length > 0 ? (
-              livrosCompletos.map((livro) => (
-                <LivroCard key={livro.id} livro={livro} />
-              ))
-            ) : (
-              <p className="text-sm text-muted-foreground">
-                Nenhum livro concluído.
-              </p>
-            )}
-          </div>
+
+      {/* Seção de Livros (2 Colunas) */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
+        {/* Livros Lendo Atualmente (1ª Coluna) */}
+        <div className="flex flex-col gap-4">
+          <h2 className="text-lg font-semibold">Lendo Atualmente</h2>
+          {livrosLendo.length > 0 ? (
+            livrosLendo.map((livro) => (
+              <LivroCard key={livro.id} livro={livro} />
+            ))
+          ) : (
+            <p className="text-sm text-muted-foreground">
+              Nenhum livro sendo lido.
+            </p>
+          )}
+        </div>
+
+        {/* Livros Concluídos (2ª Coluna) */}
+        <div className="flex flex-col gap-4">
+          <h2 className="text-lg font-semibold">Concluídos Recentemente</h2>
+          {livrosCompletos.length > 0 ? (
+            livrosCompletos.map((livro) => (
+              <LivroCard key={livro.id} livro={livro} />
+            ))
+          ) : (
+            <p className="text-sm text-muted-foreground">
+              Nenhum livro concluído.
+            </p>
+          )}
         </div>
       </div>
     </div>
   );
-};
+}

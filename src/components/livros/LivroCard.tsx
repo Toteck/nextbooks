@@ -5,8 +5,6 @@ import {
   CardContent,
   CardFooter,
   CardHeader,
-  CardTitle,
-  CardDescription,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
@@ -68,7 +66,7 @@ export function LivroCard({ livro, onEditar, onExcluir, onVisualizar }: LivroCar
   return (
     <Link href={`/livros/${livro.id}`}>
 
-      <Card className="group p-0 gap-x-0 bg-gray-50 flex flex-row transition-transform duration-200 hover:scale-105 hover:shadow-lg">
+      <Card className="group p-0 gap-x-0 bg-gray-50 flex flex-row transition-transform duration-200 hover:scale-105 hover:shadow-lg max-w-md w-full">
         {/* Capa do livro */}
         <div className="w-24 flex-shrink-0">
 

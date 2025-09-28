@@ -1,7 +1,7 @@
 import { Genre } from "./genre";
 
 export enum StatusLeitura {
-    QUERO_LER = "QUERO_LER",
+    QUERO_LER = "QUERO LER",
     LENDO = "LENDO",
     LIDO = "LIDO",
     PAUSADO = "PAUSADO",
@@ -22,7 +22,6 @@ export interface Livro {
     cover?: string;
     status?: StatusLeitura;
 }
-
 // Exemplo de uso
 
 // import { StatusLeitura } from "@/types/livro";

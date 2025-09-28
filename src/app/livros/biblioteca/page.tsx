@@ -18,10 +18,10 @@ import { livrosIniciais } from "@/data/livros";
 
 import { GENEROS_DISPONIVEIS } from "@/types/genre";
 import { StatusLeitura } from "@/types/livro";
-import { Button } from "@/components/ui/button";
+
 
 import Image from "next/image";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
+
 import { DefaultButton } from "@/components/livros/Button";
 
 
@@ -142,7 +142,7 @@ export default function BibliotecaPage() {
         </div>
       </div>
 
-      <div>
+      <div className="grid sm:grid-cols-1 gap-4">
 
         {livrosFiltrados.length > 0 ? (
           livrosFiltrados.map((livro) => (

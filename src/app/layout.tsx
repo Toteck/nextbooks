@@ -37,7 +37,7 @@ export default function RootLayout({
                 <Moon className="h-4 w-4" />
               </Button>
 
-              <DefaultButton label="Adicionar Livros" />
+              {/* <DefaultButton label="Adicionar Livros" /> */}
             </div>
 
           </div>

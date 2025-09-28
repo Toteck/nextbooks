@@ -1,12 +1,5 @@
 "use client";
 import { LivroCard } from "../livros/LivroCard";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-  CardFooter,
-} from "../ui/card";
 import { CheckCircle, BookOpen, Clock, FileText } from "lucide-react";
 import { Livro } from "@/types/livro";
 import { DashboardCard } from "./DashboardCard";

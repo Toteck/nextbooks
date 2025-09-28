@@ -1,5 +1,5 @@
 import { type LucideIcon } from "lucide-react";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 
 type DashboardCardProps = {
     title: string;

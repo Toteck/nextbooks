@@ -10,7 +10,7 @@ type DashboardCardProps = {
 export function DashboardCard({ title, icon: Icon, value }: DashboardCardProps) {
     return (
 
-        <Card className="min-w-[200px] flex-shrink-0 text-center">
+        <Card className="min-w-[200px] flex-shrink-0 text-center md:min-w-[45px]">
             <CardHeader className="flex flex-row items-center justify-between text-sm font-medium">
                 <CardTitle className="text-sm">{title}</CardTitle>
                 {Icon && <Icon className="h-4 w-4 text-muted-foreground" />}

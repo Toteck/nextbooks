@@ -29,43 +29,44 @@ export default function TabsComponent() {
       className="flex flex-col gap-6 w-full max-w-7xl"
     >
       <TabsList
-        className="bg-gray-200 rounded-full w-full p-1.5 
+        className="bg-gray-200 rounded-md w-full p-1.5 
               flex flex-wrap justify-center gap-1 sm:gap-2 
-              md:grid md:grid-cols-6"
+              md:grid md:grid-cols-6
+              h-auto min-h-fit"
       >
         <TabsTrigger
           value="dashboard"
-          className="rounded-full flex-grow md:flex-none"
+          className="rounded-md flex-grow md:flex-none"
         >
           Dashboard
         </TabsTrigger>
         <TabsTrigger
           value="lendo"
-          className="rounded-full flex-grow md:flex-none"
+          className="rounded-md flex-grow md:flex-none"
         >
           Lendo Agora
         </TabsTrigger>
         <TabsTrigger
           value="concluido"
-          className="rounded-full flex-grow md:flex-none"
+          className="rounded-md flex-grow md:flex-none"
         >
           Concluídos
         </TabsTrigger>
         <TabsTrigger
           value="quero"
-          className="rounded-full flex-grow md:flex-none"
+          className="rounded-md flex-grow md:flex-none"
         >
           Quero Ler!
         </TabsTrigger>
         <TabsTrigger
           value="perfil"
-          className="rounded-full flex-grow md:flex-none"
+          className="rounded-md flex-grow md:flex-none"
         >
           Perfil
         </TabsTrigger>
         <TabsTrigger
           value="biblioteca"
-          className="rounded-full flex-grow md:flex-none"
+          className="rounded-md flex-grow md:flex-none"
         >
           Biblioteca
         </TabsTrigger>

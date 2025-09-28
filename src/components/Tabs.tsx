@@ -6,7 +6,7 @@ import { livrosMock } from "./livros/LivrosMock";
 import { Livro } from "@/types/livro";
 import { useState } from "react";
 import { calcularEstatisticasLivros } from "@/lib/book-stats";
-import Profile from "./Profile"; // Assumindo que você tem um componente Profile
+import Profile from "./Profile";
 
 // Componente de Tabs
 
@@ -25,7 +25,6 @@ export default function TabsComponent() {
     <Tabs
       value={activeTab}
       onValueChange={setActiveTab}
-      // Alterado para flex-col para uma estrutura de tabs mais limpa
       className="flex flex-col gap-6 w-full max-w-7xl"
     >
       <TabsList

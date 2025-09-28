@@ -25,14 +25,6 @@ export interface Livro {
   isCompleted: boolean;
   pageCount: number;
 }
-
-export type Stats = {
-  livrosLidos: number;
-  lendoAtualmente: number;
-  queroLer: number; 
-  paginasLidas: number;
-};
-
 // Exemplo de uso
 
 // import { StatusLeitura } from "@/types/livro";

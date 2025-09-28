@@ -7,6 +7,7 @@ import { Livro } from "@/types/livro";
 import { useState } from "react";
 import { calcularEstatisticasLivros } from "@/lib/book-stats";
 import Profile from "./Profile"; // Assumindo que você tem um componente Profile
+import BibliotecaPage from "@/app/livros/biblioteca/page";
 
 // Componente de Tabs
 
@@ -128,10 +129,7 @@ export default function TabsComponent() {
       </TabsContent>
 
       <TabsContent value="biblioteca">
-        <h2 className="text-xl font-semibold mb-4">Biblioteca Completa</h2>
-        <p className="text-muted-foreground">
-          Aqui aparecerão todos os seus livros.
-        </p>
+        <BibliotecaPage />
       </TabsContent>
     </Tabs>
   );

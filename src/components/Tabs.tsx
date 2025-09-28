@@ -1,5 +1,5 @@
 "use client";
-import Dashboard from "./Dashboard";
+import Dashboard from "./Dashboard/Dashboard";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "./ui/tabs";
 import { LivroCard } from "./livros/LivroCard";
 import { livrosMock } from "./livros/LivrosMock";

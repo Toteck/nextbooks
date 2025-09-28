@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Plus, BookOpen, Moon } from "lucide-react"
 import { Button } from "@/components/ui/button";
+import { DefaultButton } from "@/components/livros/Button";
 
 // Metadados da aplicação
 export const metadata: Metadata = {
@@ -37,10 +38,7 @@ export default function RootLayout({
                 <Moon className="h-4 w-4" />
               </Button>
 
-              <Button className="bg-purple-700 hover:bg-purple-600 hover:cursor-pointer">
-                <Plus className="mr-2 h-4 w-4" />
-                Adicionar Livros
-              </Button>
+              {/* <DefaultButton label="Adicionar Livros" /> */}
             </div>
           </div>
         </header>

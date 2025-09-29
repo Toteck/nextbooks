@@ -18,6 +18,7 @@ export enum Genre {
     TERROR = "Terror",
     MISTERIO = "Mistério",
     CRIME = "Crime",
+    POLITICA = "Política",
 }
 
 

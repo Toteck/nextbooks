@@ -1,7 +1,7 @@
 import { Genre } from "./genre";
 
 export enum StatusLeitura {
-    QUERO_LER = "QUERO_LER",
+    QUERO_LER = "QUERO LER",
     LENDO = "LENDO",
     LIDO = "LIDO",
     PAUSADO = "PAUSADO",
@@ -10,19 +10,21 @@ export enum StatusLeitura {
 
 // Definição do tipo Livro
 export interface Livro {
-    id: string;
-    title: string;
-    author: string;
-    genre?: Genre[];
-    year?: number;
-    pages?: number;
-    qtdPagesRead?: number;
-    rating?: number;
-    synopsis?: string;
-    cover?: string;
-    status?: StatusLeitura;
+  id: string;
+  title: string;
+  author: string;
+  genre?: Genre[];
+  year?: number;
+  pages?: number;
+  qtdPagesRead?: number;
+  rating?: number;
+  synopsis?: string;
+  cover?: string;
+  status?: StatusLeitura;
+  isReading: boolean;
+  isCompleted: boolean;
+  pageCount: number;
 }
-
 // Exemplo de uso
 
 // import { StatusLeitura } from "@/types/livro";

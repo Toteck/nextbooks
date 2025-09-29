@@ -5,20 +5,24 @@ import {
   CardContent,
   CardFooter,
   CardHeader,
-  CardTitle,
-  CardDescription,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
-import { Progress } from "@/components/ui/progress";
+
+
 import Image from "next/image";
 
-import { Star, Trash2 } from "lucide-react";
+import { Calendar, MoreVertical, Star } from "lucide-react";
+import Link from "next/link";
+import { DropdownMenu, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
+import { DropdownMenuContent, DropdownMenuItem } from "../ui/dropdown-menu";
 
 interface LivroCardProps {
   livro: Livro;
+  onEditar?: () => void;
+  onExcluir?: () => void;
+  onVisualizar?: () => void;
 }
+
 
 // configuração para os status do livro
 const statusConfig = {
@@ -57,93 +61,110 @@ const RatingStars = ({ rating }: { rating: number }) => (
   </div>
 );
 
-export function LivroCard({ livro }: LivroCardProps) {
-  const progress = ((livro.qtdPagesRead || 0) / (livro.pages || 1)) * 100
+export function LivroCard({ livro, onEditar, onExcluir, onVisualizar }: LivroCardProps) {
 
   return (
-    <Card className="bg-gray-50 mb-4 flex flex-col md:flex-row transition-transform duration-200 hover:scale-105 hover:shadow-lg">
-      {/* Capa do livro */}
-      <div className="w-full md:w-48 flex-shrink-0">
-        <AspectRatio ratio={3 / 4} className="relative">
+    <Link href={`/livros/${livro.id}`}>
+
+      <Card className="group p-0 gap-x-0 bg-gray-50 flex flex-row transition-transform duration-200 hover:scale-105 hover:shadow-lg max-w-md w-full">
+        {/* Capa do livro */}
+        <div className="w-24 flex-shrink-0">
+
           <Image
             src={livro.cover || "/covers/placeholder.png"}
             alt={`Capa do livro ${livro.title}`}
-            fill
-            className="object-contain rounded-t-md md:rounded-l-md"
+            width={128}
+            height={192}
+            className="object-cover rounded-l-md"
           />
-        </AspectRatio>
-      </div>
 
-      {/* Conteúdo */}
-      <div className="flex flex-col flex-1 p-4">
-        {/* Cabeçalho */}
-        <CardHeader className="p-0 flex flex-col md:flex-row md:justify-between md:items-start">
-          <div>
-            <CardTitle className="text-lg font-bold">{livro.title}</CardTitle>
-            <CardDescription className="text-sm">
-              {livro.author}
-            </CardDescription>
-          </div>
-          {livro.status && (
-            <Badge className={statusConfig[livro.status]?.className}>
-              {statusConfig[livro.status]?.label}
-            </Badge>
-          )}
-        </CardHeader>
-
-        {/* Avaliação */}
-        <CardContent className="p-0 mt-2 flex flex-wrap items-center gap-2">
-          {livro.rating && <RatingStars rating={livro.rating} />}
-          <span className="text-sm text-gray-500">(127.543 avaliações)</span>
-        </CardContent>
-
-        {/* Barra de progresso */}
-        <div className="mt-3 w-full">
-          <div className="w-full justify-between flex">
-            <span className="text-sm text-right text-gray-600 mt-1">
-              Página {livro.qtdPagesRead} de {livro.pages}
-            </span>
-            <span className="text-sm text-left text-gray-600 mt-1">
-              {(((livro.qtdPagesRead || 0) / (livro.pages || 1)) * 100).toFixed(
-                0
-              )}
-              %
-            </span>
-          </div>
-
-          <div className="h-2 bg-purple-200 rounded-full">
-            <Progress value={progress} className="[&>div]:bg-purple-600" />
-
-          </div>
         </div>
 
-        {/* Rodapé */}
-        <CardFooter className="p-0 mt-4 flex flex-col items-start gap-4">
-          <div className="flex gap-2">
-            {livro.genre?.map((g) => (
-              <Badge key={g} variant={"outline"}>
-                {g}
+        {/* Conteúdo */}
+        <div className="w-full flex flex-col pt-2">
+          {/* Cabeçalho
+        flex flex-row items-start md:flex-row md:justify-between md:items-start
+        */}
+          <CardHeader className="flex flex-row gap-1 justify-between">
+
+            <div className="flex-1 min-w-0">
+              {/* Título e Autor */}
+
+              <h6 className="truncate text-[16px] text-gray-800 font-bold group-hover:text-purple-500 transition-colors duration-200">{livro.title}</h6>
+
+              <p className="text-muted-foreground text-[12px]">
+                {livro.author}
+              </p>
+            </div>
+
+            {/* Menu de ações */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button
+                  className="p-1 rounded-full hover:bg-gray-200"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <MoreVertical className="w-5 h-5 text-gray-600" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem onClick={onEditar}>Editar</DropdownMenuItem>
+                <DropdownMenuItem onClick={onExcluir}>Excluir</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+          </CardHeader>
+
+          {/* Avaliação */}
+          <CardContent className="flex flex-col gap-1">
+
+            {!livro.rating &&
+              <span className="text-sm text-muted-foreground">Sem avaliações</span>}
+
+            <div className="flex flex-row items-center gap-1">
+              {livro.rating && <>
+                <span className="text-sm">{livro.rating}</span>
+                <RatingStars rating={livro.rating || 1} key={livro.id} />
+              </>}
+            </div>
+
+
+          </CardContent>
+
+          {/* Rodapé */}
+          <CardFooter className=" flex flex-col items-start gap-1">
+
+            <span className="flex items-center gap-1 text-sm text-muted-foreground"><Calendar className="w-3 h-3 text-muted-foreground" />Publicado em: {livro.year || "N/D"}</span>
+
+            {livro.genre && <Badge key={livro.id} variant={"outline"}>
+              {livro.genre[0]}
+            </Badge>}
+
+
+            {/* Status do livro */}
+
+            {/* {livro.status && (
+              <Badge className={`${statusConfig[livro.status]?.className} justify-self-end`}>
+                {statusConfig[livro.status]?.label}
               </Badge>
-            ))}
-          </div>
-          <div className="w-full justify-between flex">
-            <Button
-              variant="secondary"
-              size="sm"
-              className="cursor-pointer bg-gray-50 border border-gray-200 hover:bg-gray-200"
-            >
-              Ver Detalhes
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              className="hover:bg-red-500 hover:text-white cursor-pointer"
-            >
-              <Trash2 className="h-6 w-6" />
-            </Button>
-          </div>
-        </CardFooter>
-      </div>
-    </Card>
+            )} */}
+
+          </CardFooter>
+        </div>
+      </Card >
+    </Link >
   );
 }
+{/* <Star width={18} height={18} fill="oklch(79.5% 0.184 86.047)" stroke="none" /> */ }
+{/* {livro.status === StatusLeitura.LIDO && (
+          <div className="mb-2">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-sm text-muted-foreground">Sua avaliação: </span>
+              <RatingStars rating={4} />
+            </div>
+            <div className="flex items-center gap-1">
+              <Calendar className="w-4 h-4 text-muted-foreground" />
+              <span className="text-muted-foreground text-sm">Concluído em 27 de nov. de 2024</span>
+            </div>
+          </div>
+        )} */}

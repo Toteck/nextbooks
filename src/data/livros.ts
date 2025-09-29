@@ -28,6 +28,9 @@ export const livrosIniciais: Livro[] = [
     rating: 5,
     cover: "/covers/1984.jpeg",
     synopsis: "Distopia que inspira reflexões sobre vigilância.",
+    isReading: false,
+    isCompleted: false,
+    pageCount: 328,
   },
   {
     id: "3",
@@ -41,6 +44,9 @@ export const livrosIniciais: Livro[] = [
     rating: 4,
     cover: "/covers/o-hobbit.jpeg",
     synopsis: "Aventura leve que introduz o mundo de Tolkien.",
+    isReading: false,
+    isCompleted: true,
+    pageCount: 310,
   },
   {
     id: "4",

@@ -10,17 +10,20 @@ export enum StatusLeitura {
 
 // Definição do tipo Livro
 export interface Livro {
-    id: string;
-    title: string;
-    author: string;
-    genre?: Genre[];
-    year?: number;
-    pages?: number;
-    qtdPagesRead?: number;
-    rating?: number;
-    synopsis?: string;
-    cover?: string;
-    status?: StatusLeitura;
+  id: string;
+  title: string;
+  author: string;
+  genre?: Genre[];
+  year?: number;
+  pages?: number;
+  qtdPagesRead?: number;
+  rating?: number;
+  synopsis?: string;
+  cover?: string;
+  status?: StatusLeitura;
+  isReading: boolean;
+  isCompleted: boolean;
+  pageCount: number;
 }
 // Exemplo de uso
 

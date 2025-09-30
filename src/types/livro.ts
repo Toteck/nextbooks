@@ -21,10 +21,15 @@ export interface Livro {
   synopsis?: string;
   cover?: string;
   status?: StatusLeitura;
-  isReading: boolean;
-  isCompleted: boolean;
-  pageCount: number;
 }
+
+export interface Stats {
+  livrosLidos: number;
+  lendoAtualmente: number;
+  queroLer: number;
+  paginasLidas: number;
+}
+
 // Exemplo de uso
 
 // import { StatusLeitura } from "@/types/livro";

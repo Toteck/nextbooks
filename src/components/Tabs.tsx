@@ -3,10 +3,10 @@ import Dashboard from "./Dashboard/Dashboard";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "./ui/tabs";
 import { LivroCard } from "./livros/LivroCard";
 import { livrosMock } from "./livros/LivrosMock";
-import { Livro } from "@/types/livro";
+import { Livro, StatusLeitura } from "@/types/livro";
 import { useState } from "react";
 import { calcularEstatisticasLivros } from "@/lib/book-stats";
-import Profile from "./Profile"; // Assumindo que você tem um componente Profile
+import Profile from "./Profile"; 
 import BibliotecaPage from "@/app/livros/biblioteca/page";
 
 // Componente de Tabs
@@ -16,10 +16,10 @@ export default function TabsComponent() {
   const [activeTab, setActiveTab] = useState("dashboard");
   const stats = calcularEstatisticasLivros(userBooks);
 
-  const livrosSendoLidos = userBooks.filter((book) => book.isReading);
-  const livrosLidos = userBooks.filter((book) => book.isCompleted);
+  const livrosSendoLidos = userBooks.filter((book) => book.status === StatusLeitura.LENDO || book.status === StatusLeitura.PAUSADO);
+  const livrosLidos = userBooks.filter((book) => book.status === StatusLeitura.LIDO);
   const livrosQueroLer = userBooks.filter(
-    (book) => !book.isReading && !book.isCompleted
+    (book) => book.status === StatusLeitura.QUERO_LER
   );
 
   return (
@@ -66,7 +66,7 @@ export default function TabsComponent() {
         </TabsTrigger>
         <TabsTrigger
           value="biblioteca"
-          className="rounded-md flex-grow md:flex-none"
+          className="rounded-full flex-grow md:flex-none"
         >
           Biblioteca
         </TabsTrigger>
@@ -122,9 +122,8 @@ export default function TabsComponent() {
       </TabsContent>
 
       <TabsContent value="perfil">
-        {/* Substitua por seu componente real de Perfil */}
+        {/*colocar o componente de Perfil quando tiver pronto*/}
         <h2 className="text-xl font-semibold mb-4">Configurações de Perfil</h2>
-        {/* <Profile /> */}
         <p className="text-muted-foreground">Em construção...</p>
       </TabsContent>
 

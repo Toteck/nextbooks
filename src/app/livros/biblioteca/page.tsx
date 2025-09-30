@@ -71,8 +71,7 @@ export default function BibliotecaPage() {
         <h1 className="text-3xl font-bold">Minha Biblioteca</h1>       {" "}
         <p className="text-muted-foreground">
           Catalogue, organize e acompanhe seus livros.
-        </p>
-        {" "}
+        </p>{" "}
       </header>
       {/* Controles de Busca e Filtro */}
       <div className="relative w-full mb-2">
@@ -164,9 +163,7 @@ export default function BibliotecaPage() {
           </div>
 
         )}
-
       </div>
-
     </div>
   );
 }

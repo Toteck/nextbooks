@@ -15,6 +15,7 @@ import { Calendar, MoreVertical, Star } from "lucide-react";
 import Link from "next/link";
 import { DropdownMenu, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 import { DropdownMenuContent, DropdownMenuItem } from "../ui/dropdown-menu";
+import { RatingStars } from "../RatingStars";
 
 interface LivroCardProps {
   livro: Livro;
@@ -48,18 +49,7 @@ const statusConfig = {
   },
 };
 
-// estrelas de avaliação
-const RatingStars = ({ rating }: { rating: number }) => (
-  <div className="flex items-center gap-1">
-    {[...Array(5)].map((_, i) => (
-      <Star
-        key={i}
-        className={`h-4 w-4 ${i < rating ? "text-yellow-500 fill-yellow-500" : "text-gray-300"
-          }`}
-      />
-    ))}
-  </div>
-);
+
 
 export function LivroCard({ livro, onEditar, onExcluir, onVisualizar }: LivroCardProps) {
 
@@ -124,7 +114,7 @@ export function LivroCard({ livro, onEditar, onExcluir, onVisualizar }: LivroCar
             <div className="flex flex-row items-center gap-1">
               {livro.rating && <>
                 <span className="text-sm">{livro.rating}</span>
-                <RatingStars rating={livro.rating || 1} key={livro.id} />
+                <RatingStars value={livro.rating || 1} key={livro.id} onChange={() => { }} />
               </>}
             </div>
 

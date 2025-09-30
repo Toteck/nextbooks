@@ -1,329 +1,231 @@
-"use client";
+"use client"
 
-import React, { useState, useMemo } from "react";
-import { useRouter } from "next/navigation";
-import { Livro, StatusLeitura } from "@/types/livro";
-import { Genre, GENEROS_DISPONIVEIS } from "@/types/genre";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import { Progress } from "../ui/progress";
-import placeholderImage from "../../../public/covers/placeholder.png";
+import { useForm } from "react-hook-form"
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
+import { Input } from "../ui/input"
+import { RatingStars } from "../RatingStars"
+import Image from "next/image"
+import { Textarea } from "../ui/textarea"
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectGroup } from "../ui/select"
+import { SelectItem, SelectLabel } from "@radix-ui/react-select"
+import { StatusLeitura } from "@/types/livro"
 
-// Lógica principal do formulário
-interface LivroFormProps {
-  initialData?: Livro;
-  isEditing?: boolean;
-}
+export function LivroForm() {
 
-const formFields: (keyof Omit<Livro, "id">)[] = [
-  "title",
-  "author",
-  "genre",
-  "year",
-  "pages",
-  "qtdPagesRead",
-  "rating",
-  "synopsis",
-  "cover",
-  "status",
-];
-
-export default function LivroForm({
-  initialData,
-  isEditing = false,
-}: LivroFormProps) {
-  const router = useRouter();
-
-  const [formData, setFormData] = useState<Omit<Livro, "id">>(
-    initialData || {
+  const form = useForm({
+    defaultValues: {
+      cover: "",
       title: "",
       author: "",
-      genre: [],
-      year: undefined,
-      pages: undefined,
-      qtdPagesRead: undefined,
-      rating: undefined,
-      synopsis: "",
-      cover: "",
-      status: StatusLeitura.QUERO_LER,
+      status: "",
+      capa: "",
+      year: "",
+      rating: 0,
+      pages: 0,
+      currentPage: 0,
+      notes: "",
+      isbn: "",
+      synopsis: "", // Talvez gerar a sinopse do livro com IA
     }
-  );
-
-  const [errors, setErrors] = useState<{ [key: string]: string }>({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [message, setMessage] = useState<{
-    text: string;
-    type: "success" | "error";
-  } | null>(null);
-
-  const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-    >
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]:
-        e.target.type === "number" && value !== ""
-          ? parseInt(value, 10)
-          : value,
-    }));
-    if (errors[name]) {
-      const newErrors = { ...errors };
-      delete newErrors[name];
-      setErrors(newErrors);
-    }
-  };
-
-  const handleGenreChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedOptions = Array.from(
-      e.target.selectedOptions,
-      (option) => option.value as Genre
-    );
-    setFormData((prev) => ({ ...prev, genre: selectedOptions }));
-  };
-
-  const validateForm = () => {
-    const newErrors: { [key: string]: string } = {};
-    if (!formData.title.trim()) newErrors.title = "Título é obrigatório";
-    if (!formData.author.trim()) newErrors.author = "Autor é obrigatório";
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!validateForm()) return;
-    setIsSubmitting(true);
-    setMessage(null);
-
-    console.log("Dados a serem enviados:", formData);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    setIsSubmitting(false);
-
-    // Simulação de mensagem de sucesso na interface
-    setMessage({
-      text: `Livro ${
-        isEditing ? "atualizado" : "cadastrado"
-      } com sucesso! (Simulação)`,
-      type: "success",
-    });
-
-    setTimeout(() => {
-      router.push("/livros/biblioteca");
-      router.refresh();
-    }, 1500);
-  };
-
-  const progress = useMemo(() => {
-    const filledFields = formFields.filter((field) => {
-      const value = formData[field];
-      if (Array.isArray(value)) return value.length > 0;
-      if (typeof value === "string") return value.trim() !== "";
-      return value !== undefined && value !== null && value !== 0;
-    }).length;
-    return (filledFields / formFields.length) * 100;
-  }, [formData]);
+  })
 
   return (
-    <div className="max-w-4xl mx-auto p-6 md:p-10 bg-purple-600 rounded-lg shadow">
-      {/* Barra de progresso */}
-      <div className="mb-8">
-        <h2 className="text-xl font-semibold mb-2 text-neutral-50">
-          Progresso do Cadastro
-        </h2>
-        <Progress value={progress} />
-      </div>
+    <Form {...form}>
+      <form className="flex flex-col gap-4">
+        {/* Capa */}
+        <FormField
+          control={form.control}
+          name="cover"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Capa do Livro</FormLabel>
+              <FormControl>
+                <div className="w-full max-w-[250px] aspect-[2/3] bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden border-2 border-dashed border-gray-300">
+                  <Image alt="Capa padrão" src={"/covers/placeholder.png"} width={120} height={180} className="w-full h-full object-cover" />
+                </div>
 
-      {message && (
-        <div
-          className={`p-4 rounded-md mb-6 text-white text-center font-medium ${
-            message.type === "success" ? "bg-green-500" : "bg-red-500"
-          }`}
-        >
-          {message.text}
-        </div>
-      )}
-
-      <form
-        onSubmit={handleSubmit}
-        className="grid grid-cols-1 md:grid-cols-3 gap-8"
-      >
-        {/* Coluna da capa */}
-        <div className="md:col-span-1 flex flex-col items-center">
-          <h3 className="text-lg font-medium mb-4 text-zinc-900">
-            Capa do Livro
-          </h3>
-          <div className="w-full max-w-[250px] aspect-[2/3] bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden border-2 border-dashed border-gray-300">
-            {formData.cover ? (
-              <img
-                src={formData.cover}
-                alt="Pré-visualização da capa"
-                className="w-full h-full object-cover"
-                onError={(e) => (e.currentTarget.src = placeholderImage.src)}
-              />
-            ) : (
-              <img
-                src={placeholderImage.src}
-                alt="Capa padrão"
-                className="w-full h-full object-cover"
-              />
-            )}
-          </div>
-        </div>
-
-        {/* Coluna dos detalhes */}
-        <div className="md:col-span-2 space-y-4">
-          <h3 className="text-lg font-medium mb-4 text-zinc-900">
-            Detalhes do Livro
-          </h3>
-
-          <Input
-            label="Título *"
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-            required
-          />
-          {errors.title && (
-            <p className="text-purple-950 text-sm -mt-2">{errors.title}</p>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
           )}
-
-          <Input
-            label="Autor *"
-            name="author"
-            value={formData.author}
-            onChange={handleChange}
-            required
-          />
-          {errors.author && (
-            <p className="text-purple-950 text-sm -mt-2">{errors.author}</p>
+        />
+        {/* Campo Título */}
+        <FormField
+          control={form.control}
+          name="title"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="">Título*</FormLabel>
+              <FormControl>
+                <Input label="" placeholder="Digite o título do livro" {...field} className="text-md border border-gray-300 bg-white focus-visible:border-purple-600 focus-visible:ring-2 focus-visible:ring-purple-600 shadow-sm focus-visible:shadow-md transition rounded-md" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
           )}
+        />
+        {/* Autor */}
+        <FormField
+          control={form.control}
+          name="author"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Autor</FormLabel>
+              <FormControl>
+                <Input label="" placeholder="Digite o nome do autor do livro" {...field} className="border border-gray-300 bg-white focus-visible:border-purple-600 focus-visible:ring-2 focus-visible:ring-purple-600 shadow-sm focus-visible:shadow-md transition rounded-md" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        {/* CAPA */}
+        <FormField
+          control={form.control}
+          name="capa"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>URL da Capa do Livro</FormLabel>
+              <FormControl>
+                <Input label="" placeholder="Adicione o link da imagem da capa" {...field} className="border border-gray-300 bg-white focus-visible:border-purple-600 focus-visible:ring-2 focus-visible:ring-purple-600 shadow-sm focus-visible:shadow-md transition rounded-md" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-          <Input
-            label="URL da Capa"
-            name="cover"
-            type="text"
-            placeholder="Cole a URL de uma capa"
-            value={formData.cover || ""}
-            onChange={handleChange}
-          />
+        {/* Status do Livro */}
+        <FormField
+          control={form.control}
+          name="status"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Status do Livro</FormLabel>
+              <FormControl>
+                <Select {...field}>
+                  <SelectTrigger className="w-full border border-gray-300 bg-white focus-visible:border-purple-600 focus-visible:ring-2 focus-visible:ring-purple-600 shadow-sm focus-visible:shadow-md transition rounded-md">
+                    <SelectValue placeholder={"Status"} />
+                  </SelectTrigger>
+                  <SelectContent >
+                    <SelectGroup >
+                      <SelectLabel>Status</SelectLabel>
+                      <SelectItem value={StatusLeitura.QUERO_LER}>Quero Ler</SelectItem>
+                      <SelectItem value={StatusLeitura.LENDO}>Lendo</SelectItem>
+                      <SelectItem value={StatusLeitura.LIDO}>Lido</SelectItem>
+                      <SelectItem value={StatusLeitura.PAUSADO}>Pausado</SelectItem>
+                      <SelectItem value={StatusLeitura.ABANDONADO}>Abondonado</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <Input
-              label="Ano de Publicação"
-              name="year"
-              type="number"
-              value={formData.year || ""}
-              onChange={handleChange}
-            />
-            <Input
-              label="Nota (0-5)"
-              name="rating"
-              type="number"
-              min="0"
-              max="5"
-              step="0.5"
-              value={formData.rating || ""}
-              onChange={handleChange}
-            />
-          </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <Input
-              label="Total de Páginas"
-              name="pages"
-              type="number"
-              value={formData.pages || ""}
-              onChange={handleChange}
-            />
-            <Input
-              label="Páginas Lidas"
-              name="qtdPagesRead"
-              type="number"
-              value={formData.qtdPagesRead || ""}
-              onChange={handleChange}
-            />
-          </div>
 
-          <div>
-            <label
-              htmlFor="status"
-              className="mb-1 block text-sm font-medium text-zinc-900"
-            >
-              Status da Leitura
-            </label>
-            <select
-              name="status"
-              id="status"
-              value={formData.status}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 transition text-black"
-            >
-              {Object.values(StatusLeitura).map((status) => (
-                <option key={status} value={status}>
-                  {status.replace(/_/g, " ")}
-                </option>
-              ))}
-            </select>
-          </div>
+        {/* Ano Pulicação */}
+        <FormField
+          control={form.control}
+          name="year"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Ano de Publicação</FormLabel>
+              <FormControl>
+                <Input label="" placeholder="Digite o ano de publicação do livro" {...field} className="border border-gray-300 bg-white focus-visible:border-purple-600 focus-visible:ring-2 focus-visible:ring-purple-600 shadow-sm focus-visible:shadow-md transition rounded-md" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        {/* Avaliação */}
+        <FormField
+          control={form.control}
+          name="rating"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Sua avaliação</FormLabel>
+              <FormControl>
+                <RatingStars value={field.value} onChange={field.onChange} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        {/* Total de páginas */}
+        <FormField
+          control={form.control}
+          name="pages"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Total de Páginas</FormLabel>
+              <FormControl>
+                <Input label="" placeholder="Digite o total de páginas do livro" {...field} className="border border-gray-300 bg-white focus-visible:border-purple-600 focus-visible:ring-2 focus-visible:ring-purple-600 shadow-sm focus-visible:shadow-md transition rounded-md" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-          <div>
-            <label
-              htmlFor="genre"
-              className="mb-1 block text-sm font-medium text-zinc-900"
-            >
-              Gênero(s)
-            </label>
-            <select
-              name="genre"
-              id="genre"
-              multiple
-              value={formData.genre}
-              onChange={handleGenreChange}
-              className="w-full px-3 py-2 border border-bg-zinc-500 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-600 transition h-32 text-black"
-            >
-              {GENEROS_DISPONIVEIS.map((genre) => (
-                <option key={genre} value={genre}>
-                  {genre}
-                </option>
-              ))}
-            </select>
-            <p className="text-xs text-zinc-900 mt-1">
-              Segure Ctrl (ou Cmd no Mac) para selecionar mais de um.
-            </p>
-          </div>
 
-          <div>
-            <label
-              htmlFor="synopsis"
-              className="mb-1 block text-sm font-medium text-zinc-900"
-            >
-              Sinopse
-            </label>
-            <textarea
-              name="synopsis"
-              id="synopsis"
-              rows={4}
-              value={formData.synopsis || ""}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-600 transition text-black"
-            ></textarea>
-          </div>
+        {/* Página Atual */}
+        <FormField
+          control={form.control}
+          name="currentPage"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Página Atual</FormLabel>
+              <FormControl>
+                <Input label="" placeholder="Digite a quantidade de páginas lidas do livro" {...field} className="border border-gray-300 bg-white focus-visible:border-purple-600 focus-visible:ring-2 focus-visible:ring-purple-600 shadow-sm focus-visible:shadow-md transition rounded-md" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        {/* Notas pessoais */}
+        <FormField
+          control={form.control}
+          name="notes"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Notas pessoais</FormLabel>
+              <FormControl>
+                <Textarea placeholder="Digite algo que queira tomar nota sobre o livro..." {...field} className="border border-gray-300 bg-white focus-visible:border-purple-600 focus-visible:ring-2 focus-visible:ring-purple-600 shadow-sm focus-visible:shadow-md transition rounded-md" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        {/* Sinopse do Livro */}
+        <FormField
+          control={form.control}
+          name="synopsis"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Sinopse</FormLabel>
+              <FormControl>
+                <Textarea placeholder="Digite a sinopse livro..." {...field} className="border border-gray-300 bg-white focus-visible:border-purple-600 focus-visible:ring-2 focus-visible:ring-purple-600 shadow-sm focus-visible:shadow-md transition rounded-md" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        {/* International Standard Book Number - ISBN */}
+        <FormField
+          control={form.control}
+          name="isbn"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>ISBN</FormLabel>
+              <FormControl>
+                <Input label="" placeholder="Digite o ISBN do livro..." {...field} className="border border-gray-300 bg-white focus-visible:border-purple-600 focus-visible:ring-2 focus-visible:ring-purple-600 shadow-sm focus-visible:shadow-md transition rounded-md" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-          <div className="flex justify-end pt-4">
-            <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting
-                ? "Salvando..."
-                : isEditing
-                ? "Salvar Alterações"
-                : "Cadastrar Livro"}
-            </Button>
-          </div>
-        </div>
       </form>
-    </div>
-  );
+    </Form>
+  )
+
 }

@@ -18,9 +18,9 @@ export default function NovoLivroPage() {
     <div className="pb-4">
 
       <div className="flex items-center gap-4 mb-4">
-        <ArrowLeft className="w-8 h-8 text-purple-600" onClick={navigateBack} />
+        <ArrowLeft className="w-8 h-8 text-purple-700" onClick={navigateBack} />
 
-        <h1 className="text-2xl font-bold text-center text-purple-600">
+        <h1 className="text-2xl font-bold text-center text-purple-700">
           Adicionar Novo Livro
         </h1>
       </div>

@@ -25,8 +25,6 @@ export default function NovoLivroPage() {
         </h1>
       </div>
 
-
-
       <LivroForm />
 
     </div>

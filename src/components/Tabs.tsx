@@ -6,8 +6,14 @@ import { livrosMock } from "./livros/LivrosMock";
 import { Livro, StatusLeitura } from "@/types/livro";
 import { useState } from "react";
 import { calcularEstatisticasLivros } from "@/lib/book-stats";
-import Profile from "./Profile"; 
 import BibliotecaPage from "@/app/livros/biblioteca/page";
+import {
+  LayoutDashboard,
+  BookOpen,
+  Clock,
+  CheckCircle,
+  LibraryBig,
+} from "lucide-react";
 
 // Componente de Tabs
 
@@ -30,45 +36,44 @@ export default function TabsComponent() {
     >
       <TabsList
         className="bg-gray-200 rounded-md w-full p-1.5 
-              flex flex-wrap justify-center gap-1 sm:gap-2 
-              md:grid md:grid-cols-6
-              h-auto min-h-fit"
+           flex overflow-x-auto whitespace-nowrap gap-2 
+            md:flex md:justify-between md:p-3 md:gap-0 
+            h-auto min-h-fit"
       >
         <TabsTrigger
           value="dashboard"
-          className="rounded-md flex-grow md:flex-none"
+          className="rounded-md flex items-center justify-center gap-1"
         >
-          Dashboard
+          <LayoutDashboard className="w-5 h-5" />
+          <span className="hidden sm:block">Dashboard</span>
         </TabsTrigger>
         <TabsTrigger
           value="lendo"
-          className="rounded-md flex-grow md:flex-none"
+          className="rounded-md flex items-center justify-center gap-1 "
         >
-          Lendo Agora
+          <BookOpen className="w-5 h-5" />
+          <span className="hidden sm:block">Lendo Agora</span>
         </TabsTrigger>
         <TabsTrigger
           value="concluido"
-          className="rounded-md flex-grow md:flex-none"
+          className="rounded-md flex items-center justify-center gap-1 "
         >
-          Concluídos
+          <CheckCircle className="w-5 h-5" />
+          <span className="hidden sm:block">Concluídos</span>
         </TabsTrigger>
         <TabsTrigger
           value="quero"
-          className="rounded-md flex-grow md:flex-none"
+          className="rounded-md flex items-center justify-center gap-1 "
         >
-          Quero Ler!
-        </TabsTrigger>
-        <TabsTrigger
-          value="perfil"
-          className="rounded-md flex-grow md:flex-none"
-        >
-          Perfil
+          <Clock className="w-5 h-5" />
+          <span className="hidden sm:block">Quero Ler!</span>
         </TabsTrigger>
         <TabsTrigger
           value="biblioteca"
-          className="rounded-full flex-grow md:flex-none"
+          className="rounded-md flex items-center justify-center gap-1 "
         >
-          Biblioteca
+          <LibraryBig className="w-5 h-5" />
+          <span className="hidden sm:block">Biblioteca</span>
         </TabsTrigger>
       </TabsList>
 
@@ -120,13 +125,6 @@ export default function TabsComponent() {
           )}
         </div>
       </TabsContent>
-
-      <TabsContent value="perfil">
-        {/*colocar o componente de Perfil quando tiver pronto*/}
-        <h2 className="text-xl font-semibold mb-4">Configurações de Perfil</h2>
-        <p className="text-muted-foreground">Em construção...</p>
-      </TabsContent>
-
       <TabsContent value="biblioteca">
         <BibliotecaPage />
       </TabsContent>

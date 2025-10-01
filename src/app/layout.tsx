@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Plus, BookOpen, Moon } from "lucide-react"
+import { Plus, BookOpen, Moon, User } from "lucide-react"
 import { Button } from "@/components/ui/button";
 import { DefaultButton } from "@/components/livros/Button";
 
@@ -37,7 +37,13 @@ export default function RootLayout({
               >
                 <Moon className="h-4 w-4" />
               </Button>
+              <Button
+               variant={"default"}
+               size={"sm"}
+               className="bg-purple-600 text-primary-foreground shadow-xs hover:bg-primary/90">
+                <User className="h-4 w-4" />
 
+               </Button>
               {/* <DefaultButton label="Adicionar Livros" /> */}
             </div>
           </div>

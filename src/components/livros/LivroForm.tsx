@@ -77,6 +77,7 @@ export function LivroForm() {
 
 
   const status = form.watch("status")
+  const cover = form.watch("cover")
   console.log(form.watch("status"))
 
   function onSubmit(values: z.infer<typeof formSchema>) {
@@ -93,9 +94,9 @@ export function LivroForm() {
 
         {/* Capa */}
 
-        <div className="w-[150px] aspect-[2/3] bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden border-2 border-dashed border-gray-300 relative">
-          <Image alt="Capa padrão" src={"/covers/placeholder.png"} width={125}
-            height={188} sizes="(max-width: 640px) 90px, (max-width: 768px) 120px, 150px" className="w-full h-full object-cover" />
+        <div className="h-50 h-80 aspect-[2/3] self-center bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden border-2 border-dashed border-gray-300 relative">
+          <Image alt="Capa padrão" src={cover ? cover : "/covers/placeholder.png"} width={125}
+            height={188} sizes="(max-width: 640px) 90px, (max-width: 768px) 120px, 150px" unoptimized className="w-full h-full object-cover" />
         </div>
 
         <div className="flex flex-col flex-1 items-start gap-4">

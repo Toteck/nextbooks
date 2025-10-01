@@ -1,4 +1,5 @@
 "use client"
+import { useState } from "react"
 
 import { useForm } from "react-hook-form"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
@@ -13,15 +14,24 @@ import { Button } from "../ui/button"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Plus, Save, X } from "lucide-react"
+import { SelectDropdown } from "../SelectDropdown"
 
 
 const currentYear = new Date().getFullYear()
+
+const statusOptions = [
+  { label: "Quero Ler", value: "QUERO_LER" },
+  { label: "Lendo", value: "LENDO" },
+  { label: "Lido", value: "LIDO" },
+  { label: "Pausado", value: "PAUSADO" },
+  { label: "Abondonado", value: "ABONDONADO" },
+] as const
 
 const formSchema = z.object({
   title: z.string().min(1, "Título é obrigatório"),
   author: z.string().min(1, "Autor é obrigatório"),
   cover: z.url("A URL da capa deve ser válida").optional().or(z.literal("")),
-  status: z.enum(StatusLeitura),
+  status: z.enum(statusOptions.map((o) => o.value) as [string, ...string[]]),
   year: z.string().optional().refine((val) => !val || (/^\d+$/.test(val) && Number(val) >= 0 && Number(val) <= currentYear), {
     error: `Ano deve ser entre 0 e ${currentYear}`
   }),
@@ -35,9 +45,16 @@ const formSchema = z.object({
   synopsis: z.string().max(2000).optional()
 
 })
+type LivroForm = z.infer<typeof formSchema>
 
+type LivroFormDialogProps = {
+  open: boolean
+  onOpenChange: (open: boolean) => void
+}
 
 export function LivroForm() {
+
+  const [statusBook, setStatusBook] = useState("")
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -45,7 +62,7 @@ export function LivroForm() {
       title: "",
       author: "",
       cover: "",
-      status: StatusLeitura.LENDO,
+      status: "",
       year: "",
       pages: undefined,
       currentPage: undefined,
@@ -127,43 +144,28 @@ export function LivroForm() {
           )}
         />
 
-
         {/* Status do Livro */}
         <FormField
           control={form.control}
           name="status"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-md">Adicionar para</FormLabel>
+              <FormLabel className="text-md">Status do Livro</FormLabel>
               <FormControl>
-                <Select
-                  value={field.value || ""} // 🔑 aqui fica controlado
+                <SelectDropdown
+                  defaultValue={field.value}
                   onValueChange={field.onChange}
-                >
-                  <SelectTrigger className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm text-gray-700 shadow-sm transition focus-visible:border-purple-600 focus-visible:ring-2 focus-visible:ring-purple-600 focus-visible:ring-offset-2 hover:border-purple-400">
-                    <SelectValue placeholder="Selecione um status..." />
-                  </SelectTrigger>
-                  <SelectContent className="rounded-lg shadow-lg border border-gray-200">
-                    <SelectGroup className="p-2 flex flex-col">
-                      <SelectLabel className="text-gray-500">Status</SelectLabel>
-                      <SelectItem value="QUERO_LER" className="text-md font-semibold hover:bg-purple-50 cursor-pointer p-1 hover:border hover:border-purple-500 rounded-lg">
-                        Quero Ler
-                      </SelectItem>
-                      <SelectItem value="LENDO" className="text-md font-semibold hover:bg-purple-50 cursor-pointer p-1 hover:border hover:border-purple-500 rounded-lg">
-                        Lendo
-                      </SelectItem>
-                      <SelectItem value="LIDO" className="text-md font-semibold hover:bg-purple-50 cursor-pointer p-1 hover:border hover:border-purple-500 rounded-lg">
-                        Lido
-                      </SelectItem>
-                      <SelectItem value="PAUSADO" className="text-md font-semibold hover:bg-purple-50 cursor-pointer p-1 hover:border hover:border-purple-500 rounded-lg">
-                        Pausado
-                      </SelectItem>
-                      <SelectItem value="ABANDONADO" className="text-md font-semibold hover:bg-purple-50 cursor-pointer p-1 hover:border hover:border-purple-500 rounded-lg">
-                        Abandonado
-                      </SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
+                  placeholder="Selecione um status..."
+                  items={statusOptions.map((option) => ({
+                    label: option.label,
+                    value: option.value,
+                  }))}
+                  className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 
+                     text-sm text-gray-700 shadow-sm transition 
+                     focus-visible:border-purple-600 focus-visible:ring-2 
+                     focus-visible:ring-purple-600 hover:border-purple-400"
+                  isControlled
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -171,9 +173,7 @@ export function LivroForm() {
         />
 
 
-
         <div className="flex items-center gap-2">
-
 
           {/* Ano Pulicação */}
           <FormField
@@ -245,7 +245,7 @@ export function LivroForm() {
             <FormItem>
               <FormLabel className="text-md">Sua avaliação</FormLabel>
               <FormControl>
-                <RatingStars value={field.value} onChange={field.onChange} />
+                <RatingStars value={field.value || 0} onChange={field.onChange} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -281,9 +281,9 @@ export function LivroForm() {
           )}
         />
 
-        <Button variant={"outline"} onClick={handleSubmit(onSubmit)} className="bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-500 hover:to-purple-700 text-white px-6 py-3 text-lgltw1 font-bold rounded-lg shadow-md hover:shadow-xl transition-all ring-2 ring-purple-300 hover:scale-105 active:scale-95 hover:cursor-pointer"><Plus />Adicionar Livro</Button>
+        <Button variant={"outline"} onClick={handleSubmit(onSubmit)} className="text-white bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-500 hover:to-purple-700 px-6 py-3 font-bold rounded-lg shadow-md hover:shadow-xl transition-all ring-2 ring-purple-300 hover:scale-105 active:scale-95 hover:cursor-pointer"><Plus className="size-4" />Adicionar Livro</Button>
 
-        <Button variant={"outline"} onClick={onReset} className=" text-purple-700 px-6 py-3 sm:text-sm md:text-lg font-bold rounded-lg shadow-md hover:shadow-xl transition-all ring-2 ring-purple-300 hover:scale-105 active:scale-95 hover:cursor-pointer"><X className="text-purple-700 font-bold size-10" />Cancelar</Button>
+        <Button variant={"outline"} onClick={onReset} className=" text-purple-700 px-6 py-3 sm:text-sm md:text-lg font-bold rounded-lg shadow-md hover:shadow-xl transition-all ring-2 ring-purple-300 hover:scale-105 active:scale-95 hover:cursor-pointer"><X className="text-purple-700 font-bold size-4" />Cancelar</Button>
 
       </form>
     </Form>

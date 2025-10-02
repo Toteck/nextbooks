@@ -1,21 +1,21 @@
 "use client"
-import { useState } from "react"
+
+
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { SelectDropdown } from "../SelectDropdown"
+import { RatingStars } from "../RatingStars"
+import { Progress } from "../ui/progress"
+import { Textarea } from "../ui/textarea"
+import { Button } from "../ui/button"
+import { Input } from "../ui/input"
+
+import { Plus, X, RefreshCcw } from "lucide-react"
 
 import { useForm } from "react-hook-form"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
-import { Input } from "../ui/input"
-import { RatingStars } from "../RatingStars"
 import Image from "next/image"
-import { Textarea } from "../ui/textarea"
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectGroup } from "../ui/select"
-import { SelectItem, SelectLabel } from "@radix-ui/react-select"
-import { StatusLeitura } from "@/types/livro"
-import { Button } from "../ui/button"
 import { z } from "zod"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Plus, Save, X } from "lucide-react"
-import { SelectDropdown } from "../SelectDropdown"
-
+import { DialogClose } from "../ui/dialog"
 
 const currentYear = new Date().getFullYear()
 
@@ -47,14 +47,7 @@ const formSchema = z.object({
 })
 type LivroForm = z.infer<typeof formSchema>
 
-type LivroFormDialogProps = {
-  open: boolean
-  onOpenChange: (open: boolean) => void
-}
-
 export function LivroForm() {
-
-  const [statusBook, setStatusBook] = useState("")
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -75,10 +68,45 @@ export function LivroForm() {
 
   const { handleSubmit } = form
 
-
-  const status = form.watch("status")
   const cover = form.watch("cover")
-  console.log(form.watch("status"))
+  const status = form.watch("status")
+
+  const watchedValues = form.watch();
+
+  const requiredFields: (keyof LivroForm)[] = ["title", "author"];
+  const optionalFields: (keyof LivroForm)[] = status !== "QUERO_LER" ? [
+    "status",
+    "cover",
+    "year",
+    "pages",
+    "currentPage",
+    "isbn",
+    "rating",
+    "notes",
+    "synopsis",
+  ] : [
+    "status",
+    "cover",
+    "year",
+    "pages",
+    "isbn",
+    "notes",
+    "synopsis",
+  ];
+
+  // Total de campos
+  const totalFields = requiredFields.length + optionalFields.length
+
+  // Quantos já foram preenchidos (checando se não estão vazios/undefined)
+  const filledFields = [...requiredFields, ...optionalFields].filter((field) => {
+    const value = watchedValues[field];
+    if (!value) return false
+    return true;
+  }).length;
+
+  // porcentagem
+  const progress = Math.round((filledFields / totalFields) * 100);
+
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log("Valores do form:", values)
@@ -92,9 +120,14 @@ export function LivroForm() {
     <Form {...form}>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
 
+        <div className="space-y-2">
+          <p className="text-sm text-purple-700 font-bold">Progresso do preenchimento: {progress}%</p>
+          <Progress value={progress} className="w-full h-3 bg-gray-200 [&>div]:bg-purple-500" />
+        </div>
+
         {/* Capa */}
 
-        <div className="h-50 h-80 aspect-[2/3] self-center bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden border-2 border-dashed border-gray-300 relative">
+        <div className="w-50 h-80 aspect-[2/3] self-center bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden border-2 border-dashed border-gray-300 relative">
           <Image alt="Capa padrão" src={cover ? cover : "/covers/placeholder.png"} width={125}
             height={188} sizes="(max-width: 640px) 90px, (max-width: 768px) 120px, 150px" unoptimized className="w-full h-full object-cover" />
         </div>
@@ -199,7 +232,7 @@ export function LivroForm() {
               <FormItem>
                 <FormLabel className="text-md">Total de Páginas</FormLabel>
                 <FormControl>
-                  <Input label="" placeholder="Digite o total de páginas do livro" {...field} className="border border-gray-300 bg-white focus-visible:border-purple-600 focus-visible:ring-2 focus-visible:ring-purple-600 shadow-sm focus-visible:shadow-md transition rounded-md" />
+                  <Input label="" type="number" placeholder="Digite o total de páginas do livro" {...field} className="border border-gray-300 bg-white focus-visible:border-purple-600 focus-visible:ring-2 focus-visible:ring-purple-600 shadow-sm focus-visible:shadow-md transition rounded-md" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -208,14 +241,14 @@ export function LivroForm() {
 
         </div>
         {/* Página Atual */}
-        {status !== StatusLeitura.QUERO_LER && (<FormField
+        {status !== "QUERO_LER" && (<FormField
           control={form.control}
           name="currentPage"
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-md">Página Atual</FormLabel>
               <FormControl>
-                <Input label="" placeholder="Digite a quantidade de páginas lidas do livro" {...field} className="border border-gray-300 bg-white focus-visible:border-purple-600 focus-visible:ring-2 focus-visible:ring-purple-600 shadow-sm focus-visible:shadow-md transition rounded-md" />
+                <Input label="" placeholder="Digite à página atual..." {...field} className="border border-gray-300 bg-white focus-visible:border-purple-600 focus-visible:ring-2 focus-visible:ring-purple-600 shadow-sm focus-visible:shadow-md transition rounded-md" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -239,19 +272,30 @@ export function LivroForm() {
         />
 
         {/* Avaliação */}
-        <FormField
+
+        {status !== "QUERO_LER" && <FormField
           control={form.control}
           name="rating"
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-md">Sua avaliação</FormLabel>
-              <FormControl>
-                <RatingStars value={field.value || 0} onChange={field.onChange} />
+              <FormControl className="flex flex-row aling-center">
+                <div className="flex flex-row items-center gap-4">
+                  <RatingStars value={field.value || 0} onChange={field.onChange} />
+                  <RefreshCcw
+                    className="text-purple-700 size-6 hover:cursor-pointer hover:text-purple-500"
+                    onClick={() => form.resetField("rating")}
+                  />
+                </div>
+
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
-        />
+        />}
+
+
+
 
         {/* Notas pessoais */}
         <FormField
@@ -284,7 +328,10 @@ export function LivroForm() {
 
         <Button variant={"outline"} onClick={handleSubmit(onSubmit)} className="text-white bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-500 hover:to-purple-700 px-6 py-3 font-bold rounded-lg shadow-md hover:shadow-xl transition-all ring-2 ring-purple-300 hover:scale-105 active:scale-95 hover:cursor-pointer"><Plus className="size-4" />Adicionar Livro</Button>
 
-        <Button variant={"outline"} onClick={onReset} className=" text-purple-700 px-6 py-3 sm:text-sm md:text-lg font-bold rounded-lg shadow-md hover:shadow-xl transition-all ring-2 ring-purple-300 hover:scale-105 active:scale-95 hover:cursor-pointer"><X className="text-purple-700 font-bold size-4" />Cancelar</Button>
+        <DialogClose asChild>
+          <Button variant={"outline"} onClick={onReset} className=" text-purple-700 px-6 py-3 sm:text-sm md:text-lg font-bold rounded-lg shadow-md hover:shadow-xl transition-all ring-2 ring-purple-300 hover:scale-105 active:scale-95 hover:cursor-pointer"><X className="text-purple-700 font-bold size-4" />Cancelar</Button>
+        </DialogClose>
+
 
       </form>
     </Form>

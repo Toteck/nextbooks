@@ -29,16 +29,3 @@ export interface Stats {
   queroLer: number;
   paginasLidas: number;
 }
-
-// Exemplo de uso
-
-// import { StatusLeitura } from "@/types/livro";
-// import { Genre } from "@/types/genre";
-
-// const exemplo = {
-//     id: "1",
-//     titulo: "Dom Casmurro",
-//     autor: "Machado de Assis",
-//     status: StatusLeitura.LIDO,
-//     genero: Genre.LITERATURA_BRASILEIRA,
-// };

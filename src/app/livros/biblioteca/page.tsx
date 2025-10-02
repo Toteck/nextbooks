@@ -22,7 +22,7 @@ import { StatusLeitura } from "@/types/livro";
 
 import Image from "next/image";
 
-import { DefaultButton } from "@/components/livros/Button";
+import { DefaultButton } from "@/components/livros/DefaultButton";
 
 
 export default function BibliotecaPage() {

@@ -28,13 +28,21 @@ export function AddBookDialog() {
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto">
                     <DialogHeader>
-                        <DialogTitle>Adicionar Livro</DialogTitle>
+                        <DialogTitle className="text-purple-700 font-bold">Adicionar Livro</DialogTitle>
                         <DialogDescription>
-                            Procure pelos livros que você deseja ou adicione-os manualmente.
+                            Adicione-os manualmente o livro que você deseja.
                         </DialogDescription>
                     </DialogHeader>
-                    {/* Alternador entre modos */}
-                    <div className="flex gap-2 mb-4">
+
+                    <LivroForm />
+                </DialogContent>
+            </form>
+        </Dialog>
+    )
+}
+
+{/* Alternador entre modos */ }
+{/* <div className="flex gap-2 mb-4">
                         <Button
                             variant={"outline"}
                             onClick={() => setMode("search")}
@@ -51,10 +59,10 @@ export function AddBookDialog() {
                         >
                             + Adicionar manualmente
                         </Button>
-                    </div>
+                    </div> */}
 
-                    {/* Conteúdo dependendo do modo */}
-                    {mode === "search" && (
+{/* Conteúdo dependendo do modo */ }
+{/* {mode === "search" && (
                         <div className="flex flex-col gap-4">
                             <select className="border rounded-md px-3 py-2">
                                 <option>Want to Read</option>
@@ -72,9 +80,4 @@ export function AddBookDialog() {
 
                     {mode === "manual" && (
                         <LivroForm />
-                    )}
-                </DialogContent>
-            </form>
-        </Dialog>
-    )
-}
+                    )} */}

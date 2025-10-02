@@ -2,13 +2,9 @@
 // Mostrar estatísticas(quantos livros, status de leitura, páginas lidas).
 "use client"
 import { AddBookDialog } from "@/components/AddBookDialog";
-import { DialogDemo } from "@/components/DialogDemo";
-import { DefaultButton } from "@/components/livros/DefaultButton";
-import TabsComponent from "@/components/Tabs";
-import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Plus } from "lucide-react";
 
-// Essa tela é simples, uma visão geral, não detalha livros.
+import TabsComponent from "@/components/Tabs";
+
 export default function Home() {
   return (
     <div className="flex flex-col items-center sm:px-8 py-2 w-full">

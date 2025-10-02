@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Plus, BookOpen, Moon } from "lucide-react"
+import { Plus, BookOpen, Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DefaultButton } from "@/components/livros/Button";
+import { ReadingGoalFooter } from "@/components/ui/ReadingGoalFooter";
 
 // Metadados da aplicação
 export const metadata: Metadata = {
@@ -43,7 +44,10 @@ export default function RootLayout({
           </div>
         </header>
         {/* {Container Global} */}
-        <main className="container mx-auto px-4 sm:px-6 py-6">{children}</main>
+        <main className="container mx-auto px-4 sm:px-6 py-6 pb-[100px] sm:pb-[100px]">
+          {children}
+        </main>
+        <ReadingGoalFooter />
       </body>
     </html>
   );

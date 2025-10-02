@@ -25,12 +25,6 @@ export function Header() {
                 >
                     {dark ? <Sun className="h-6 w-6 text-purple-700" /> : <Moon className="h-4 w-4 text-purple-500" />}
                 </Button>
-                <Button
-                    variant="ghost"
-                    size="icon"
-                    className="houver:bg-purple-500 hover:cursor-pointer">
-                    <UserCircle2Icon className="h-6 w-6 text-purple-700" />
-                </Button>
             </div>
 
 

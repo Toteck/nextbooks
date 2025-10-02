@@ -1,7 +1,9 @@
 // Página Inicial (Dashboard)
 // Mostrar estatísticas(quantos livros, status de leitura, páginas lidas).
 
+import { DefaultButton } from "@/components/livros/Button";
 import TabsComponent from "@/components/Tabs";
+import Link from "next/link";
 
 // Essa tela é simples, uma visão geral, não detalha livros.
 export default function Home() {

@@ -17,6 +17,7 @@ import {
   DropdownMenuTrigger,
 } from "@radix-ui/react-dropdown-menu";
 import { DropdownMenuContent, DropdownMenuItem } from "../ui/dropdown-menu";
+import { RatingStars } from "../RatingStars";
 
 interface LivroCardProps {
   livro: Livro;

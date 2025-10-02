@@ -30,6 +30,7 @@ interface ReadingGoalCardProps {
 export function ReadingGoalCard({
   data = defaultGoalData,
   className,
+  compact = false,
 }: ReadingGoalCardProps) {
   const stats = useReadingGoalStats();
   const { year, booksRead, annualGoal } = data;
@@ -43,19 +44,32 @@ export function ReadingGoalCard({
   const isGoalReached = remainingBooks === 0 && booksRead >= annualGoal;
 
   return (
-    <Card className={cn("max-w-md w-full", className)}>
-      <CardHeader>
-        {/* Título da Meta */}
-        <CardTitle className="text-xl font-bold text-purple-700">
-          {year} Meta de Leitura
-        </CardTitle>
-      </CardHeader>
+ <Card 
+      className={cn("w-full", {"border-none shadow-none p-0 py-1": compact, 
+        "flex flex-col gap-6 rounded-xl border py-6 shadow-sm": !compact,
+      }, className)}
+    >
+        <CardHeader>
+          <CardTitle className="text-xl font-bold text-purple-700">
+            {year} Meta de Leitura
+          </CardTitle>
+        </CardHeader>
 
-      <CardContent className="space-y-4 pt-0">
-        <div className="flex flex-col gap-1">
-          <p className="text-4xl font-extrabold text-gray-900">
+      <CardContent className={cn("space-y-3", compact ? "p-0 pt-0" : "")}>
+        <div className="flex flex-col gap-0.5">
+          <p
+            className={cn(
+              "font-extrabold text-zinc-900",
+              compact ? "text-2xl" : "text-4xl"
+            )}
+          >
             {booksRead}
-            <span className="text-gray-500 text-xl font-medium">
+            <span
+              className={cn(
+                "text-gray-500 font-medium",
+                compact ? "text-base" : "text-xl"
+              )}
+            >
               {" "}
               de {annualGoal} livros
             </span>

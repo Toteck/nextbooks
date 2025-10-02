@@ -35,45 +35,45 @@ export default function TabsComponent() {
       className="flex flex-col gap-6 w-full max-w-7xl"
     >
       <TabsList
-        className="bg-gray-200 rounded-md w-full p-1.5 
-           flex overflow-x-auto whitespace-nowrap gap-2 
+        className="bg-purple-600 rounded-md w-full p-1.5 
+           flex overflow-x-auto whitespace-nowrap gap-6 
             md:flex md:justify-between md:p-3 md:gap-0 
             h-auto min-h-fit"
       >
         <TabsTrigger
           value="dashboard"
-          className="rounded-md flex items-center justify-center gap-1"
+          className="rounded-md flex items-center justify-center gap-2 mr-2"
         >
-          <LayoutDashboard className="w-5 h-5" />
-          <span className="hidden sm:block">Dashboard</span>
+          <LayoutDashboard className="text-white !w-6 !h-6" />
+          <span className="text-white hidden sm:block">Dashboard</span>
         </TabsTrigger>
         <TabsTrigger
           value="lendo"
-          className="rounded-md flex items-center justify-center gap-1 "
+          className="rounded-md flex items-center justify-center gap-2 mr-2"
         >
-          <BookOpen className="w-5 h-5" />
-          <span className="hidden sm:block">Lendo Agora</span>
+          <BookOpen className="text-white !w-6 !h-6" />
+          <span className="text-white hidden sm:block">Lendo Agora</span>
         </TabsTrigger>
         <TabsTrigger
           value="concluido"
-          className="rounded-md flex items-center justify-center gap-1 "
+          className="rounded-md flex items-center justify-center gap-2 mr-2"
         >
-          <CheckCircle className="w-5 h-5" />
-          <span className="hidden sm:block">Concluídos</span>
+          <CheckCircle className=" text-white !w-6 !h-6" />
+          <span className="text-white hidden sm:block">Concluídos</span>
         </TabsTrigger>
         <TabsTrigger
           value="quero"
-          className="rounded-md flex items-center justify-center gap-1 "
+          className="rounded-md flex items-center justify-center gap-2 mr-2"
         >
-          <Clock className="w-5 h-5" />
-          <span className="hidden sm:block">Quero Ler!</span>
+          <Clock className=" text-white !w-6 !h-6" />
+          <span className="text-white hidden sm:block">Quero Ler!</span>
         </TabsTrigger>
         <TabsTrigger
           value="biblioteca"
-          className="rounded-md flex items-center justify-center gap-1 "
+          className="rounded-md flex items-center justify-center gap-2"
         >
-          <LibraryBig className="w-5 h-5" />
-          <span className="hidden sm:block">Biblioteca</span>
+          <LibraryBig className="text-white !w-6 !h-6" />
+          <span className="text-white hidden sm:block">Biblioteca</span>
         </TabsTrigger>
       </TabsList>
 
@@ -88,6 +88,7 @@ export default function TabsComponent() {
 
       <TabsContent value="lendo">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <h2 className="text-lg font-semibold">Lendo Atualmente</h2>
           {livrosSendoLidos.length > 0 ? (
             livrosSendoLidos.map((book) => (
               <LivroCard key={book.id} livro={book} />
@@ -102,6 +103,7 @@ export default function TabsComponent() {
 
       <TabsContent value="concluido">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <h2 className="text-lg font-semibold">Lidos</h2>
           {livrosLidos.length > 0 ? (
             livrosLidos.map((book) => <LivroCard key={book.id} livro={book} />)
           ) : (
@@ -114,6 +116,7 @@ export default function TabsComponent() {
 
       <TabsContent value="quero">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <h2 className="text-lg font-semibold">Quero Ler</h2>
           {livrosQueroLer.length > 0 ? (
             livrosQueroLer.map((book) => (
               <LivroCard key={book.id} livro={book} />

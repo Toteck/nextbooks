@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center sm:px-8 py-6 w-full">
       <main className="flex w-full flex-1 flex-col items-center justify-center">
-          <TabsComponent />
+        <TabsComponent />
       </main>
     </div>
   );

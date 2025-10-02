@@ -44,7 +44,7 @@ export default function Dashboard({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
         {/* Livros Lendo Atualmente (1ª Coluna) */}
         <div className="flex flex-col gap-4">
-          <h2 className="text-lg font-semibold">Lendo Atualmente</h2>
+          <p className="text-4xl font-bold">Lendo Atualmente</p>
           {livrosLendo.length > 0 ? (
             livrosLendo.map((livro) => (
               <LivroCard key={livro.id} livro={livro} />

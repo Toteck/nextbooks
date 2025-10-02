@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Plus, BookOpen, Moon, User } from "lucide-react"
+import { Plus, BookOpen, Moon, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DefaultButton } from "@/components/livros/Button";
 
@@ -20,11 +20,11 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body className="antialiased bg-gray-100">
-        <header className="border-b bg-gray-50">
+        <header className="border-b bg-purple-800 text-white shadow-sm">
           <div className="container mx-auto flex items-center justify-between px-6 py-4">
             {/* Logo + Nome */}
             <div className="flex items-center gap-2">
-              <BookOpen className="h-6 w-6 text-purple-600" />
+              <BookOpen className="h-6 w-6 text-white" />
               <span className="text-xl font-semibold">NextBooks</span>
             </div>
 
@@ -38,12 +38,12 @@ export default function RootLayout({
                 <Moon className="h-4 w-4" />
               </Button>
               <Button
-               variant={"default"}
-               size={"sm"}
-               className="bg-purple-600 text-primary-foreground shadow-xs hover:bg-primary/90">
+                variant={"default"}
+                size={"sm"}
+                className="bg-white text-purple-600 shadow-xs hover:bg-primary/90"
+              >
                 <User className="h-4 w-4" />
-
-               </Button>
+              </Button>
               {/* <DefaultButton label="Adicionar Livros" /> */}
             </div>
           </div>

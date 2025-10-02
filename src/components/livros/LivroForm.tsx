@@ -33,11 +33,11 @@ const formSchema = z.object({
   title: z.string().min(1, "Título é obrigatório"),
   author: z.string().min(1, "Autor é obrigatório"),
   cover: z.url("A URL da capa deve ser válida").optional().or(z.literal("")),
-  status: z.enum(statusOptions.map((o) => o.value) as [string, ...string[]]),
+  status: z.enum(statusOptions.map((o) => o.value) as [string, ...string[]], "Selecione uma opção de status do livro"),
   year: z.string().optional().refine((val) => !val || (/^\d+$/.test(val) && Number(val) >= 0 && Number(val) <= currentYear), {
     error: `Ano deve ser entre 0 e ${currentYear}`
   }),
-  pages: z.coerce.number().int().min(1, "Numero de páginas deve ser maior que 0").optional(),
+  pages: z.coerce.number().int().min(0, "Numero de páginas deve ser maior que 0").optional(),
   currentPage: z.coerce.number().int().min(0, "Página atual não pode ser negativa").optional(),
   isbn: z.string().optional().refine((val) => !val || /^[0-9-]+$/.test(val), {
     error: "ISBN deve conter apenas números ou traços",
@@ -114,8 +114,8 @@ export function LivroForm() {
     try {
       console.log("Valores do form", values)
       toast.custom((id) => (
-        <div className="bg-red-600 text-white p-4 rounded-lg shadow-lg">
-          <span className="flex flex-row items-center justify-center gap-4"><X /> Erro ao criar livro. Tente novamente!</span>
+        <div className="bg-purple-600 text-white p-4 rounded-lg shadow-lg">
+          <span className="flex flex-row items-center justify-center gap-4"><Book /> Livro criado com sucesso!</span>
         </div>
       ), {
         description: `O livro "${values.title}" foi salvo.`,

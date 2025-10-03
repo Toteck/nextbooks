@@ -1,4 +1,4 @@
-# koru-projeto-10-NextBooks - Projeto 08 do Curso da Boticário + Koru
+# NextBooks - Projeto 10 do Curso da Boticário + Koru
 
 Aplicação web moderna para gerenciamento de biblioteca. A aplicação permitirá aos usuários catalogar, organizar e 
 acompanhar o progresso de leitura de seus livros. 

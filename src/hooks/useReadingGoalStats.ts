@@ -7,19 +7,27 @@ export interface ReadingGoalStats {
   annualGoal: number;
 }
 
+const META_ANUAL_PADRAO = 20;
+
 export function useReadingGoalStats(
-  allBooks: Livro[] = livrosIniciais,
-  annualGoal: number = 10 // Valor mock default para a meta anual
-): 
-ReadingGoalStats {
-  const booksReadCount = allBooks.filter(
-    (livro) => livro.status === StatusLeitura.LIDO
-  )
-  .length;  
+  allBooks: Livro[] = livrosIniciais
+): ReadingGoalStats {
   const currentYear = new Date().getFullYear();
+
+  const booksReadThisYear = allBooks.filter((livro) => {
+    const isCompleted = livro.status === StatusLeitura.LIDO;
+
+    if (!isCompleted || !livro.dataConclusao) {
+      return false;
+    }
+
+    const completionYear = new Date(livro.dataConclusao).getFullYear();
+    return completionYear === currentYear;
+  });
+
   return {
     year: currentYear,
-    booksRead: booksReadCount,
-    annualGoal: annualGoal,
+    booksRead: booksReadThisYear.length,
+    annualGoal: META_ANUAL_PADRAO,
   };
 }

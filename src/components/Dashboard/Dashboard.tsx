@@ -77,7 +77,7 @@ export default function Dashboard({
         </div>
 
         {/* Livros Concluídos (2ª Coluna) */}
-        <div className="items-center flex flex-col gap-4 rounded-bl-lg rounded-br-lg shadow-md bg-gradient-to-r from-gray-600 to-purple-900 p-6 md:rounded-tr-lg md:rounded-tl-none md:rounded-bl-none">
+        <div className="items-center flex flex-col gap-4 rounded-bl-lg rounded-br-lg shadow-md bg-gradient-to-r from-gray-800 to-gray-600 p-6 md:rounded-tr-lg md:rounded-tl-none md:rounded-bl-none">
           <div className="text-white text-center text-lg font-semibold p-4 ">
             Concluídos Recentemente
           </div>

@@ -12,7 +12,7 @@ export function Header() {
     const [dark, setDark] = useState(false);
 
     return (
-        <header className="flex justify-between items-center p-4 border-b">
+        <header className="flex justify-between items-center p-4 border-b bg-purple-200">
             <div className="flex items-center gap-2">
                 <BookOpen className="h-6 w-6 text-purple-600" /> <span className="text-xl font-semibold">NextBooks</span>
             </div>

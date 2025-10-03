@@ -87,8 +87,8 @@ export default function TabsComponent() {
       </TabsContent>
 
       <TabsContent value="lendo">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          <h2 className="text-lg font-semibold">Lendo Atualmente</h2>
+        <h2 className="text-lg font-semibold mb-2 md:hidden">Lendo Atualmente</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {livrosSendoLidos.length > 0 ? (
             livrosSendoLidos.map((book) => (
               <LivroCard key={book.id} livro={book} />
@@ -102,8 +102,8 @@ export default function TabsComponent() {
       </TabsContent>
 
       <TabsContent value="concluido">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          <h2 className="text-lg font-semibold">Lidos</h2>
+        <h2 className="text-lg font-semibold mb-2 md:hidden">Lidos</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {livrosLidos.length > 0 ? (
             livrosLidos.map((book) => <LivroCard key={book.id} livro={book} />)
           ) : (
@@ -115,8 +115,8 @@ export default function TabsComponent() {
       </TabsContent>
 
       <TabsContent value="quero">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          <h2 className="text-lg font-semibold">Quero Ler</h2>
+        <h2 className="text-lg font-semibold mb-2 md:hidden">Quero Ler</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {livrosQueroLer.length > 0 ? (
             livrosQueroLer.map((book) => (
               <LivroCard key={book.id} livro={book} />

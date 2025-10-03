@@ -21,6 +21,7 @@ export interface Livro {
   synopsis?: string;
   cover?: string;
   status?: StatusLeitura;
+  dataConclusao?: string;
 }
 
 export interface Stats {

@@ -21,11 +21,7 @@ import { StatusLeitura } from "@/types/livro";
 
 import Image from "next/image";
 
-<<<<<<< HEAD
-import { DefaultButton } from "@/components/livros/Button";
-=======
 import { DefaultButton } from "@/components/livros/DefaultButton";
->>>>>>> main
 
 export default function BibliotecaPage() {
   const [termoBusca, setTermoBusca] = useState("");

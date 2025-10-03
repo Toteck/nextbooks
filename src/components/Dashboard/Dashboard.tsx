@@ -44,7 +44,7 @@ export default function Dashboard({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
         {/* Livros Lendo Atualmente (1ª Coluna) */}
         <div className="flex flex-col gap-4">
-          <p className="text-4xl font-bold">Lendo Atualmente</p>
+          <p className="text-lg font-semibold p-4">Lendo Atualmente</p>
           {livrosLendo.length > 0 ? (
             livrosLendo.map((livro) => (
               <LivroCard key={livro.id} livro={livro} />
@@ -57,7 +57,7 @@ export default function Dashboard({
         </div>
 
         {/* Livros Concluídos (2ª Coluna) */}
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 bg-purple-300 rounded-lg p-4">
           <h2 className="text-lg font-semibold">Concluídos Recentemente</h2>
           {livrosCompletos.length > 0 ? (
             livrosCompletos.map((livro) => (

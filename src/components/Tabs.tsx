@@ -6,8 +6,14 @@ import { livrosMock } from "./livros/LivrosMock";
 import { Livro, StatusLeitura } from "@/types/livro";
 import { useState } from "react";
 import { calcularEstatisticasLivros } from "@/lib/book-stats";
-import Profile from "./Profile"; 
 import BibliotecaPage from "@/app/livros/biblioteca/page";
+import {
+  LayoutDashboard,
+  BookOpen,
+  Clock,
+  CheckCircle,
+  LibraryBig,
+} from "lucide-react";
 
 // Componente de Tabs
 
@@ -29,46 +35,45 @@ export default function TabsComponent() {
       className="flex flex-col gap-6 w-full max-w-7xl"
     >
       <TabsList
-        className="bg-gray-200 rounded-md w-full p-1.5 
-              flex flex-wrap justify-center gap-1 sm:gap-2 
-              md:grid md:grid-cols-6
-              h-auto min-h-fit"
+        className="bg-purple-800 rounded-md w-full p-1.5 
+           flex overflow-x-auto whitespace-nowrap gap-6 
+            md:flex md:justify-between md:p-3 md:gap-0 
+            h-auto min-h-fit"
       >
         <TabsTrigger
           value="dashboard"
-          className="rounded-md flex-grow md:flex-none"
+          className="rounded-md flex items-center justify-center gap-2 mr-2"
         >
-          Dashboard
+          <LayoutDashboard className="text-white !w-6 !h-6" />
+          <span className="text-white hidden sm:block">Dashboard</span>
         </TabsTrigger>
         <TabsTrigger
           value="lendo"
-          className="rounded-md flex-grow md:flex-none"
+          className="rounded-md flex items-center justify-center gap-2 mr-2"
         >
-          Lendo Agora
+          <BookOpen className="text-white !w-6 !h-6" />
+          <span className="text-white hidden sm:block">Lendo Agora</span>
         </TabsTrigger>
         <TabsTrigger
           value="concluido"
-          className="rounded-md flex-grow md:flex-none"
+          className="rounded-md flex items-center justify-center gap-2 mr-2"
         >
-          Concluídos
+          <CheckCircle className=" text-white !w-6 !h-6" />
+          <span className="text-white hidden sm:block">Concluídos</span>
         </TabsTrigger>
         <TabsTrigger
           value="quero"
-          className="rounded-md flex-grow md:flex-none"
+          className="rounded-md flex items-center justify-center gap-2 mr-2"
         >
-          Quero Ler!
-        </TabsTrigger>
-        <TabsTrigger
-          value="perfil"
-          className="rounded-md flex-grow md:flex-none"
-        >
-          Perfil
+          <Clock className=" text-white !w-6 !h-6" />
+          <span className="text-white hidden sm:block">Quero Ler!</span>
         </TabsTrigger>
         <TabsTrigger
           value="biblioteca"
-          className="rounded-full flex-grow md:flex-none"
+          className="rounded-md flex items-center justify-center gap-2"
         >
-          Biblioteca
+          <LibraryBig className="text-white !w-6 !h-6" />
+          <span className="text-white hidden sm:block">Biblioteca</span>
         </TabsTrigger>
       </TabsList>
 
@@ -82,7 +87,8 @@ export default function TabsComponent() {
       </TabsContent>
 
       <TabsContent value="lendo">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <h2 className="text-lg font-semibold mb-2 md:hidden">Lendo Atualmente</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {livrosSendoLidos.length > 0 ? (
             livrosSendoLidos.map((book) => (
               <LivroCard key={book.id} livro={book} />
@@ -96,7 +102,8 @@ export default function TabsComponent() {
       </TabsContent>
 
       <TabsContent value="concluido">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <h2 className="text-lg font-semibold mb-2 md:hidden">Lidos</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {livrosLidos.length > 0 ? (
             livrosLidos.map((book) => <LivroCard key={book.id} livro={book} />)
           ) : (
@@ -108,7 +115,8 @@ export default function TabsComponent() {
       </TabsContent>
 
       <TabsContent value="quero">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <h2 className="text-lg font-semibold mb-2 md:hidden">Quero Ler</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {livrosQueroLer.length > 0 ? (
             livrosQueroLer.map((book) => (
               <LivroCard key={book.id} livro={book} />
@@ -120,13 +128,6 @@ export default function TabsComponent() {
           )}
         </div>
       </TabsContent>
-
-      <TabsContent value="perfil">
-        {/*colocar o componente de Perfil quando tiver pronto*/}
-        <h2 className="text-xl font-semibold mb-4">Configurações de Perfil</h2>
-        <p className="text-muted-foreground">Em construção...</p>
-      </TabsContent>
-
       <TabsContent value="biblioteca">
         <BibliotecaPage />
       </TabsContent>

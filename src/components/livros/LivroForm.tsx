@@ -9,8 +9,9 @@ import { Progress } from "../ui/progress"
 import { Textarea } from "../ui/textarea"
 import { Button } from "../ui/button"
 import { Input } from "../ui/input"
+import { toast } from "sonner"
 
-import { Plus, X, RefreshCcw } from "lucide-react"
+import { Plus, X, RefreshCcw, Library, LibraryBig, LibraryIcon, LibrarySquare, Book } from "lucide-react"
 
 import { useForm } from "react-hook-form"
 import Image from "next/image"
@@ -18,6 +19,7 @@ import { z } from "zod"
 import { DialogClose } from "../ui/dialog"
 
 const currentYear = new Date().getFullYear()
+const dataCreated = new Date().toLocaleString();
 
 const statusOptions = [
   { label: "Quero Ler", value: "QUERO_LER" },
@@ -31,11 +33,11 @@ const formSchema = z.object({
   title: z.string().min(1, "Título é obrigatório"),
   author: z.string().min(1, "Autor é obrigatório"),
   cover: z.url("A URL da capa deve ser válida").optional().or(z.literal("")),
-  status: z.enum(statusOptions.map((o) => o.value) as [string, ...string[]]),
+  status: z.enum(statusOptions.map((o) => o.value) as [string, ...string[]], "Selecione uma opção de status do livro"),
   year: z.string().optional().refine((val) => !val || (/^\d+$/.test(val) && Number(val) >= 0 && Number(val) <= currentYear), {
     error: `Ano deve ser entre 0 e ${currentYear}`
   }),
-  pages: z.coerce.number().int().positive("Numero de páginas deve ser maior que 0").optional(),
+  pages: z.coerce.number().int().min(0, "Numero de páginas deve ser maior que 0").optional(),
   currentPage: z.coerce.number().int().min(0, "Página atual não pode ser negativa").optional(),
   isbn: z.string().optional().refine((val) => !val || /^[0-9-]+$/.test(val), {
     error: "ISBN deve conter apenas números ou traços",
@@ -57,8 +59,8 @@ export function LivroForm() {
       cover: "",
       status: "",
       year: "",
-      pages: undefined,
-      currentPage: undefined,
+      pages: 0,
+      currentPage: 0,
       isbn: "",
       rating: 0,
       notes: "",
@@ -109,7 +111,29 @@ export function LivroForm() {
 
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log("Valores do form:", values)
+    try {
+      console.log("Valores do form", values)
+      toast.custom((id) => (
+        <div className="bg-purple-600 text-white p-4 rounded-lg shadow-lg">
+          <span className="flex flex-row items-center justify-center gap-4"><Book /> Livro criado com sucesso!</span>
+        </div>
+      ), {
+        description: `O livro "${values.title}" foi salvo.`,
+        position: "top-center",
+        duration: 5000
+      })
+
+    } catch (error) {
+      toast.custom((id) => (
+        <div className="bg-red-600 text-white p-4 rounded-lg shadow-lg">
+          <span className="flex flex-row items-center justify-center gap-4"><X /> Erro ao criar livro. Tente novamente!</span>
+        </div>
+      ), {
+        description: `O livro "${values.title}" foi salvo.`,
+        position: "top-center",
+        duration: 5000
+      })
+    }
   }
 
   function onReset() {
@@ -129,7 +153,7 @@ export function LivroForm() {
 
         <div className="w-50 h-80 aspect-[2/3] self-center bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden border-2 border-dashed border-gray-300 relative">
           <Image alt="Capa padrão" src={cover ? cover : "/covers/placeholder.png"} width={125}
-            height={188} sizes="(max-width: 640px) 90px, (max-width: 768px) 120px, 150px" unoptimized className="w-full h-full object-cover" />
+            height={188} sizes="(max-width: 640px) 90px, (max-width: 768px) 120px, 150px" unoptimized className="w-full h-full object-cover rounded-lg" />
         </div>
 
         <div className="flex flex-col flex-1 items-start gap-4">
@@ -141,7 +165,7 @@ export function LivroForm() {
               <FormItem className="w-full">
                 <FormLabel className="text-md text-purple-700">Título*</FormLabel>
                 <FormControl>
-                  <Input label="" placeholder="Digite o título do livro" {...field} className="text-md border border-gray-300 bg-white focus-visible:border-purple-600 focus-visible:ring-2 focus-visible:ring-purple-600 shadow-sm focus-visible:shadow-md transition rounded-md" />
+                  <Input label="" placeholder="Digite o título do livro" {...field} value={field.value ?? ""} className="text-md border border-gray-300 bg-white focus-visible:border-purple-600 focus-visible:ring-2 focus-visible:ring-purple-600 shadow-sm focus-visible:shadow-md transition rounded-md" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -155,7 +179,7 @@ export function LivroForm() {
               <FormItem className="w-full">
                 <FormLabel className="text-md text-purple-700">Autor*</FormLabel>
                 <FormControl>
-                  <Input label="" placeholder="Digite o nome do autor" {...field} className="border border-gray-300 bg-white focus-visible:border-purple-600 focus-visible:ring-2 focus-visible:ring-purple-600 shadow-sm focus-visible:shadow-md transition rounded-md" />
+                  <Input label="" placeholder="Digite o nome do autor" {...field} value={field.value ?? ""} className="border border-gray-300 bg-white focus-visible:border-purple-600 focus-visible:ring-2 focus-visible:ring-purple-600 shadow-sm focus-visible:shadow-md transition rounded-md" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -171,7 +195,7 @@ export function LivroForm() {
             <FormItem>
               <FormLabel className="text-md">URL da Capa do Livro</FormLabel>
               <FormControl>
-                <Input label="" placeholder="Adicione o link da imagem da capa" {...field} className="border border-gray-300 bg-white focus-visible:border-purple-600 focus-visible:ring-2 focus-visible:ring-purple-600 shadow-sm focus-visible:shadow-md transition rounded-md" />
+                <Input label="" placeholder="Adicione o link da imagem da capa" {...field} value={field.value ?? ""} className="border border-gray-300 bg-white focus-visible:border-purple-600 focus-visible:ring-2 focus-visible:ring-purple-600 shadow-sm focus-visible:shadow-md transition rounded-md" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -207,39 +231,39 @@ export function LivroForm() {
         />
 
 
-        <div className="flex items-center gap-2">
 
-          {/* Ano Pulicação */}
-          <FormField
-            control={form.control}
-            name="year"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-md">Ano de Publicação</FormLabel>
-                <FormControl>
-                  <Input label="" placeholder="Digite o ano de publicação do livro" {...field} className="border border-gray-300 bg-white focus-visible:border-purple-600 focus-visible:ring-2 focus-visible:ring-purple-600 shadow-sm focus-visible:shadow-md transition rounded-md" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
 
-          {/* Total de páginas */}
-          <FormField
-            control={form.control}
-            name="pages"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-md">Total de Páginas</FormLabel>
-                <FormControl>
-                  <Input label="" type="number" placeholder="Digite o total de páginas do livro" {...field} className="border border-gray-300 bg-white focus-visible:border-purple-600 focus-visible:ring-2 focus-visible:ring-purple-600 shadow-sm focus-visible:shadow-md transition rounded-md" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+        {/* Ano Pulicação */}
+        <FormField
+          control={form.control}
+          name="year"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-md">Ano de Publicação</FormLabel>
+              <FormControl>
+                <Input label="" placeholder="Digite o ano de publicação do livro" {...field} value={field.value ?? ""} className="border border-gray-300 bg-white focus-visible:border-purple-600 focus-visible:ring-2 focus-visible:ring-purple-600 shadow-sm focus-visible:shadow-md transition rounded-md" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-        </div>
+        {/* Total de páginas */}
+        <FormField
+          control={form.control}
+          name="pages"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-md">Total de Páginas</FormLabel>
+              <FormControl>
+                <Input label="" type="number" placeholder="Digite o total de páginas do livro" {...field} value={field.value ?? ""} className="border border-gray-300 bg-white focus-visible:border-purple-600 focus-visible:ring-2 focus-visible:ring-purple-600 shadow-sm focus-visible:shadow-md transition rounded-md" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+
         {/* Página Atual */}
         {status !== "QUERO_LER" && (<FormField
           control={form.control}
@@ -248,7 +272,7 @@ export function LivroForm() {
             <FormItem>
               <FormLabel className="text-md">Página Atual</FormLabel>
               <FormControl>
-                <Input label="" placeholder="Digite à página atual..." {...field} className="border border-gray-300 bg-white focus-visible:border-purple-600 focus-visible:ring-2 focus-visible:ring-purple-600 shadow-sm focus-visible:shadow-md transition rounded-md" />
+                <Input label="" placeholder="Digite à página atual..." {...field} value={field.value ?? ""} className="border border-gray-300 bg-white focus-visible:border-purple-600 focus-visible:ring-2 focus-visible:ring-purple-600 shadow-sm focus-visible:shadow-md transition rounded-md" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -264,7 +288,7 @@ export function LivroForm() {
             <FormItem>
               <FormLabel className="text-md">ISBN</FormLabel>
               <FormControl>
-                <Input label="" placeholder="Digite o ISBN do livro..." {...field} className="border border-gray-300 bg-white focus-visible:border-purple-600 focus-visible:ring-2 focus-visible:ring-purple-600 shadow-sm focus-visible:shadow-md transition rounded-md" />
+                <Input label="" placeholder="Digite o ISBN do livro..." {...field} value={field.value ?? ""} className="border border-gray-300 bg-white focus-visible:border-purple-600 focus-visible:ring-2 focus-visible:ring-purple-600 shadow-sm focus-visible:shadow-md transition rounded-md" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -305,7 +329,7 @@ export function LivroForm() {
             <FormItem>
               <FormLabel className="text-md">Notas pessoais</FormLabel>
               <FormControl>
-                <Textarea placeholder="Digite algo que queira tomar nota sobre o livro..." {...field} className="border border-gray-300 bg-white focus-visible:border-purple-600 focus-visible:ring-2 focus-visible:ring-purple-600 shadow-sm focus-visible:shadow-md transition rounded-md" />
+                <Textarea placeholder="Digite algo que queira tomar nota sobre o livro..." {...field} value={field.value ?? ""} className="border border-gray-300 bg-white focus-visible:border-purple-600 focus-visible:ring-2 focus-visible:ring-purple-600 shadow-sm focus-visible:shadow-md transition rounded-md" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -319,14 +343,14 @@ export function LivroForm() {
             <FormItem>
               <FormLabel className="text-md">Sinopse</FormLabel>
               <FormControl>
-                <Textarea placeholder="Digite a sinopse livro..." {...field} className="border border-gray-300 bg-white focus-visible:border-purple-600 focus-visible:ring-2 focus-visible:ring-purple-600 shadow-sm focus-visible:shadow-md transition rounded-md" />
+                <Textarea placeholder="Digite a sinopse livro..." {...field} value={field.value ?? ""} className="border border-gray-300 bg-white focus-visible:border-purple-600 focus-visible:ring-2 focus-visible:ring-purple-600 shadow-sm focus-visible:shadow-md transition rounded-md" />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        <Button variant={"outline"} onClick={handleSubmit(onSubmit)} className="text-white bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-500 hover:to-purple-700 px-6 py-3 font-bold rounded-lg shadow-md hover:shadow-xl transition-all ring-2 ring-purple-300 hover:scale-105 active:scale-95 hover:cursor-pointer"><Plus className="size-4" />Adicionar Livro</Button>
+        <Button type="submit" variant={"outline"} className="text-white bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-500 hover:to-purple-700 px-6 py-3 font-bold rounded-lg shadow-md hover:shadow-xl transition-all ring-2 ring-purple-300 hover:scale-105 active:scale-95 hover:cursor-pointer"><Plus className="size-4" />Salvar</Button>
 
         <DialogClose asChild>
           <Button variant={"outline"} onClick={onReset} className=" text-purple-700 px-6 py-3 sm:text-sm md:text-lg font-bold rounded-lg shadow-md hover:shadow-xl transition-all ring-2 ring-purple-300 hover:scale-105 active:scale-95 hover:cursor-pointer"><X className="text-purple-700 font-bold size-4" />Cancelar</Button>

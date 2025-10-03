@@ -23,6 +23,7 @@ interface LivroCardProps {
   onEditar?: () => void;
   onExcluir?: () => void;
   onVisualizar?: () => void;
+  className?: string;
 }
 
 // Configuração para os status do livro (Mantida)
@@ -87,13 +88,13 @@ export function LivroCard({
     "group p-0 gap-x-0 flex flex-row transition-transform duration-200 hover:scale-[1.02] hover:shadow-xl max-w-md w-full relative";
 
   const cardCompletedStyle = isLido
-    ? "bg-purple-50 border-purple-300 border-2"
+    ? "bg-purple-50"
     : "bg-gray-50 border border-gray-200";
 
   return (
     <>
       {/* 💡 Substituímos o <Link> pela <div> com onClick */}
-      <div onClick={handleCardClick} className="cursor-pointer">
+      <div onClick={handleCardClick} className="cursor-pointer w-full">
         <Card className={`${cardBaseClasses} ${cardCompletedStyle}`}>
           {/* Capa do livro */}
           <div className="w-24 flex-shrink-0">

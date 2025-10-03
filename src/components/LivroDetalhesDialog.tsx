@@ -11,7 +11,6 @@ import {
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 import { Calendar, BookOpen, Star } from "lucide-react";
-import { RatingStars } from "@/components/RatingStars";
 
 interface LivroDetalhesDialogProps {
   livro: Livro;

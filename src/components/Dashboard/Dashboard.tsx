@@ -32,42 +32,71 @@ export default function Dashboard({
 
       {/* Grid dos Cards de Estatísticas */}
       <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide sm:grid sm:grid-cols-2 md:grid-cols-4">
-
-        <DashboardCard title="Livros Concluídos" value={stats.livrosLidos} icon={CheckCircle} />
-        <DashboardCard title="Lendo Agora" value={stats.lendoAtualmente} icon={FileText} />
-        <DashboardCard title="Lista de Leitura" value={stats.queroLer} icon={BookOpen} />
-        <DashboardCard title="Páginas Lidas" value={stats.paginasLidas} icon={Clock} />
-
+        <DashboardCard
+          title="Livros Concluídos"
+          value={stats.livrosLidos}
+          icon={CheckCircle}
+        />
+        <DashboardCard
+          title="Lendo Agora"
+          value={stats.lendoAtualmente}
+          icon={BookOpen}
+        />
+        <DashboardCard
+          title="Lista de Leitura"
+          value={stats.queroLer}
+          icon={Clock}
+        />
+        <DashboardCard
+          title="Páginas Lidas"
+          value={stats.paginasLidas}
+          icon={FileText}
+        />
       </div>
 
       {/* Seção de Livros (2 Colunas) */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
+      <div className="grid grid-cols-2 gap-6">
         {/* Livros Lendo Atualmente (1ª Coluna) */}
-        <div className="flex flex-col gap-4">
-          <p className="text-lg font-semibold p-4">Lendo Atualmente</p>
-          {livrosLendo.length > 0 ? (
-            livrosLendo.map((livro) => (
-              <LivroCard key={livro.id} livro={livro} />
-            ))
-          ) : (
-            <p className="text-sm text-muted-foreground">
-              Nenhum livro sendo lido.
-            </p>
-          )}
+        <div className="items-center flex flex-col gap-4 rounded-lg p-1">
+          <div className=" text-center text-lg font-semibold p-4">
+            Lendo Atualmente
+          </div>
+          <div className="flex flex-col items-center gap-4">
+            {livrosLendo.length > 0 ? (
+              livrosLendo.map((livro) => (
+                <div key={livro.id} className="w-full">
+                  <LivroCard livro={livro} />
+                </div>
+              ))
+            ) : (
+              <p className="text-sm text-muted-foreground">
+                Nenhum livro sendo lido.
+              </p>
+            )}
+          </div>
         </div>
 
         {/* Livros Concluídos (2ª Coluna) */}
-        <div className="flex flex-col gap-4 bg-purple-300 rounded-lg p-4">
-          <h2 className="text-lg font-semibold">Concluídos Recentemente</h2>
-          {livrosCompletos.length > 0 ? (
-            livrosCompletos.map((livro) => (
-              <LivroCard key={livro.id} livro={livro} />
-            ))
-          ) : (
-            <p className="text-sm text-muted-foreground">
-              Nenhum livro concluído.
-            </p>
-          )}
+        <div className="items-center flex flex-col gap-4 rounded-tr-lg rounded-br-lg bg-gradient-to-r from-purple-600 to-purple-900 p-1">
+          <div className="text-white text-center text-lg font-semibold p-4 ">
+            Concluídos Recentemente
+          </div>
+          <div className="flex flex-col items-center gap-4">
+            {livrosCompletos.length > 0 ? (
+              livrosCompletos.map((livro) => (
+                <div
+                  key={livro.id}
+                  className="w-full border border-white rounded-xl bg-white"
+                >
+                  <LivroCard livro={livro} />
+                </div>
+              ))
+            ) : (
+              <p className="text-sm text-muted-foreground">
+                Nenhum livro concluído.
+              </p>
+            )}
+          </div>
         </div>
       </div>
     </div>

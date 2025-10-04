@@ -10,7 +10,7 @@ import { Badge } from "@/components/ui/badge";
 
 import Image from "next/image";
 
-import { Calendar, MoreVertical, Star } from "lucide-react";
+import { Calendar, MoreVertical, Pen, Pencil, PenSquare, Star, Trash, Trash2, X } from "lucide-react";
 import Link from "next/link";
 import {
   DropdownMenu,
@@ -18,6 +18,9 @@ import {
 } from "@radix-ui/react-dropdown-menu";
 import { DropdownMenuContent, DropdownMenuItem } from "../ui/dropdown-menu";
 import { RatingStars } from "../RatingStars";
+import { Button } from "../ui/button";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
+import { LivroForm } from "./LivroForm";
 
 interface LivroCardProps {
   livro: Livro;
@@ -57,78 +60,63 @@ export function LivroCard({
   onVisualizar,
 }: LivroCardProps) {
   return (
-    <Link href={`/livros/${livro.id}`}>
-      <Card className="group p-0 gap-x-0 bg-gray-50 flex flex-row transition-transform duration-200 hover:scale-105 hover:shadow-lg max-w-md w-full">
-        {/* Capa do livro */}
-        <div className="w-24 flex-shrink-0">
-          <Image
-            src={livro.cover || "/covers/placeholder.png"}
-            alt={`Capa do livro ${livro.title}`}
-            width={128}
-            height={192}
-            className="object-cover rounded-l-md"
-          />
-        </div>
 
-        {/* Conteúdo */}
-        <div className="w-full flex flex-col pt-2">
-          {/* Cabeçalho
+    <Card className="group p-0 gap-x-0 bg-gray-50 flex flex-row transition-transform duration-200 hover:scale-105 hover:shadow-lg max-w-md w-full">
+      {/* Capa do livro */}
+      <div className="w-24 flex-shrink-0">
+        <Image
+          src={livro.cover || "/covers/placeholder.png"}
+          alt={`Capa do livro ${livro.title}`}
+          width={128}
+          height={192}
+          className="object-cover rounded-l-md"
+        />
+      </div>
+
+      {/* Conteúdo */}
+      <div className="w-full flex flex-col pt-2">
+        {/* Cabeçalho
         flex flex-row items-start md:flex-row md:justify-between md:items-start
         */}
-          <CardHeader className="flex flex-row gap-1 justify-between">
-            <div className="flex-1 min-w-0">
-              {/* Título e Autor */}
+        <CardHeader className="flex flex-row gap-1 justify-between">
+          <div className="flex-1 min-w-0">
+            {/* Título e Autor */}
 
-              <h6 className="truncate text-[16px] text-gray-800 font-bold group-hover:text-purple-500 transition-colors duration-200">
-                {livro.title}
-              </h6>
+            <h6 className="truncate text-[16px] text-gray-800 font-bold group-hover:text-purple-500 transition-colors duration-200">
+              {livro.title}
+            </h6>
 
-              <p className="text-muted-foreground text-[12px]">
-                {livro.author}
-              </p>
-            </div>
+            <p className="text-muted-foreground text-[12px]">
+              {livro.author}
+            </p>
+          </div>
+        </CardHeader>
 
-            {/* Menu de ações */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <button
-                  className="p-1 rounded-full hover:bg-gray-200"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <MoreVertical className="w-5 h-5 text-gray-600" />
-                </button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuItem onClick={onEditar}>Editar</DropdownMenuItem>
-                <DropdownMenuItem onClick={onExcluir}>Excluir</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </CardHeader>
+        {/* Avaliação */}
+        <CardContent className="flex flex-col gap-1">
+          {!livro.rating && (
+            <span className="text-sm text-muted-foreground">
+              Sem avaliações
+            </span>
+          )}
 
-          {/* Avaliação */}
-          <CardContent className="flex flex-col gap-1">
-            {!livro.rating && (
-              <span className="text-sm text-muted-foreground">
-                Sem avaliações
-              </span>
+          <div className="flex flex-row items-center gap-1">
+            {livro.rating && (
+              <>
+                <span className="text-sm">{livro.rating}</span>
+                <RatingStars
+                  value={livro.rating || 1}
+                  key={livro.id}
+                  onChange={() => { }}
+                />
+              </>
             )}
+          </div>
+        </CardContent>
 
-            <div className="flex flex-row items-center gap-1">
-              {livro.rating && (
-                <>
-                  <span className="text-sm">{livro.rating}</span>
-                  <RatingStars
-                    value={livro.rating || 1}
-                    key={livro.id}
-                    onChange={() => {}}
-                  />
-                </>
-              )}
-            </div>
-          </CardContent>
-
-          {/* Rodapé */}
-          <CardFooter className=" flex flex-col items-start gap-1">
+        {/* Rodapé */}
+        <CardFooter className=" flex flex-row items-end justify-between gap-1">
+          <div className="flex flex-col gap-2">
             <span className="flex items-center gap-1 text-sm text-muted-foreground">
               <Calendar className="w-3 h-3 text-muted-foreground" />
               Publicado em: {livro.year || "N/D"}
@@ -139,34 +127,48 @@ export function LivroCard({
                 {livro.genre[0]}
               </Badge>
             )}
+          </div>
+          <div className="flex flex-row items-center gap-2">
 
-            {/* Status do livro */}
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant={"outline"} size={"sm"} className="shadow-sm border-purple-600">
+                  <Pencil className="text-purple-600" />
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto">
+                <DialogHeader>
+                  <DialogTitle className="text-purple-700 font-bold">Editar Livro</DialogTitle>
+                  <DialogDescription>
+                    Edite-os manualmente o livro que você deseja.
+                  </DialogDescription>
+                </DialogHeader>
 
-            {/* {livro.status && (
+                <LivroForm
+                  livro={livro}
+                  onSubmit={(values) => {
+                    console.log("Atualizando livro:", values);
+                    // chamada API PUT/PATCH
+                  }}
+                  onCancel={() => console.log("Cancelou edição")}
+                />
+              </DialogContent>
+            </Dialog>
+            <Button variant={"outline"} size={"sm"} className="">
+              <Trash2 />
+            </Button>
+          </div>
+
+          {/* Status do livro */}
+
+          {/* {livro.status && (
               <Badge className={`${statusConfig[livro.status]?.className} justify-self-end`}>
                 {statusConfig[livro.status]?.label}
               </Badge>
             )} */}
-          </CardFooter>
-        </div>
-      </Card>
-    </Link>
+        </CardFooter>
+      </div>
+    </Card>
+
   );
-}
-{
-  /* <Star width={18} height={18} fill="oklch(79.5% 0.184 86.047)" stroke="none" /> */
-}
-{
-  /* {livro.status === StatusLeitura.LIDO && (
-          <div className="mb-2">
-            <div className="flex items-center gap-2 mb-2">
-              <span className="text-sm text-muted-foreground">Sua avaliação: </span>
-              <RatingStars rating={4} />
-            </div>
-            <div className="flex items-center gap-1">
-              <Calendar className="w-4 h-4 text-muted-foreground" />
-              <span className="text-muted-foreground text-sm">Concluído em 27 de nov. de 2024</span>
-            </div>
-          </div>
-        )} */
 }

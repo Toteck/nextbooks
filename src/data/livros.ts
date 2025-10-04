@@ -41,6 +41,7 @@ export const livrosIniciais: Livro[] = [
     pages: 310,
     qtdPagesRead: 310,
     status: StatusLeitura.LIDO,
+    dataConclusao: "2025-02-18",
     rating: 4,
     cover: "/covers/o-hobbit.jpeg",
     synopsis: "Aventura leve que introduz o mundo de Tolkien.",

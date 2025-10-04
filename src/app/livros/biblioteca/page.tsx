@@ -1,7 +1,7 @@
 "use client"; // Necessário para usar hooks como useState
 
 import { useState, useMemo } from "react";
-
+import { ReadingGoalCard } from "@/components/ui/ReadingGoalCard";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -147,6 +147,9 @@ export default function BibliotecaPage() {
             <DefaultButton label="Adicionar Livros" />
           </div>
         )}
+      </div>
+      <div className="pt-8">
+        <ReadingGoalCard />
       </div>
     </div>
   );

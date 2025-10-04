@@ -20,7 +20,7 @@ export function useReadingGoalStats({
   const currentYear = new Date().getFullYear();
 
   const booksReadThisYear = allBooks.filter((livro) => {
-    const isCompleted = [StatusLeitura.LIDO, StatusLeitura.CONCLUIDO].includes(
+    const isCompleted = [StatusLeitura.LIDO].includes(
       livro.status
     );
     if (!isCompleted || !livro.dataConclusao) {

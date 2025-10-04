@@ -20,7 +20,7 @@ export interface Livro {
   rating?: number;
   synopsis?: string;
   cover?: string;
-  status?: StatusLeitura;
+  status: StatusLeitura;
   dataConclusao?: string;
 }
 

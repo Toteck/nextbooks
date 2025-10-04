@@ -1,10 +1,8 @@
 "use client"
 import {
     Dialog,
-    DialogClose,
     DialogContent,
     DialogDescription,
-    DialogFooter,
     DialogHeader,
     DialogTitle,
     DialogTrigger,
@@ -40,44 +38,3 @@ export function AddBookDialog() {
         </Dialog>
     )
 }
-
-{/* Alternador entre modos */ }
-{/* <div className="flex gap-2 mb-4">
-                        <Button
-                            variant={"outline"}
-                            onClick={() => setMode("search")}
-                            className={`px-3 py-2 rounded-md text-sm font-medium ${mode === "search" ? "bg-purple-600 text-white" : "bg-gray-100 text-gray-800"
-                                }`}
-                        >
-                            <Search />Procurar
-                        </Button>
-                        <Button
-                            variant={"outline"}
-                            onClick={() => setMode("manual")}
-                            className={`px-3 py-2 rounded-md text-sm font-medium ${mode === "manual" ? "bg-purple-600 text-white" : ""
-                                }`}
-                        >
-                            + Adicionar manualmente
-                        </Button>
-                    </div> */}
-
-{/* Conteúdo dependendo do modo */ }
-{/* {mode === "search" && (
-                        <div className="flex flex-col gap-4">
-                            <select className="border rounded-md px-3 py-2">
-                                <option>Want to Read</option>
-                                <option>Lendo</option>
-                                <option>Lido</option>
-                            </select>
-                            <input
-                                type="text"
-                                placeholder="Procure por título, autor, ou ISBN..."
-                                className="border rounded-md px-3 py-2"
-                            />
-                            <DefaultButton label="Buscar" icon={Plus} />
-                        </div>
-                    )}
-
-                    {mode === "manual" && (
-                        <LivroForm />
-                    )} */}

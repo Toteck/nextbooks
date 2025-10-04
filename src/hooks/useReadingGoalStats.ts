@@ -1,3 +1,5 @@
+// src/hooks/useReadingGoalStats.ts (VERSÃO ATUALIZADA)
+
 import { Livro, StatusLeitura } from "@/types/livro";
 import { livrosIniciais } from "@/data/livros";
 
@@ -7,20 +9,23 @@ export interface ReadingGoalStats {
   annualGoal: number;
 }
 
-const META_ANUAL_PADRAO = 20;
-
-export function useReadingGoalStats(
-  allBooks: Livro[] = livrosIniciais
-): ReadingGoalStats {
+// O hook agora recebe um objeto com os livros e a meta
+export function useReadingGoalStats({
+  allBooks = livrosIniciais,
+  annualGoal, // A meta agora vem como parâmetro
+}: {
+  allBooks?: Livro[];
+  annualGoal: number;
+}): ReadingGoalStats {
   const currentYear = new Date().getFullYear();
 
   const booksReadThisYear = allBooks.filter((livro) => {
-    const isCompleted = livro.status === StatusLeitura.LIDO;
-
+    const isCompleted = [StatusLeitura.LIDO, StatusLeitura.CONCLUIDO].includes(
+      livro.status
+    );
     if (!isCompleted || !livro.dataConclusao) {
       return false;
     }
-
     const completionYear = new Date(livro.dataConclusao).getFullYear();
     return completionYear === currentYear;
   });
@@ -28,6 +33,6 @@ export function useReadingGoalStats(
   return {
     year: currentYear,
     booksRead: booksReadThisYear.length,
-    annualGoal: META_ANUAL_PADRAO,
+    annualGoal: annualGoal, // Retorna a meta que foi recebida
   };
 }

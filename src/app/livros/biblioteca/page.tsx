@@ -17,16 +17,28 @@ import { Plus, Search } from "lucide-react";
 import { livrosIniciais } from "@/data/livros";
 
 import { GENEROS_DISPONIVEIS } from "@/types/genre";
-import { StatusLeitura } from "@/types/livro";
+import { Livro, StatusLeitura } from "@/types/livro";
 
 import Image from "next/image";
 
-import { DefaultButton } from "@/components/livros/DefaultButton";
+import { DefaultButton } from "@/components/DefaultButton";
+import { LivroForm, LivroFormValidation } from "@/components/livros/LivroForm";
 
 export default function BibliotecaPage() {
   const [termoBusca, setTermoBusca] = useState("");
   const [generoFiltro, setGeneroFiltro] = useState("todos");
   const [statusLivro, setStatusLivro] = useState("todos");
+  const [livroEditando, setLivroEditando] = useState<Livro | null>(null)
+
+  function handleBookEdit(livro: Livro) {
+    setLivroEditando(livro)
+  }
+
+  function handleBookUpdate(values: LivroFormValidation) {
+    console.log("Atualizando livro: ", values);
+    // Aqui faria update no estado ou API
+    setLivroEditando(null)
+  }
 
   const livrosFiltrados = useMemo(() => {
     return livrosIniciais
@@ -73,6 +85,7 @@ export default function BibliotecaPage() {
       {/* Controles de Busca e Filtro */}
       <div className="relative w-full mb-2">
         <Input
+          label=""
           type="text"
           placeholder="Buscar por título ou autor..."
           className="bg-white border border-gray-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-300 flex-grow mb-4 rounded-md shadow-sm"
@@ -122,10 +135,16 @@ export default function BibliotecaPage() {
           </div>
         </div>
       </div>
+      <div>
+
+      </div>
+      <div>
+
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 ">
         {livrosFiltrados.length > 0 ? (
           livrosFiltrados.map((livro) => (
-            <LivroCard key={livro.id} livro={livro} />
+            <LivroCard key={livro.id} livro={livro} onEditar={() => handleBookEdit(livro)} />
           ))
         ) : (
           <div className="col-span-full flex flex-col items-center justify-center text-center py-2">

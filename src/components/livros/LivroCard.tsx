@@ -8,12 +8,14 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
-
 import Image from "next/image";
 
 import { Calendar, MoreVertical, Star } from "lucide-react";
 import Link from "next/link";
-import { DropdownMenu, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+} from "@radix-ui/react-dropdown-menu";
 import { DropdownMenuContent, DropdownMenuItem } from "../ui/dropdown-menu";
 import { RatingStars } from "../RatingStars";
 
@@ -23,7 +25,6 @@ interface LivroCardProps {
   onExcluir?: () => void;
   onVisualizar?: () => void;
 }
-
 
 // configuração para os status do livro
 const statusConfig = {
@@ -49,17 +50,17 @@ const statusConfig = {
   },
 };
 
-
-
-export function LivroCard({ livro, onEditar, onExcluir, onVisualizar }: LivroCardProps) {
-
+export function LivroCard({
+  livro,
+  onEditar,
+  onExcluir,
+  onVisualizar,
+}: LivroCardProps) {
   return (
     <Link href={`/livros/${livro.id}`}>
-
       <Card className="group p-0 gap-x-0 bg-gray-50 flex flex-row transition-transform duration-200 hover:scale-105 hover:shadow-lg max-w-md w-full">
         {/* Capa do livro */}
         <div className="w-24 flex-shrink-0">
-
           <Image
             src={livro.cover || "/covers/placeholder.png"}
             alt={`Capa do livro ${livro.title}`}
@@ -67,7 +68,6 @@ export function LivroCard({ livro, onEditar, onExcluir, onVisualizar }: LivroCar
             height={192}
             className="object-cover rounded-l-md"
           />
-
         </div>
 
         {/* Conteúdo */}
@@ -76,11 +76,12 @@ export function LivroCard({ livro, onEditar, onExcluir, onVisualizar }: LivroCar
         flex flex-row items-start md:flex-row md:justify-between md:items-start
         */}
           <CardHeader className="flex flex-row gap-1 justify-between">
-
             <div className="flex-1 min-w-0">
               {/* Título e Autor */}
 
-              <h6 className="truncate text-[16px] text-gray-800 font-bold group-hover:text-purple-500 transition-colors duration-200">{livro.title}</h6>
+              <h6 className="truncate text-[16px] text-gray-800 font-bold group-hover:text-purple-500 transition-colors duration-200">
+                {livro.title}
+              </h6>
 
               <p className="text-muted-foreground text-[12px]">
                 {livro.author}
@@ -102,34 +103,42 @@ export function LivroCard({ livro, onEditar, onExcluir, onVisualizar }: LivroCar
                 <DropdownMenuItem onClick={onExcluir}>Excluir</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-
           </CardHeader>
 
           {/* Avaliação */}
           <CardContent className="flex flex-col gap-1">
-
-            {!livro.rating &&
-              <span className="text-sm text-muted-foreground">Sem avaliações</span>}
+            {!livro.rating && (
+              <span className="text-sm text-muted-foreground">
+                Sem avaliações
+              </span>
+            )}
 
             <div className="flex flex-row items-center gap-1">
-              {livro.rating && <>
-                <span className="text-sm">{livro.rating}</span>
-                <RatingStars value={livro.rating || 1} key={livro.id} onChange={() => { }} />
-              </>}
+              {livro.rating && (
+                <>
+                  <span className="text-sm">{livro.rating}</span>
+                  <RatingStars
+                    value={livro.rating || 1}
+                    key={livro.id}
+                    onChange={() => {}}
+                  />
+                </>
+              )}
             </div>
-
-
           </CardContent>
 
           {/* Rodapé */}
           <CardFooter className=" flex flex-col items-start gap-1">
+            <span className="flex items-center gap-1 text-sm text-muted-foreground">
+              <Calendar className="w-3 h-3 text-muted-foreground" />
+              Publicado em: {livro.year || "N/D"}
+            </span>
 
-            <span className="flex items-center gap-1 text-sm text-muted-foreground"><Calendar className="w-3 h-3 text-muted-foreground" />Publicado em: {livro.year || "N/D"}</span>
-
-            {livro.genre && <Badge key={livro.id} variant={"outline"}>
-              {livro.genre[0]}
-            </Badge>}
-
+            {livro.genre && (
+              <Badge key={livro.id} variant={"outline"}>
+                {livro.genre[0]}
+              </Badge>
+            )}
 
             {/* Status do livro */}
 
@@ -138,15 +147,17 @@ export function LivroCard({ livro, onEditar, onExcluir, onVisualizar }: LivroCar
                 {statusConfig[livro.status]?.label}
               </Badge>
             )} */}
-
           </CardFooter>
         </div>
-      </Card >
-    </Link >
+      </Card>
+    </Link>
   );
 }
-{/* <Star width={18} height={18} fill="oklch(79.5% 0.184 86.047)" stroke="none" /> */ }
-{/* {livro.status === StatusLeitura.LIDO && (
+{
+  /* <Star width={18} height={18} fill="oklch(79.5% 0.184 86.047)" stroke="none" /> */
+}
+{
+  /* {livro.status === StatusLeitura.LIDO && (
           <div className="mb-2">
             <div className="flex items-center gap-2 mb-2">
               <span className="text-sm text-muted-foreground">Sua avaliação: </span>
@@ -157,4 +168,5 @@ export function LivroCard({ livro, onEditar, onExcluir, onVisualizar }: LivroCar
               <span className="text-muted-foreground text-sm">Concluído em 27 de nov. de 2024</span>
             </div>
           </div>
-        )} */}
+        )} */
+}

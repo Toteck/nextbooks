@@ -1,5 +1,3 @@
-// src/hooks/useReadingGoalStats.ts (VERSÃO ATUALIZADA)
-
 import { Livro, StatusLeitura } from "@/types/livro";
 import { livrosIniciais } from "@/data/livros";
 
@@ -20,12 +18,12 @@ export function useReadingGoalStats({
   const currentYear = new Date().getFullYear();
 
   const booksReadThisYear = allBooks.filter((livro) => {
-    const isCompleted = [StatusLeitura.LIDO].includes(
-      livro.status
-    );
+    const isCompleted = livro.status === StatusLeitura.LIDO;
+
     if (!isCompleted || !livro.dataConclusao) {
       return false;
     }
+
     const completionYear = new Date(livro.dataConclusao).getFullYear();
     return completionYear === currentYear;
   });
@@ -33,6 +31,6 @@ export function useReadingGoalStats({
   return {
     year: currentYear,
     booksRead: booksReadThisYear.length,
-    annualGoal: annualGoal, // Retorna a meta que foi recebida
+    annualGoal: annualGoal,
   };
 }

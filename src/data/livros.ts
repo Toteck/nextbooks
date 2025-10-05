@@ -2,7 +2,7 @@ import { Genre } from "@/types/genre";
 import { Livro, StatusLeitura } from "@/types/livro";
 
 // Dados iniciais (imutáveis)
-const livrosIniciais: Livro[] = [
+export const livrosIniciais: Livro[] = [
   {
     id: "1",
     title: "Dom Casmurro",

@@ -359,11 +359,11 @@ export function LivroForm({ livro, onSubmit, onCancel }: LivroFormProps) {
           )}
         />
 
-        <Button type="submit" variant={"outline"} className="text-white bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-500 hover:to-purple-700 px-6 py-3 font-bold rounded-lg shadow-md hover:shadow-xl transition-all ring-2 ring-purple-300 hover:scale-105 active:scale-95 hover:cursor-pointer">{livro ? (<span className="flex items-center gap-2"><Plus className="size-4" />Atualizar Livro</span>) : <span className="flex items-center gap-2"><Save className="size-4" />Salvar Livro</span>}</Button>
+        <Button type="submit" variant={"outline"} className="text-white bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-500 hover:to-purple-700 px-6 py-3 font-bold rounded-lg shadow-md hover:shadow-xl transition-all ring-2 ring-purple-300 hover:scale-105 active:scale-95 hover:cursor-pointer">{livro ? (<span className="flex items-center gap-2 hover:text-white"><Plus className="size-4" />Atualizar Livro</span>) : <span className="flex items-center gap-2 hover:text-white"><Save className="size-4" />Salvar Livro</span>}</Button>
 
         <DialogClose asChild>
-          <Button variant={"outline"} onClick={handleReset} className=" text-purple-700 px-6 py-3 sm:text-sm md:text-lg font-bold rounded-lg shadow-md hover:shadow-xl transition-all ring-2 ring-purple-300 hover:scale-105 active:scale-95 hover:cursor-pointer">
-            <X className="text-purple-700 font-bold size-4" />Cancelar</Button>
+          <Button variant={"outline"} onClick={handleReset} className="px-6 py-3 sm:text-sm text-sm font-bold rounded-lg shadow-md hover:shadow-xl transition-all ring-2 ring-purple-300 hover:scale-105 active:scale-95 hover:cursor-pointer">
+            <X className="font-bold size-4" />Cancelar</Button>
         </DialogClose>
 
 

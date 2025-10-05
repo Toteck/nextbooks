@@ -1,9 +1,8 @@
 import { Genre } from "@/types/genre";
 import { Livro, StatusLeitura } from "@/types/livro";
 
-// Dados iniciais (mock)
-
-export let livrosIniciais: Livro[] = [
+// Dados iniciais (imutáveis)
+export const livrosIniciais: Livro[] = [
   {
     id: "1",
     title: "Dom Casmurro",

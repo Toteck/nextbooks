@@ -2,7 +2,7 @@
 import Dashboard from "./Dashboard/Dashboard";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "./ui/tabs";
 import { LivroCard } from "./livros/LivroCard";
-import { livrosMock } from "./livros/LivrosMock";
+import { livrosIniciais } from "../data/livros"
 import { Livro, StatusLeitura } from "@/types/livro";
 import { useState } from "react";
 import { calcularEstatisticasLivros } from "@/lib/book-stats";
@@ -18,7 +18,7 @@ import {
 // Componente de Tabs
 
 export default function TabsComponent() {
-  const [userBooks] = useState<Livro[]>(livrosMock);
+  const [userBooks] = useState<Livro[]>(livrosIniciais);
   const [activeTab, setActiveTab] = useState("dashboard");
   const stats = calcularEstatisticasLivros(userBooks);
 
@@ -36,8 +36,8 @@ export default function TabsComponent() {
     >
       <TabsList
         className="bg-purple-800 rounded-md w-full p-1.5 
-           flex overflow-x-auto whitespace-nowrap gap-6 
-            md:flex md:justify-between md:p-3 md:gap-0 
+           flex whitespace-nowrap gap-6 
+            md:flex md:justify-between md:p-3 md:gap-0
             h-auto min-h-fit"
       >
         <TabsTrigger

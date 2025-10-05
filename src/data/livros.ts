@@ -1,8 +1,7 @@
 import { Genre } from "@/types/genre";
 import { Livro, StatusLeitura } from "@/types/livro";
 
-// Dados iniciais (mock)
-
+// Dados iniciais (imutáveis)
 export const livrosIniciais: Livro[] = [
   {
     id: "1",
@@ -28,9 +27,6 @@ export const livrosIniciais: Livro[] = [
     rating: 5,
     cover: "/covers/1984.jpeg",
     synopsis: "Distopia que inspira reflexões sobre vigilância.",
-    isReading: false,
-    isCompleted: false,
-    pageCount: 328,
   },
   {
     id: "3",
@@ -41,12 +37,10 @@ export const livrosIniciais: Livro[] = [
     pages: 310,
     qtdPagesRead: 310,
     status: StatusLeitura.LIDO,
+    dataConclusao: "2025-02-18",
     rating: 4,
     cover: "/covers/o-hobbit.jpeg",
     synopsis: "Aventura leve que introduz o mundo de Tolkien.",
-    isReading: false,
-    isCompleted: true,
-    pageCount: 310,
   },
   {
     id: "4",
@@ -63,3 +57,17 @@ export const livrosIniciais: Livro[] = [
   },
 
 ];
+// mock movido pra cá para poder ser usado na API também
+export const livrosMock: Livro[] = [
+  ...livrosIniciais,
+];
+// função atualizar e deletar livro
+export const updateLivro = (livroAtualizado: Livro) => {
+  livrosIniciais = livrosIniciais.map((livro) =>
+    livro.id === livroAtualizado.id ? livroAtualizado : livro
+  );
+}
+
+export const deleteLivro = (id: string) => {
+  livrosIniciais = livrosIniciais.filter((livro) => livro.id !== id);
+};

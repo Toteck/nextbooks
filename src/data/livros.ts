@@ -2,7 +2,7 @@ import { Genre } from "@/types/genre";
 import { Livro, StatusLeitura } from "@/types/livro";
 
 // Dados iniciais (imutáveis)
-const livrosIniciais: Livro[] = [
+export const livrosIniciais: Livro[] = [
   {
     id: "1",
     title: "Dom Casmurro",
@@ -60,7 +60,7 @@ const livrosIniciais: Livro[] = [
 
 export let livrosDb: Livro[] = [...livrosIniciais];
 
-// Função para obter o estado atual do 'banco de dados'
+// Função para obter o estado atual do banco de dados
 export const getLivrosDb = () => livrosDb;
 
 // Função atualizar livro

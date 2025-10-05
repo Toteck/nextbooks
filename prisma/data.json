@@ -1,0 +1,50 @@
+[
+  {
+    "id": "1",
+    "title": "A Guerra dos Tronos",
+    "author": "George R. R. Martin",
+    "genre": "Fantasia",
+    "year": 1996,
+    "pages": 694,
+    "rating": 4.8,
+    "synopsis": "Em um mundo de intrigas e guerras pelo Trono de Ferro...",
+    "cover": "https://example.com/capa_guerra_dos_tronos.jpg",
+    "isbn": "978-0553103540",
+    "notes": "Primeiro livro da série As Crônicas de Gelo e Fogo"
+  },
+  {
+    "id": "2",
+    "title": "O Senhor dos Anéis: A Sociedade do Anel",
+    "author": "J.R.R. Tolkien",
+    "genre": "Fantasia",
+    "year": 1954,
+    "pages": 423,
+    "rating": 4.9,
+    "synopsis": "Frodo e seus amigos embarcam em uma jornada para destruir o Um Anel...",
+    "cover": "https://example.com/capa_senhor_dos_aneis.jpg"
+  },
+  {
+    "id": "3",
+    "title": "1984",
+    "author": "George Orwell",
+    "genre": "Ficção Científica",
+    "year": 1949,
+    "pages": 328,
+    "rating": 4.7,
+    "synopsis": "Um retrato distópico de uma sociedade totalitária sob vigilância constante...",
+    "cover": "https://example.com/capa_1984.jpg",
+    "isbn": "978-0451524935"
+  },
+  {
+    "id": "4",
+    "title": "Cem Anos de Solidão",
+    "author": "Gabriel García Márquez",
+    "genre": "Realismo Mágico",
+    "year": 1967,
+    "pages": 417,
+    "rating": 4.6,
+    "synopsis": "A história da família Buendía na mítica cidade de Macondo...",
+    "cover": "https://example.com/capa_cem_anos.jpg",
+    "notes": "Um clássico do realismo mágico latino-americano"
+  }
+]

@@ -2,7 +2,7 @@
 // CRUD de livros
 
 import { NextRequest, NextResponse } from "next/server";
-import { livrosDb } from "@/data/livros";
+import { livrosIniciais } from "@/data/livros";
 
 //1. GET /api/livros - Retorna a lista de livros
 //2. POST /api/livros - Adiciona um novo livro
@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
   const {searchParams} = new URL(request.url);
   const statusFiltro = searchParams.get('status');
 
-  let livros = livrosDb;
+  let livros = livrosIniciais;
 
   if (statusFiltro) {
     livros = livros.filter(livro => livro.status === statusFiltro.toUpperCase());
@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
     //gerar um ID e adicionar ao DB mock
     novoLivro.id = (crypto.randomUUID());
     novoLivro.createdAt = new Date().toISOString();
-    livrosDb.push(novoLivro);
+    livrosIniciais.push(novoLivro);
 
     return NextResponse.json(novoLivro, { status: 201 });
   } catch (error) {

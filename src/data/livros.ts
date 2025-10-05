@@ -63,11 +63,15 @@ export const livrosMock: Livro[] = [
 ];
 // função atualizar e deletar livro
 export const updateLivro = (livroAtualizado: Livro) => {
-  livrosIniciais = livrosIniciais.map((livro) =>
-    livro.id === livroAtualizado.id ? livroAtualizado : livro
-  );
-}
+  const index = livrosIniciais.findIndex((livro) => livro.id === livroAtualizado.id);
+  if (index !== -1) {
+    livrosIniciais[index] = livroAtualizado;
+  }
+};
 
 export const deleteLivro = (id: string) => {
-  livrosIniciais = livrosIniciais.filter((livro) => livro.id !== id);
+  const index = livrosIniciais.findIndex((livro) => livro.id === id);
+  if (index !== -1) {
+    livrosIniciais.splice(index, 1); // remove o livro do array original
+  }
 };

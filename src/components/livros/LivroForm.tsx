@@ -10,7 +10,8 @@ import { Button } from "../ui/button"
 import { Input } from "../ui/input"
 import { toast } from "sonner"
 
-import { Plus, X, RefreshCcw, Book, Save } from "lucide-react"
+
+import { Plus, X, RefreshCcw, Save } from "lucide-react"
 
 import { useForm } from "react-hook-form"
 import Image from "next/image"
@@ -33,19 +34,30 @@ const formSchema = z.object({
   author: z.string().min(1, "Autor é obrigatório"),
   cover: z.url("A URL da capa deve ser válida").optional().or(z.literal("")),
   status: z.enum(statusOptions.map((o) => o.value) as [string, ...string[]], "Selecione uma opção de status do livro"),
-  year: z.string().optional().refine((val) => !val || (/^\d+$/.test(val) && Number(val) >= 0 && Number(val) <= currentYear), {
-    error: `Ano deve ser entre 0 e ${currentYear}`
+  year: z.string().optional().refine((val) => !val || (/^\d+$/.test(val) && Number(val) >= 1500 && Number(val) <= currentYear), {
+    error: `Ano deve ser entre 1500 e ${currentYear}`
   }),
   pages: z.coerce.number().int().min(0, "Numero de páginas deve ser maior que 0").optional(),
   currentPage: z.coerce.number().int().min(0, "Página atual não pode ser negativa").optional(),
-  isbn: z.string().optional().refine((val) => !val || /^[0-9-]+$/.test(val), {
-    error: "ISBN deve conter apenas números ou traços",
+  isbn: z.string().min(10, "ISBN deve ter no mínimo 10 números").max(13, "ISBN deve ter no máximo 13 números").optional().refine((val) => !val || /^[0-9-]+$/.test(val), {
+    error: "ISBN deve conter apenas números",
   }),
   rating: z.number().min(0).max(5).optional(),
   notes: z.string().max(500, "No máximo 500 caracteres").optional(),
   synopsis: z.string().max(2000).optional()
-
-})
+}).refine(
+  (data) => {
+    // Só valida se ambos tiverem valor
+    if (data.pages && data.currentPage) {
+      return data.currentPage <= data.pages;
+    }
+    return true; // se não tiver um dos dois, passa
+  },
+  {
+    message: "Página atual não pode ser maior que o total de páginas",
+    path: ["currentPage"], // indica onde mostrar o erro
+  }
+);
 
 export type LivroFormValidation = z.infer<typeof formSchema>
 
@@ -78,6 +90,7 @@ export function LivroForm({ livro, onSubmit, onCancel }: LivroFormProps) {
 
   const cover = form.watch("cover")
   const status = form.watch("status")
+  const pages = form.watch("pages")
 
   const watchedValues = form.watch();
 
@@ -239,9 +252,6 @@ export function LivroForm({ livro, onSubmit, onCancel }: LivroFormProps) {
           )}
         />
 
-
-
-
         {/* Ano Pulicação */}
         <FormField
           control={form.control}
@@ -250,7 +260,7 @@ export function LivroForm({ livro, onSubmit, onCancel }: LivroFormProps) {
             <FormItem>
               <FormLabel className="text-md">Ano de Publicação</FormLabel>
               <FormControl>
-                <Input label="" placeholder="Digite o ano de publicação do livro" {...field} value={field.value ?? ""} className="border border-gray-300 bg-white focus-visible:border-purple-600 focus-visible:ring-2 focus-visible:ring-purple-600 shadow-sm focus-visible:shadow-md transition rounded-md" />
+                <Input type="number" min={1500} minLength={4} max={new Date().getFullYear()} maxLength={4} label="" placeholder="Digite o ano de publicação do livro" {...field} value={field.value ?? ""} className="border border-gray-300 bg-white focus-visible:border-purple-600 focus-visible:ring-2 focus-visible:ring-purple-600 shadow-sm focus-visible:shadow-md transition rounded-md" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -265,7 +275,7 @@ export function LivroForm({ livro, onSubmit, onCancel }: LivroFormProps) {
             <FormItem>
               <FormLabel className="text-md">Total de Páginas</FormLabel>
               <FormControl>
-                <Input label="" type="number" placeholder="Digite o total de páginas do livro" {...field} value={field.value ?? ""} className="border border-gray-300 bg-white focus-visible:border-purple-600 focus-visible:ring-2 focus-visible:ring-purple-600 shadow-sm focus-visible:shadow-md transition rounded-md" />
+                <Input label="" min={0} type="number" placeholder="Digite o total de páginas do livro" {...field} value={field.value ?? ""} className="border border-gray-300 bg-white focus-visible:border-purple-600 focus-visible:ring-2 focus-visible:ring-purple-600 shadow-sm focus-visible:shadow-md transition rounded-md" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -281,7 +291,7 @@ export function LivroForm({ livro, onSubmit, onCancel }: LivroFormProps) {
             <FormItem>
               <FormLabel className="text-md">Página Atual</FormLabel>
               <FormControl>
-                <Input label="" placeholder="Digite à página atual..." {...field} value={field.value ?? ""} className="border border-gray-300 bg-white focus-visible:border-purple-600 focus-visible:ring-2 focus-visible:ring-purple-600 shadow-sm focus-visible:shadow-md transition rounded-md" />
+                <Input type="number" min={0} max={pages} label="" placeholder="Digite à página atual..." {...field} value={field.value ?? ""} className="border border-gray-300 bg-white focus-visible:border-purple-600 focus-visible:ring-2 focus-visible:ring-purple-600 shadow-sm focus-visible:shadow-md transition rounded-md" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -297,7 +307,7 @@ export function LivroForm({ livro, onSubmit, onCancel }: LivroFormProps) {
             <FormItem>
               <FormLabel className="text-md">ISBN</FormLabel>
               <FormControl>
-                <Input label="" placeholder="Digite o ISBN do livro..." {...field} value={field.value ?? ""} className="border border-gray-300 bg-white focus-visible:border-purple-600 focus-visible:ring-2 focus-visible:ring-purple-600 shadow-sm focus-visible:shadow-md transition rounded-md" />
+                <Input label="" type="number" min={0} placeholder="Digite o ISBN do livro..." {...field} value={field.value ?? ""} className="border border-gray-300 bg-white focus-visible:border-purple-600 focus-visible:ring-2 focus-visible:ring-purple-600 shadow-sm focus-visible:shadow-md transition rounded-md" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -326,8 +336,6 @@ export function LivroForm({ livro, onSubmit, onCancel }: LivroFormProps) {
             </FormItem>
           )}
         />}
-
-
 
 
         {/* Notas pessoais */}

@@ -58,16 +58,16 @@ export const livrosIniciais: Livro[] = [
 
 ];
 // mock movido pra cá para poder ser usado na API também
-export const livrosMock: Livro[] = [
+export let livrosMock: Livro[] = [
   ...livrosIniciais,
 ];
 // função atualizar e deletar livro
 export const updateLivro = (livroAtualizado: Livro) => {
-  livrosIniciais = livrosIniciais.map((livro) =>
+  livrosMock = livrosMock.map((livro) =>
     livro.id === livroAtualizado.id ? livroAtualizado : livro
   );
 }
 
 export const deleteLivro = (id: string) => {
-  livrosIniciais = livrosIniciais.filter((livro) => livro.id !== id);
+  livrosMock = livrosMock.filter((livro) => livro.id !== id);
 };

@@ -28,7 +28,7 @@ export function AddBookDialog() {
             <WithTooltip label="Adicionar Novo Livro" side="left">
               <Button
                 className="fixed z-50 bottom-8 right-8 w-[50px] h-[50px] bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-500 hover:to-purple-700 text-white px-6 py-3 font-semibold rounded-lg shadow-md hover:shadow-xl transition-all ring-2 ring-purple-300 hover:scale-105 active:scale-95 hover:cursor-pointer
-            md:top-2"
+            md:relative md:top-1"
               >
                 <Plus className="w-6 h-6 text-white" />
               </Button>

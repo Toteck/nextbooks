@@ -1,0 +1,54 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// Status de Leitura como Enum
+enum ReadingStatus {
+  QUERO_LER
+  LENDO
+  LIDO
+  PAUSADO
+  ABANDONADO
+}
+
+// Modelo de Gêneros
+model Genre {
+  id    String @id @default(cuid())
+  name  String @unique
+  books Book[]
+}
+
+// Modelo de Livro Expandido
+model Book {
+  id          String        @id @default(cuid())
+  title       String
+  author      String
+  genre       Genre         @relation(fields: [genreId], references: [id])
+  genreId     String
+  year        Int
+  pages       Int
+  rating      Float // Usar Float para permitir notas como 4.5
+  synopsis    String
+  cover       String
+
+  // Novos campos obrigatórios
+  status      ReadingStatus @default(QUERO_LER)
+  currentPage Int           @default(0)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  // Novos campos opcionais
+  isbn  String?
+  notes String?
+
+  // 2.4. Otimização de Query (Índice para filtragem por gênero)
+  @@index([genreId])
+}

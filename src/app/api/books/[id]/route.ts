@@ -13,14 +13,14 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 }
 
 //PATCH para atualizar o livro
-export async function PATCH(
+export async function PUT(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
   const dadosAtualizados = await req.json();
   const livroExistente = livrosIniciais.find((livro) => livro.id === params.id);
 
-  if(!livroExistente) {
+  if (!livroExistente) {
     return NextResponse.json({ message: "Livro não encontrado" }, { status: 404 });
   }
 

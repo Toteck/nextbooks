@@ -1,5 +1,3 @@
-// src/components/livros/LivroCard.tsx
-
 import { Livro, StatusLeitura } from "@/types/livro";
 import {
   Card,
@@ -9,14 +7,15 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
-import { Calendar, MoreVertical, Star, CheckCircle } from "lucide-react";
+import { Calendar, MoreVertical, Star } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
 } from "@radix-ui/react-dropdown-menu";
 import { DropdownMenuContent, DropdownMenuItem } from "../ui/dropdown-menu";
-import { useState } from "react"; // 💡 Importação de useState
-import { LivroDetalhesDialog } from "../LivroDetalhesDialog"; // 💡 Novo import
+import { useState } from "react";
+import { LivroDetalhesDialog } from "../LivroDetalhesDialog";
+import { FormBookDialog } from "../FormBookDialog";
 
 interface LivroCardProps {
   livro: Livro;
@@ -56,9 +55,8 @@ const RatingStars = ({ rating }: { rating: number }) => (
     {[...Array(5)].map((_, i) => (
       <Star
         key={i}
-        className={`h-4 w-4 ${
-          i < rating ? "text-yellow-500 fill-yellow-500" : "text-gray-300"
-        }`}
+        className={`h-4 w-4 ${i < rating ? "text-yellow-500 fill-yellow-500" : "text-gray-300"
+          }`}
       />
     ))}
   </div>
@@ -70,19 +68,26 @@ export function LivroCard({
   onExcluir,
 }: LivroCardProps) {
   // ESTADO PARA O DIALOG
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isDialogDetailsOpen, setIsDialogDetailsOpen] = useState(false);
+  const [isFormBookDialogOpen, setIsFormBookDialogOpen] = useState(false)
 
   const isLido = livro.status === StatusLeitura.LIDO;
 
   // LÓGICA DE CLIQUE PARA ABRIR O DIALOG
   const handleCardClick = (e: React.MouseEvent<HTMLDivElement>) => {
     // Evita abrir o dialog se o clique for no botão do menu
-    const target = e.target as HTMLElement; 
+    const target = e.target as HTMLElement;
+    if (target.closest("[data-radix-popper-content-wrapper]")) return;
     if (target.closest("button")) {
       return;
     }
-    setIsDialogOpen(true);
+    console.log("Clicou no card");
+    setIsDialogDetailsOpen(true);
   };
+
+  const handleEditForm = () => {
+    setIsFormBookDialogOpen(true)
+  }
 
   const cardBaseClasses =
     "group p-0 gap-x-0 flex flex-row transition-transform duration-200 hover:scale-[1.02] hover:shadow-xl max-w-md w-full relative";
@@ -94,8 +99,8 @@ export function LivroCard({
   return (
     <>
       {/* 💡 Substituímos o <Link> pela <div> com onClick */}
-      <div onClick={handleCardClick} className="cursor-pointer w-full">
-        <Card className={`${cardBaseClasses} ${cardCompletedStyle}`}>
+      <div className="cursor-pointer w-full">
+        <Card onClick={handleCardClick} className={`${cardBaseClasses} ${cardCompletedStyle}`}>
           {/* Capa do livro */}
           <div className="w-24 flex-shrink-0">
             <Image
@@ -123,21 +128,22 @@ export function LivroCard({
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <button
-                    className="p-1 rounded-full hover:bg-gray-200"
+                    className="hover:bg-gray-200 hover:cursor-pointer flex items-center justify-center"
                     onClick={(e) => {
-                      e.stopPropagation(); // ⬅️ IMPEDE O MODAL DE ABRIR
+                      console.log("Clicou em editar")
+                      e.stopPropagation();
                       e.preventDefault();
                     }}
                   >
-                    <MoreVertical className="w-5 h-5 text-gray-600" />
+                    <MoreVertical className="size-6" />
                   </button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
-                  <DropdownMenuItem onClick={onEditar}>Editar</DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleEditForm}>Editar</DropdownMenuItem>
                   <DropdownMenuItem onClick={onExcluir}>
                     Excluir
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setIsDialogOpen(true)}>
+                  <DropdownMenuItem onClick={() => setIsDialogDetailsOpen(true)}>
                     Visualizar
                   </DropdownMenuItem>
                 </DropdownMenuContent>
@@ -183,11 +189,16 @@ export function LivroCard({
         </Card>
       </div>
 
+      <FormBookDialog
+        livro={livro}
+        isOpen={isFormBookDialogOpen}
+        onClose={() => setIsFormBookDialogOpen(false)} isEditing />
+
       {/* 💡 Renderiza o Dialog */}
       <LivroDetalhesDialog
         livro={livro}
-        isOpen={isDialogOpen}
-        onClose={() => setIsDialogOpen(false)}
+        isOpen={isDialogDetailsOpen}
+        onClose={() => setIsDialogDetailsOpen(false)}
       />
     </>
   );

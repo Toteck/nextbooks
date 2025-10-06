@@ -1,7 +1,6 @@
 // Página Inicial (Dashboard)
 // Mostrar estatísticas(quantos livros, status de leitura, páginas lidas).
 "use client"
-import { AddBookDialog } from "@/components/AddBookDialog";
 
 import TabsComponent from "@/components/Tabs";
 

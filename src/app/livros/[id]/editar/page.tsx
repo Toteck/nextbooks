@@ -1,6 +1,6 @@
-import LivroForm from "@/components/livros/LivroForm";
 import { Livro, StatusLeitura } from "@/types/livro";
 import { Genre } from "@/types/genre";
+import { LivroForm } from "@/components/livros/LivroForm";
 
 async function getBookData(id: string): Promise<Livro | null> {
   console.log(`Buscando dados para o livro com ID: ${id}`);
@@ -46,7 +46,9 @@ export default async function EditarLivroPage({ params }: PageProps) {
       <h1 className="text-3xl font-bold mb-6 text-white border-b border-gray-700 pb-2">
         Editar Livro: <span className="text-purple-950">{bookData.title}</span>
       </h1>
-      <LivroForm initialData={bookData} isEditing={true} />
+      <LivroForm livro={bookData} onSubmit={(values) => {
+        console.log("Atualizando livro:", values)
+      }} onCancel={() => console.log("Cancelou edição")} />
     </main>
   );
 }

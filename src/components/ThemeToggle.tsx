@@ -36,7 +36,7 @@ export function ThemeToggle() {
     >
       {isDark ? (
         // Ícone Sol (aparece no modo escuro)
-        <Sun className="h-6 w-6 text-purple-700 dark:text-yellow-300" />
+        <Sun className="h-6 w-6 text-purple-700 dark:text-purple-100" />
       ) : (
         // Ícone Lua (aparece no modo claro)
         <Moon className="h-4 w-4 text-purple-500" />

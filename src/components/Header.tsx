@@ -22,11 +22,10 @@ export function Header() {
 
             <DefaultButton
               icon={Plus}
-              variant="outline"
+              variant="primary"
               label="Adicionar Livro"
               responsive
               onClick={() => setIsFormBookDialogOpen(true)}
-              className="bg-purple-200"
             />
           </div>
         </div>

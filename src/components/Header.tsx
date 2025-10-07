@@ -1,49 +1,41 @@
 "use client";
-
-import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { BookOpen, Plus, Moon, Sun, UserCircle2Icon } from "lucide-react";
-import { Button } from "@/components/ui/button";
-
-
+import { BookOpen, Plus } from "lucide-react";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { FormBookDialog } from "./FormBookDialog";
 import { useState } from "react";
 import { DefaultButton } from "./DefaultButton";
 
 export function Header() {
-  const [dark, setDark] = useState(false);
-  const [isFormBookDialogOpen, setIsFormBookDialogOpen] = useState(false)
+  const [isFormBookDialogOpen, setIsFormBookDialogOpen] = useState(false);
 
   return (
     <>
-      <header className="border-b bg-purple-50">
+      <header className="border-b bg-purple-50 dark:bg-purple-800 dark:transition-colors duration-300">
         <div className="container mx-auto px-4 sm:px-6 flex items-center justify-between p-4">
-          <div className="flex items-center gap-2">
-            <BookOpen className="h-6 w-6 text-purple-600" />{" "}
+          <div className="flex items-center gap-2 text-purple-600 dark:text-white">
+            <BookOpen className="h-6 w-6" />{" "}
             <span className="text-xl font-semibold">NextBooks</span>
           </div>
           <div className="flex items-center gap-4">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="houver:bg-purple-500 hover:cursor-pointer"
-              onClick={() => setDark(!dark)}
-            >
-              {dark ? (
-                <Sun className="h-6 w-6 text-purple-700" />
-              ) : (
-                <Moon className="h-4 w-4 text-purple-500" />
-              )}
-            </Button>
-            <DefaultButton icon={Plus} variant="outline" label="Adicionar Livro" responsive onClick={() => setIsFormBookDialogOpen(true)} />
+            {/* 💡 ThemeToggle substituindo o botão antigo */}
+            <ThemeToggle />
 
+            <DefaultButton
+              icon={Plus}
+              variant="outline"
+              label="Adicionar Livro"
+              responsive
+              onClick={() => setIsFormBookDialogOpen(true)}
+              className="bg-purple-200"
+            />
           </div>
         </div>
-
-
       </header>
       <FormBookDialog
         isOpen={isFormBookDialogOpen}
-        onClose={() => setIsFormBookDialogOpen(false)} isEditing />
+        onClose={() => setIsFormBookDialogOpen(false)}
+        isEditing
+      />
     </>
   );
 }

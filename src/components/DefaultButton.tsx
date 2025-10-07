@@ -30,7 +30,7 @@ export const DefaultButton = forwardRef<HTMLButtonElement, DefaultButtonProps>(
 
         const variants = {
             primary:
-                "bg-purple-600 text-white hover:bg-purple-700 shadow-md hover:shadow-lg",
+                "bg-purple-600 text-white hover:bg-purple-700 shadow-md hover:shadow-lg dark:bg-purple-100 dark:text-purple-800",
             secondary:
                 "bg-white text-purple-700 border border-purple-300 hover:bg-purple-50 hover:border-purple-400",
             outline:

@@ -2,11 +2,10 @@
 import Dashboard from "./Dashboard/Dashboard";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "./ui/tabs";
 import { LivroCard } from "./livros/LivroCard";
-import { livrosIniciais } from "../data/livros"
-import { Livro, StatusLeitura } from "@/types/livro";
+import { Livro, StatusLeitura, Stats } from "@/types/livro";
 import { useState } from "react";
-import { calcularEstatisticasLivros } from "@/lib/book-stats";
 import BibliotecaPage from "@/app/livros/biblioteca/page";
+
 import {
   LayoutDashboard,
   BookOpen,
@@ -15,19 +14,34 @@ import {
   LibraryBig,
 } from "lucide-react";
 
-// Componente de Tabs
+export interface TabsComponentProps {
+  initialBooks: Livro[];
+  initialStats: Stats;
+}
 
-export default function TabsComponent() {
-  const [userBooks] = useState<Livro[]>(livrosIniciais);
+export default function TabsComponent({
+  initialBooks,
+  initialStats,
+}: TabsComponentProps) {
+ 
+  
+  const [userBooks, setUserBooks] = useState<Livro[]>(initialBooks);
   const [activeTab, setActiveTab] = useState("dashboard");
-  const stats = calcularEstatisticasLivros(userBooks);
 
-  const livrosSendoLidos = userBooks.filter((book) => book.status === StatusLeitura.LENDO || book.status === StatusLeitura.PAUSADO);
-  const livrosLidos = userBooks.filter((book) => book.status === StatusLeitura.LIDO);
+  // Usa a stat vinda da API 
+  const stats = initialStats;
+
+  const livrosSendoLidos = userBooks.filter(
+    (book) =>
+      book.status === StatusLeitura.LENDO ||
+      book.status === StatusLeitura.PAUSADO
+  );
+  const livrosLidos = userBooks.filter(
+    (book) => book.status === StatusLeitura.LIDO
+  );
   const livrosQueroLer = userBooks.filter(
     (book) => book.status === StatusLeitura.QUERO_LER
   );
-
   return (
     <Tabs
       value={activeTab}
@@ -35,7 +49,7 @@ export default function TabsComponent() {
       className="flex flex-col gap-6 w-full max-w-7xl"
     >
       <TabsList
-        className="bg-purple-800 rounded-md w-full p-1.5 
+        className="bg-purple-800 rounded-md w-full p-1.5 dark:bg-purple-900
            flex whitespace-nowrap gap-6 
             md:flex md:justify-between md:p-3 md:gap-0
             h-auto min-h-fit"
@@ -87,7 +101,9 @@ export default function TabsComponent() {
       </TabsContent>
 
       <TabsContent value="lendo">
-        <h2 className="text-lg font-semibold mb-2 md:hidden">Lendo Atualmente</h2>
+        <h2 className="text-lg font-semibold mb-2 md:hidden">
+          Lendo Atualmente
+        </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {livrosSendoLidos.length > 0 ? (
             livrosSendoLidos.map((book) => (

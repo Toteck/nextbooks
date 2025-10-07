@@ -39,25 +39,25 @@ export async function createGenre(name: string): Promise<GenreType> {
     }
 }
 
-export async function removeGenre(name: string): Promise<void> {
-    const trimmedName = name.trim();
+export async function removeGenre(id: string): Promise<void> {
+
     try {
-        // Deletamos pelo campo 'name', que é @unique
+        // Tenta deletar o gênero pelo ID
         await prisma.genre.delete({
-            where: { name: trimmedName }, 
+            where: { id },  // Usando ID para remoção
         });
     } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
             // P2003: Falha de chave estrangeira (gênero está em uso)
             if (error.code === 'P2003') {
-                throw new Error(`Não é possível remover o gênero "${trimmedName}" pois existem livros associados a ele.`);
+                throw new Error(`Não é possível remover com ID "${id}" pois existem livros associados a este gênero.`);
             }
             // P2025: Registro não encontrado
             if (error.code === 'P2025') {
-                throw new Error(`Gênero "${trimmedName}" não encontrado.`);
+                throw new Error(`Gênero com ID "${id}" não encontrado.`);
             }
         }
-        throw new Error(`Falha ao remover o gênero ${trimmedName}.`);
+        throw new Error(`Falha ao remover o gênero com ID ${id}.`);
     }
 }
 

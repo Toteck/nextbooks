@@ -128,7 +128,7 @@ export function LivroCard({
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <button
-                    className="hover:bg-gray-200 hover:cursor-pointer flex items-center justify-center"
+                    className="hover:bg-gray-200 hover:cursor-pointer flex items-center justify-center text-purple-800"
                     onClick={(e) => {
                       console.log("Clicou em editar")
                       e.stopPropagation();

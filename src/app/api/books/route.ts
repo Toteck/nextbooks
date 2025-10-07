@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 // Importações ajustadas para usar a Camada de Abstração
 import { getBooks, createBook } from "@/app/actions/bookDb"; 
-import { handleApiError } from '@/utils/apiUtils'; // Assumindo este utilitário centralizado
+import { handleApiError } from '@/utils/apiUtils';
 
 // O Prisma Client não é mais importado diretamente aqui, pois está encapsulado em 'bookDb'.
 

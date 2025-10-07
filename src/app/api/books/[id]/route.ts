@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 // Importações da Camada de Abstração de Dados e Utilitários de Erro
 import { getBook, updateBook, deleteBook, UpdateBookData } from "@/app/actions/bookDb";
-import { handleApiError } from '@/utils/apiUtils';
+import { handleApiError } from '@/utils/apiUtils'; 
 
 // Interface para garantir a tipagem correta dos parâmetros de rota
 interface BookRouteContext {

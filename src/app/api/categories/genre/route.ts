@@ -4,7 +4,7 @@ import { createGenre } from '@/app/actions/categoryDb';
 // Importação do utilitário de erro para tratamento consistente
 import { handleApiError } from '@/utils/apiUtils';
 
-// POST /api/categories/genres - Adicionar novo gênero/categoria
+// POST /api/categories/genres - Adicionar novo gênero/categoria 
 // Recebe o nome do novo gênero no corpo (body) da requisição.
 export async function POST(request: NextRequest) {
   try {

@@ -4,7 +4,7 @@ import { getGenres } from '@/app/actions/categoryDb';
 // Importação do utilitário de erro para tratamento consistente
 import { handleApiError } from '@/utils/apiUtils';
 
-// GET /api/categories - Retorna a lista de todas as categorias/gêneros
+// GET /api/categories - Retorna a lista de todas as categorias/gêneros 
 export async function GET() {
   try {
     // Chama a função da Camada de Abstração para buscar todos os gêneros no banco de dados.

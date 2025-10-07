@@ -4,7 +4,7 @@ import { removeGenre } from '@/app/actions/categoryDb';
 // Importação do utilitário de erro para tratamento consistente
 import { handleApiError } from '@/utils/apiUtils';
 
-// Interface para tipar corretamente o parâmetro dinâmico da rota
+//Interface para tipar corretamente o parâmetro dinâmico da rota
 interface GenreRouteContext {
   params: { genre: string };
 }

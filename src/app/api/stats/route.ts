@@ -1,13 +1,12 @@
-// app/api/stats/route.ts
 import { NextResponse } from "next/server";
-import prisma from "@/lib/prisma"; 
-import { ReadingStatus } from "@prisma/client"; 
+import prisma from "@/lib/prisma";
+import { ReadingStatus } from "@prisma/client";
 
 // --- Tipagem dos Dados Buscados ---
 interface LivroParaStats {
-  status: ReadingStatus; 
-  pages: number | null; 
-  currentPage: number;   
+  status: ReadingStatus;
+  pages: number | null;
+  currentPage: number;
 }
 
 interface Stats {
@@ -17,7 +16,6 @@ interface Stats {
   paginasLidas: number;
 }
 
-
 // GET /api/stats - Retorna estatísticas dos livros
 export async function GET() {
   try {
@@ -25,12 +23,17 @@ export async function GET() {
       select: {
         status: true,
         pages: true,
-        currentPage: true, 
+        currentPage: true,
       },
-    })) as LivroParaStats[]; 
-    
+    })) as LivroParaStats[];
+
+    //  Adição de Console Log para Debugging
+    console.log(
+      `[API/STATS] Total de livros encontrados no DB: ${todosLivros.length}`
+    );
+
     // Inicializar o Objeto de Estatísticas
-    const stats: Stats = { 
+    const stats: Stats = {
       livrosLidos: 0,
       lendoAtualmente: 0,
       queroLer: 0,
@@ -40,18 +43,18 @@ export async function GET() {
     // Iterar e Calcular as Estatísticas
     todosLivros.forEach((livro) => {
       const totalPaginas = livro.pages ?? 0;
-      const totalPaginasLidasNoLivro = livro.currentPage; 
+      const totalPaginasLidasNoLivro = livro.currentPage;
 
       switch (livro.status) {
         case ReadingStatus.LIDO:
           stats.livrosLidos += 1;
-          stats.paginasLidas += totalPaginas; 
+          stats.paginasLidas += totalPaginas;
           break;
 
         case ReadingStatus.LENDO:
         case ReadingStatus.PAUSADO:
           stats.lendoAtualmente += 1;
-          stats.paginasLidas += totalPaginasLidasNoLivro; 
+          stats.paginasLidas += totalPaginasLidasNoLivro;
           break;
 
         case ReadingStatus.QUERO_LER:
@@ -62,6 +65,8 @@ export async function GET() {
           break;
       }
     });
+
+    console.log("[API/STATS] Estatísticas Calculadas:", stats);
 
     // Retornar o resultado
     return NextResponse.json(stats);

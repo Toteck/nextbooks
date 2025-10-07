@@ -11,8 +11,9 @@ import { Calendar, MoreVertical, Star } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
-} from "@radix-ui/react-dropdown-menu";
-import { DropdownMenuContent, DropdownMenuItem } from "../ui/dropdown-menu";
+  DropdownMenuContent, // Adicionado aqui para o import não ser do Radix direto
+  DropdownMenuItem,    // Adicionado aqui para o import não ser do Radix direto
+} from "@/components/ui/dropdown-menu"; // Corrigido para a importação centralizada
 import { useState } from "react";
 import { LivroDetalhesDialog } from "../LivroDetalhesDialog";
 import { FormBookDialog } from "../FormBookDialog";
@@ -77,11 +78,10 @@ export function LivroCard({
   const handleCardClick = (e: React.MouseEvent<HTMLDivElement>) => {
     // Evita abrir o dialog se o clique for no botão do menu
     const target = e.target as HTMLElement;
-    if (target.closest("[data-radix-popper-content-wrapper]")) return;
-    if (target.closest("button")) {
+    // Verifica se o clique foi em qualquer elemento dentro do DropdownMenuTrigger (ou o próprio botão)
+    if (target.closest("[data-radix-popper-content-wrapper]") || target.closest("button")) {
       return;
     }
-    console.log("Clicou no card");
     setIsDialogDetailsOpen(true);
   };
 
@@ -98,7 +98,6 @@ export function LivroCard({
 
   return (
     <>
-      {/* 💡 Substituímos o <Link> pela <div> com onClick */}
       <div className="cursor-pointer w-full">
         <Card onClick={handleCardClick} className={`${cardBaseClasses} ${cardCompletedStyle}`}>
           {/* Capa do livro */}
@@ -130,9 +129,8 @@ export function LivroCard({
                   <button
                     className="hover:bg-gray-200 hover:cursor-pointer flex items-center justify-center text-purple-800"
                     onClick={(e) => {
-                      console.log("Clicou em editar")
+                      // Impede que o clique no botão abra o dialog de detalhes
                       e.stopPropagation();
-                      e.preventDefault();
                     }}
                   >
                     <MoreVertical className="size-6" />
@@ -172,7 +170,8 @@ export function LivroCard({
               </span>
 
               <div className="flex flex-wrap gap-1">
-                {livro.genre && (
+                {/* 💡 CORREÇÃO PRINCIPAL: Garante que livro.genre é um array antes de acessar [0] */}
+                {Array.isArray(livro.genre) && livro.genre.length > 0 && (
                   <Badge key={livro.id} variant={"outline"}>
                     {livro.genre[0]}
                   </Badge>

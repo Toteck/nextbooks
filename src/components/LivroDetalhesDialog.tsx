@@ -99,11 +99,13 @@ export function LivroDetalhesDialog({
                 Publicado em: {livro.year || "N/D"}
               </div>
 
-              {livro.genre?.map((g) => (
-                <Badge key={g} variant="secondary">
-                  {g}
-                </Badge>
-              ))}
+              {/*  Verifica se livro.genre é um Array antes de mapear. */}
+              {Array.isArray(livro.genre) &&
+                livro.genre.map((g) => (
+                  <Badge key={g} variant="secondary">
+                    {g}
+                  </Badge>
+                ))}
             </div>
 
             {/* Sinopse */}

@@ -1,67 +1,49 @@
-// Rotas API(mock / backend fake no início)
-// CRUD de livros
-
 import { NextRequest, NextResponse } from "next/server";
-import prisma from "@/lib/prisma";
+// Importações ajustadas para usar a Camada de Abstração
+import { getBooks, createBook } from "@/app/actions/bookDb"; 
+import { handleApiError } from '@/utils/apiUtils';
+
+// O Prisma Client não é mais importado diretamente aqui, pois está encapsulado em 'bookDb'.
 
 
-//1. GET /api/livros - Retorna a lista de livros
+// 1. GET /api/books - Retorna a lista de livros
+// Suporta filtros via query parameters (ex: ?status=lendo&q=titulo)
 export async function GET(request: NextRequest) {
   try {
-    const { searchParams } = new URL(request.url); // Extrai os parâmetros de busca da URL
-    const status = searchParams.get("status"); // Obtém o valor do parâmetro "status"
+    const { searchParams } = new URL(request.url); 
+    
+    // Converte os searchParams em um objeto simples.
+    // A função getBooks em 'bookDb' será responsável por aplicar os filtros no Prisma.
+    const filters = Object.fromEntries(searchParams.entries()); 
 
-    const books = await prisma.book.findMany({
-      where: status
-        ? { status: status.toUpperCase() }
-        : undefined, // Filtra os livros pelo status, se fornecido
-      include: { genre: true }, // Inclui os dados do gênero relacionado
-      orderBy: { createdAt: "desc" }, // Ordena os livros pela data de criação em ordem decrescente
-    })
+    const books = await getBooks(filters); 
 
-    return NextResponse.json(books); // Retorna a lista de livros como resposta JSON
+    // O status 200 é implícito e o retorno é o JSON com a lista.
+    return NextResponse.json(books); 
   } catch (error) {
-    console.error(error);
-    return NextResponse.json(
-      { message: "Erro ao buscar os livros." },
-      { status: 500 }
-    )
+    // Tratamento de erro centralizado
+    return handleApiError(error, "Falha ao buscar os livros.");
   }
 }
 
-//2. POST /api/livros - Adiciona um novo livro
+// 2. POST /api/books - Adiciona um novo livro
+// Recebe todos os campos (título, autor, status, notas, etc.) no corpo (body) da requisição.
 export async function POST(request: NextRequest) {
   try {
-    const data = await request.json(); // Extrai os dados do corpo da requisição
-    const { title, author, genreId, year, pages, rating, synopsis, cover } = data; // Extrai os campos necessários
+    // Lê os dados completos da requisição. Os tipos devem ser garantidos pelo 'createBook'.
+    const data = await request.json(); 
 
-    // validação básica dos dados
-    if (!title || !author) {
-      return NextResponse.json(
-        { message: "Título e Autor são obrigatórios." },
-        { status: 400 }
-      );
-    }
+    // Chama a função de abstração. O createBook em 'bookDb' cuida:
+    // - Da validação completa dos novos e antigos campos
+    // - Da atribuição de datas (createdAt, updatedAt) e valores padrão
+    // - Da comunicação direta com o Prisma
+    const newBook = await createBook(data); 
 
-    const newBook = await prisma.book.create({
-      data: {
-        title,
-        author,
-        genreId,
-        year,
-        pages,
-        rating,
-        synopsis,
-        cover,
-      }
-    }) // Cria um novo livro no banco de dados
-
-    return NextResponse.json(newBook, { status: 201 }); // Retorna o livro criado com status 201 (Criado)
+    // Retorna o livro criado com status 201 Created
+    return NextResponse.json(newBook, { status: 201 }); 
   } catch (error) {
-    console.error(error);
-    return NextResponse.json(
-      { message: "Erro ao criar livro." },
-      { status: 400 }
-    )
+    // Erros de validação do cliente (400) ou erros internos.
+    // O utilitário handleApiError deve ajudar a distinguir.
+    return handleApiError(error, "Falha ao criar livro.", 400); 
   }
 };

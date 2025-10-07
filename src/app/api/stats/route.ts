@@ -1,19 +1,82 @@
 import { NextResponse } from "next/server";
-import { livrosIniciais } from "@/data/livros";
+import prisma from "@/lib/prisma";
+import { ReadingStatus } from "@prisma/client";
+
+// --- Tipagem dos Dados Buscados ---
+interface LivroParaStats {
+  status: ReadingStatus;
+  pages: number | null;
+  currentPage: number;
+}
+
+interface Stats {
+  livrosLidos: number;
+  lendoAtualmente: number;
+  queroLer: number;
+  paginasLidas: number;
+}
 
 // GET /api/stats - Retorna estatísticas dos livros
 export async function GET() {
-  const livrosLidos = livrosIniciais.filter(livro=> livro.status === "LIDO").length;
-  const lendoAtualmente = livrosIniciais.filter(livro=> livro.status === "LENDO" || livro.status === "PAUSADO").length;
-  const queroLer = livrosIniciais.filter(livro=> livro.status === "QUERO LER").length;
-  const paginasLidas = livrosIniciais.reduce((total, livro) => total + (livro.qtdPagesRead || 0), 0);
+  try {
+    const todosLivros = (await prisma.book.findMany({
+      select: {
+        status: true,
+        pages: true,
+        currentPage: true,
+      },
+    })) as LivroParaStats[];
 
-  const stats = {
-    livrosLidos,
-    lendoAtualmente,
-    queroLer,
-    paginasLidas
-  };
+    //  Adição de Console Log para Debugging
+    console.log(
+      `[API/STATS] Total de livros encontrados no DB: ${todosLivros.length}`
+    );
 
-  return NextResponse.json(stats);
+    // Inicializar o Objeto de Estatísticas
+    const stats: Stats = {
+      livrosLidos: 0,
+      lendoAtualmente: 0,
+      queroLer: 0,
+      paginasLidas: 0,
+    };
+
+    // Iterar e Calcular as Estatísticas
+    todosLivros.forEach((livro) => {
+      const totalPaginas = livro.pages ?? 0;
+      const totalPaginasLidasNoLivro = livro.currentPage;
+
+      switch (livro.status) {
+        case ReadingStatus.LIDO:
+          stats.livrosLidos += 1;
+          stats.paginasLidas += totalPaginas;
+          break;
+
+        case ReadingStatus.LENDO:
+        case ReadingStatus.PAUSADO:
+          stats.lendoAtualmente += 1;
+          stats.paginasLidas += totalPaginasLidasNoLivro;
+          break;
+
+        case ReadingStatus.QUERO_LER:
+          stats.queroLer += 1;
+          break;
+
+        default:
+          break;
+      }
+    });
+
+    console.log("[API/STATS] Estatísticas Calculadas:", stats);
+
+    // Retornar o resultado
+    return NextResponse.json(stats);
+  } catch (error) {
+    console.error("Erro ao calcular estatísticas:", error);
+
+    // Retornar um erro de servidor em caso de falha de DB
+    return NextResponse.json(
+      { message: "Erro interno ao buscar estatísticas do banco de dados." },
+      { status: 500 }
+    );
+  }
 }

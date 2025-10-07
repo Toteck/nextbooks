@@ -58,7 +58,7 @@ export default function Dashboard({
       <div className="grid grid-cols-1 md:grid-cols-2">
         {/* Livros Lendo Atualmente (1ª Coluna) */}
         <div className="items-center flex flex-col gap-4 rounded-tl-lg rounded-tr-lg p-6 border shadow-md md:rounded-tr-none md:rounded-br-none md:rounded-bl-lg">
-          <div className=" text-center text-lg font-semibold p-4 text-purple-800">
+          <div className=" text-center text-lg font-semibold p-4 text-purple-800 dark:text-purple-200">
             Lendo Atualmente
           </div>
           <div className="flex flex-col items-center gap-4">
@@ -77,7 +77,7 @@ export default function Dashboard({
         </div>
 
         {/* Livros Concluídos (2ª Coluna) */}
-        <div className="items-center flex flex-col gap-4 rounded-bl-lg rounded-br-lg shadow-md bg-gradient-to-r from-gray-200 to-gray-200 p-6 md:rounded-tr-lg md:rounded-tl-none md:rounded-bl-none">
+        <div className="items-center flex flex-col gap-4 rounded-bl-lg rounded-br-lg shadow-md bg-gradient-to-r from-purple-200 to-purple-300 p-6 md:rounded-tr-lg md:rounded-tl-none md:rounded-bl-none">
           <div className="text-purple-800 text-center text-lg font-semibold p-4 ">
             Concluídos Recentemente
           </div>

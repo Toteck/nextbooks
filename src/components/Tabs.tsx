@@ -35,7 +35,7 @@ export default function TabsComponent() {
       className="flex flex-col gap-6 w-full max-w-7xl"
     >
       <TabsList
-        className="bg-purple-800 rounded-md w-full p-1.5 
+        className="bg-purple-800 rounded-md w-full p-1.5 dark:bg-purple-900
            flex whitespace-nowrap gap-6 
             md:flex md:justify-between md:p-3 md:gap-0
             h-auto min-h-fit"

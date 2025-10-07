@@ -1,31 +1,36 @@
 // app/api/stats/route.ts
-
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma"; 
-import { StatusLeitura } from "@/types/livro"; 
+import { ReadingStatus } from "@prisma/client"; 
 
-// Tipagem 
-
+// --- Tipagem dos Dados Buscados ---
 interface LivroParaStats {
-  status: string;
-  pages: number | null;
-  qtdPagesRead: number | null;
+  status: ReadingStatus; 
+  pages: number | null; 
+  currentPage: number;   
 }
+
+interface Stats {
+  livrosLidos: number;
+  lendoAtualmente: number;
+  queroLer: number;
+  paginasLidas: number;
+}
+
 
 // GET /api/stats - Retorna estatísticas dos livros
 export async function GET() {
   try {
-    // Buscar Apenas os Campos Necessários do Banco de Dados
-    const todosLivros = (await prisma.livro.findMany({
+    const todosLivros = (await prisma.book.findMany({
       select: {
         status: true,
         pages: true,
-        qtdPagesRead: true,
+        currentPage: true, 
       },
     })) as LivroParaStats[]; 
-
+    
     // Inicializar o Objeto de Estatísticas
-    const stats = {
+    const stats: Stats = { 
       livrosLidos: 0,
       lendoAtualmente: 0,
       queroLer: 0,
@@ -35,21 +40,21 @@ export async function GET() {
     // Iterar e Calcular as Estatísticas
     todosLivros.forEach((livro) => {
       const totalPaginas = livro.pages ?? 0;
-      const totalPaginasLidasNoLivro = livro.qtdPagesRead ?? 0;
+      const totalPaginasLidasNoLivro = livro.currentPage; 
 
       switch (livro.status) {
-        case StatusLeitura.LIDO:
+        case ReadingStatus.LIDO:
           stats.livrosLidos += 1;
-          stats.paginasLidas += totalPaginas;
+          stats.paginasLidas += totalPaginas; 
           break;
 
-        case StatusLeitura.LENDO:
-        case StatusLeitura.PAUSADO:
+        case ReadingStatus.LENDO:
+        case ReadingStatus.PAUSADO:
           stats.lendoAtualmente += 1;
-          stats.paginasLidas += totalPaginasLidasNoLivro;
+          stats.paginasLidas += totalPaginasLidasNoLivro; 
           break;
 
-        case StatusLeitura.QUERO_LER:
+        case ReadingStatus.QUERO_LER:
           stats.queroLer += 1;
           break;
 
@@ -58,7 +63,7 @@ export async function GET() {
       }
     });
 
-    //  Retornar o resultado
+    // Retornar o resultado
     return NextResponse.json(stats);
   } catch (error) {
     console.error("Erro ao calcular estatísticas:", error);

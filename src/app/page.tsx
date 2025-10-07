@@ -29,12 +29,9 @@ export default async function Home() {
   const { allBooks, stats } = await getFullDataForTabs();
   return (
     <div className="flex flex-col items-center sm:px-8 py-2 w-full">
-
       <main className="flex w-full flex-1 flex-col items-center justify-center gap-6">
-
-        <TabsComponent />
+        <TabsComponent initialBooks={allBooks} initialStats={stats} />
       </main>
     </div>
   );
-}
-
+};

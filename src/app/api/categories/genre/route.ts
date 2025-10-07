@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
     // Retorna o novo gênero criado com o status 201 Created
     return NextResponse.json(newGenre, { status: 201 });
   } catch (error) {
-    // Tratamento de erros. 
+    // Tratamento de erros.
     // Se a unicidade for violada (erro do Prisma), o handleApiError deve retornar uma mensagem amigável e status 400/409.
     return handleApiError(error, 'Falha ao adicionar novo gênero. Verifique se o nome já existe.', 400);
   }
